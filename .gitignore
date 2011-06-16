@@ -11,8 +11,8 @@
   </style>
 </head>
 <body>
-<p class="p1">.DS_Store</p>
-<p class="p1">.classpath</p>
-<p class="p1">.project</p>
+<p class="p1">*.DS_Store</p>
+<p class="p1">*.classpath</p>
+<p class="p1">*.project</p>
 </body>
 </html>
