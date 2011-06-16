@@ -8,18 +8,14 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
 
-public class TEDrawableComponent extends TEComponent {
+public class Image extends TERenderComponent {
 	private int mName;
 	private int mWidth = 0;
 	private int mHeight = 0;
-	private int mX = 0;
-	private int mY = 0;
-	private GL10 mGL;
 	
 	private final float coordinates[] = {    		
 			// Mapping coordinates for the vertices
@@ -29,10 +25,8 @@ public class TEDrawableComponent extends TEComponent {
 			1.0f, 0.0f		// bottom right	(V3)
 	};
 
-	public TEDrawableComponent(GL10 gl, Context context, int resourceId, int x, int y) {
-		mGL = gl;
-		mX = x;
-		mY = y;
+	public Image(InputStream is) {
+		GL10 gl = TEGraphicsManager.getGL();
 		int mTextures[] = new int[1];
 		gl.glGenTextures(1, mTextures, 0);
         mName = mTextures[0];		
@@ -46,7 +40,6 @@ public class TEDrawableComponent extends TEComponent {
 
         gl.glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, GL10.GL_MODULATE); //GL10.GL_REPLACE);
 
-        InputStream is = context.getResources().openRawResource(resourceId);
 		Bitmap bitmap = null;
 		try {
 			//BitmapFactory is an Android graphics utility for images
@@ -70,9 +63,12 @@ public class TEDrawableComponent extends TEComponent {
 }
 	
 	private FloatBuffer getVertexPointer() {
-		final float leftX = mX - (float)mWidth / 2;
+		TEGameObject parent = getParent();
+		TEDataPoint dataPoint = (TEDataPoint)parent.getAttribute("position");
+		Point point = (Point)dataPoint.getData();
+		final float leftX = point.x - (float)mWidth / 2;
 		final float rightX = leftX + mWidth;
-		final float bottomY = mY - (float)mHeight / 2;
+		final float bottomY = point.y - (float)mHeight / 2;
 		final float topY = bottomY + mHeight;
 
 		final float vertices[] = {
@@ -106,12 +102,13 @@ public class TEDrawableComponent extends TEComponent {
 	}
 	
 	public void draw() {
-		mGL.glEnable(GL10.GL_TEXTURE_2D);
-		mGL.glBindTexture(GL10.GL_TEXTURE_2D, mName);
-		mGL.glTexCoordPointer(2, GL10.GL_FLOAT, 0, getTexturePointer());
-		mGL.glVertexPointer(2, GL10.GL_FLOAT, 0, getVertexPointer());
-		mGL.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);	
-		mGL.glDisable(GL10.GL_TEXTURE_2D);
+		GL10 gl = TEGraphicsManager.getGL();
+		gl.glEnable(GL10.GL_TEXTURE_2D);
+		gl.glBindTexture(GL10.GL_TEXTURE_2D, mName);
+		gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, getTexturePointer());
+		gl.glVertexPointer(2, GL10.GL_FLOAT, 0, getVertexPointer());
+		gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);	
+		gl.glDisable(GL10.GL_TEXTURE_2D);
 		
 	}
 }

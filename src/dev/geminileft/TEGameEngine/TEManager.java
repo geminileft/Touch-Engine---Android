@@ -2,7 +2,7 @@ package dev.geminileft.TEGameEngine;
 
 import java.util.Vector;
 
-public abstract class TEManager {
+public abstract class TEManager{
 	private Vector<TEComponent> mComponents;
 	
 	public TEManager() {

@@ -6,6 +6,8 @@ import javax.microedition.khronos.opengles.GL10;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
 
 public class MainActivity extends Activity {
 	private SampleGame mGame;
@@ -25,8 +27,8 @@ public class MainActivity extends Activity {
 		public void onSurfaceCreated(GL10 gl, EGLConfig arg1) {
 			mGame.setGraphicManager(gl);
 			gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
-			gl.glClearColor(1.0f, 0.3f, 0.5f, 1.0f);
-			//gl.glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
+			//gl.glClearColor(0.05f, 0.5f, 1.0f, 1.0f);
+			gl.glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
 	        gl.glShadeModel(GL10.GL_FLAT);
 	        gl.glDisable(GL10.GL_DEPTH_TEST);
 	        gl.glEnable(GL10.GL_TEXTURE_2D);
@@ -56,7 +58,12 @@ public class MainActivity extends Activity {
 			gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 			gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 		}
-		
 	}
+    
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+    	Log.v("info", "Just a test.");
+    	return false;
+    }
 
 }

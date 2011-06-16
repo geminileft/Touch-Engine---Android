@@ -20,15 +20,12 @@ public class TERenderManager extends TEManager {
 	
 	public void update() {
 		Vector<TEComponent> components = getComponents();
-		  Iterator<TEComponent> itr = components.iterator();
+		Iterator<TEComponent> itr = components.iterator();
+		Image component;
 		    while(itr.hasNext()) {
-		    	((TEComponent)itr).update();
-		    	try {
-		    	((TEDrawableComponent)itr).draw();
-		    	}
-		    	catch (Exception e) {
-		    		int i = 0;
-		    	}
+		    	component = (Image)itr.next();
+		    	component.update();
+		    	component.draw();
 		    }
 	}
 }
