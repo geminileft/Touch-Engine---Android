@@ -3,6 +3,7 @@ package dev.geminileft.opengltest;
 import android.content.Context;
 import dev.geminileft.TEGameEngine.TEDrawableComponent;
 import dev.geminileft.TEGameEngine.TEEngine;
+import dev.geminileft.TEGameEngine.TERenderManager;
 
 public class SampleGame extends TEEngine {
 	private TEDrawableComponent mCard;
@@ -19,5 +20,6 @@ public class SampleGame extends TEEngine {
 	@Override
 	public void run() {
 		mCard.draw();
+		
 	}
 }

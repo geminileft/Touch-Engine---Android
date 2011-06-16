@@ -14,12 +14,21 @@ public class TERenderManager extends TEManager {
 		return mSharedInstance;
 	}
 
+	public TERenderManager() {
+		super();
+	}
+	
 	public void update() {
 		Vector<TEComponent> components = getComponents();
 		  Iterator<TEComponent> itr = components.iterator();
 		    while(itr.hasNext()) {
 		    	((TEComponent)itr).update();
+		    	try {
 		    	((TEDrawableComponent)itr).draw();
+		    	}
+		    	catch (Exception e) {
+		    		int i = 0;
+		    	}
 		    }
 	}
 }

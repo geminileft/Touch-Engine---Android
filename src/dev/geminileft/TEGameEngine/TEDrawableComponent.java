@@ -13,7 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
 
-public class TEDrawableComponent {
+public class TEDrawableComponent extends TEComponent {
 	private int mName;
 	private int mWidth = 0;
 	private int mHeight = 0;
