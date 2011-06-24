@@ -13,7 +13,6 @@ public abstract class TEEngine {
 	private Context mContext;
 	private Vector<TEGameObject> mGameObjects;
 	private Vector<TEManager> mManagers;
-	private int mWidth;
 	private int mHeight;
 
 	public TEEngine(Context context) {
@@ -64,9 +63,7 @@ public abstract class TEEngine {
     	int pointerId;
     	float x;
     	float y;
-    	String message;
     	final int actionId = event.getAction();
-    	final int actionMask = event.getActionMasked();
     	TEInputTouch touch;
     	
     	final int pointerCount = event.getPointerCount();
@@ -96,7 +93,6 @@ public abstract class TEEngine {
     }
     
     public void setScreenSize(int width, int height) {
-    	mWidth = width;
     	mHeight = height;
 		TEGraphicsManager.setScreenSize(width, height);
     }

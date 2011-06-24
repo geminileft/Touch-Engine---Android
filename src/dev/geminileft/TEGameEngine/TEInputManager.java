@@ -4,8 +4,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import android.util.Log;
-
 public final class TEInputManager {
 	private final static TEInputManager mSharedInstance = new TEInputManager();
 	private HashMap<Integer, TEInputTouch> mTouches;

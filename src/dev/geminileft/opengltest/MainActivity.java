@@ -2,15 +2,13 @@ package dev.geminileft.opengltest;
 
 import java.util.HashMap;
 
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
-
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import dev.geminileft.TEGameEngine.Point;
+import dev.geminileft.TEGameEngine.TEGameRenderer;
 
 public class MainActivity extends Activity {
 	private SampleGame mGame;
@@ -20,9 +18,9 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
         GLSurfaceView view = new GLSurfaceView(this);
-   		view.setRenderer(new GameRenderer());
-   		setContentView(view);
    		mGame = new SampleGame(MainActivity.this);
+   		view.setRenderer(new TEGameRenderer(mGame));
+   		setContentView(view);
    		Point point = new Point(100.0f, 200.0f);
    		HashMap<String, Point> map = new HashMap<String, Point>();
    		map.put("index1", point);
@@ -31,56 +29,8 @@ public class MainActivity extends Activity {
    		Log.v("info", "map Count: " + String.valueOf(map.get("index1").x) + " map2 Count: " + String.valueOf(map2.get("index1").x));
     }
 
-    private class GameRenderer implements GLSurfaceView.Renderer {
-
-		public void onSurfaceCreated(GL10 gl, EGLConfig arg1) {
-			mGame.setGraphicManager(gl);
-/*
-			gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
-	        gl.glShadeModel(GL10.GL_FLAT);
-	        gl.glDisable(GL10.GL_DEPTH_TEST);
-	        gl.glDisable(GL10.GL_DITHER);
-	        gl.glDisable(GL10.GL_LIGHTING);
-*/
-	        gl.glTexEnvx(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, GL10.GL_MODULATE);
-
-	        //required for transparency
-			gl.glEnable(GL10.GL_BLEND);
-			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-			gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-			gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-			//gl.glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
-			gl.glClearColor(0.05f, 0.5f, 1.0f, 1.0f);
-	        //gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-	        mGame.start();
-		}
-
-		public void onDrawFrame(GL10 gl) {
-			gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-			mGame.run();
-		}
-
-		public void onSurfaceChanged(GL10 gl, int width, int height) {
-			final boolean useOrtho = false;
-			mGame.setScreenSize(width, height);
-			final float ratio = (float)width / height;
-			gl.glViewport(0, 0, width, height);
-			gl.glMatrixMode(GL10.GL_PROJECTION);
-			if (useOrtho) {
-				gl.glOrthof(0.0f, width, 0.0f, height, 0.0f, 1.0f);
-			} else {
-				gl.glFrustumf(-ratio, ratio, -1, 1, 1, height / 2);
-			}
-			gl.glMatrixMode(GL10.GL_MODELVIEW);
-			gl.glLoadIdentity();
-			if (!useOrtho) {
-				gl.glTranslatef(-width / 2, -height / 2, -height / 2);				
-			}
-		}
-	}
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
     	return mGame.onTouchEvent(event);
-    }    
+    }
 }

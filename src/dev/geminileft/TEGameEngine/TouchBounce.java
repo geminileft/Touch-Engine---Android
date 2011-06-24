@@ -22,7 +22,6 @@ public class TouchBounce extends TETouchComponent {
 	public void update() {
 	    if (mMoving) {
 	    	TEGameObject parent = getParent();
-			TEData attributeData;
 			Point position = parent.position;
 			if (position.y <= 0) {
 				mMoving = false;

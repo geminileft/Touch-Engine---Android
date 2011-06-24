@@ -5,8 +5,6 @@ import dev.geminileft.TEGameEngine.Point;
 import dev.geminileft.TEGameEngine.RenderColorBox;
 import dev.geminileft.TEGameEngine.RenderImage;
 import dev.geminileft.TEGameEngine.Size;
-import dev.geminileft.TEGameEngine.TEDataPoint;
-import dev.geminileft.TEGameEngine.TEDataSize;
 import dev.geminileft.TEGameEngine.TEEngine;
 import dev.geminileft.TEGameEngine.TEGameObject;
 import dev.geminileft.TEGameEngine.TouchBounce;

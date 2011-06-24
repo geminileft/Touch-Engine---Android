@@ -8,12 +8,8 @@ import javax.microedition.khronos.opengles.GL10;
 
 public class RenderColorBox extends TERenderComponent {
 	private FloatBuffer mVertexBuffer;
-	private float mPreviousX = 0;
-	private float mPreviousY = 0;
 	private float mX = 0;
 	private float mY = 0;
-	private int mWidth = 0;
-	private int mHeight = 0;
 	
 	public RenderColorBox(Size size) {
 		super();
@@ -55,5 +51,4 @@ public class RenderColorBox extends TERenderComponent {
 		mY = point.y;
 		// TODO Auto-generated method stub
 	}
-
 }
