@@ -8,4 +8,9 @@ public class Point {
 		x = newX;
 		y = newY;
 	}
+	
+	public void update(Point point) {
+		x = point.x;
+		y = point.y;
+	}
 }

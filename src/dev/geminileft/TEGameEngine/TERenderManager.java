@@ -3,7 +3,9 @@ package dev.geminileft.TEGameEngine;
 import java.util.Iterator;
 import java.util.Vector;
 
-public class TERenderManager extends TEManager {
+import javax.microedition.khronos.opengles.GL10;
+
+public class TERenderManager extends TEComponentManager {
 
 	private static TERenderManager mSharedInstance = null;
 	
@@ -19,13 +21,14 @@ public class TERenderManager extends TEManager {
 	}
 	
 	public void update() {
+		GL10 gl = TEGraphicsManager.getGL();
 		Vector<TEComponent> components = getComponents();
 		Iterator<TEComponent> itr = components.iterator();
-		Image component;
+		TERenderComponent component;
 		    while(itr.hasNext()) {
-		    	component = (Image)itr.next();
+		    	component = (TERenderComponent)itr.next();
 		    	component.update();
-		    	component.draw();
+		    	component.draw(gl);
 		    }
 	}
 }

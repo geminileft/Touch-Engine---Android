@@ -2,8 +2,10 @@ package dev.geminileft.TEGameEngine;
 
 import java.util.HashMap;
 
-public class TEGameObject extends TEManager {
+public class TEGameObject extends TEComponentManager {
 	private HashMap<String, TEData> mAttributes;
+	public Size size;
+	public Point position;
 
 	public TEGameObject() {
 		super();
@@ -20,11 +22,13 @@ public class TEGameObject extends TEManager {
 		super.addComponent(component);
 		component.setParent(this);
 	}
-	
+
+/*
 	public final void setAttribute(String attribute, TEData data) {
 		mAttributes.put(attribute, data);
 	}
 	public final TEData getAttribute(String attribute) {
 		return mAttributes.get(attribute);
 	}
+*/
 }

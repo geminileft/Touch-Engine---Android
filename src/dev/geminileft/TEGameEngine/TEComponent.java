@@ -3,7 +3,8 @@ package dev.geminileft.TEGameEngine;
 public abstract class TEComponent {
 	private TEGameObject mParent;
 
-	public void update() {}
+	public abstract void update();
+	
 	public final void setParent(TEGameObject parent) {
 		mParent = parent;
 	}

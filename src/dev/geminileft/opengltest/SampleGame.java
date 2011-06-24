@@ -1,11 +1,16 @@
 package dev.geminileft.opengltest;
 
 import android.content.Context;
-import dev.geminileft.TEGameEngine.Image;
+import dev.geminileft.TEGameEngine.Point;
+import dev.geminileft.TEGameEngine.RenderColorBox;
+import dev.geminileft.TEGameEngine.RenderImage;
+import dev.geminileft.TEGameEngine.Size;
 import dev.geminileft.TEGameEngine.TEDataPoint;
+import dev.geminileft.TEGameEngine.TEDataSize;
 import dev.geminileft.TEGameEngine.TEEngine;
 import dev.geminileft.TEGameEngine.TEGameObject;
-import dev.geminileft.TEGameEngine.TERenderManager;
+import dev.geminileft.TEGameEngine.TouchBounce;
+import dev.geminileft.TEGameEngine.TouchDrag;
 
 public class SampleGame extends TEEngine {
 
@@ -16,56 +21,58 @@ public class SampleGame extends TEEngine {
 	@Override
 	public void start() {
 		TEGameObject gameObject;
-		Image image;
-        TEDataPoint dataPoint;
+		RenderImage image;
+        RenderColorBox colorBox;
+        TouchDrag touchDrag;
+        TouchBounce touchBounce;
 
-    	int x = 20;
+        int x = 20;
     	for (int counter = 0; counter < 4; ++counter) {
     		gameObject = new TEGameObject();
-    		image = new Image(getContext().getResources().openRawResource(R.drawable.freecell));
+    		image = new RenderImage(getContext().getResources().openRawResource(R.drawable.freecell));
     		gameObject.addComponent(image);
-            dataPoint = new TEDataPoint(x, 420);
-    		gameObject.setAttribute("position", dataPoint);
+    		gameObject.position = new Point(x, 420);
     		addGameObject(gameObject);
 
     		gameObject = new TEGameObject();
-    		image = new Image(getContext().getResources().openRawResource(R.drawable.freecell));
+    		image = new RenderImage(getContext().getResources().openRawResource(R.drawable.freecell));
     		gameObject.addComponent(image);
-    		dataPoint = new TEDataPoint(x, 365);
-    		gameObject.setAttribute("position", dataPoint);
+    		gameObject.position = new Point(x, 365);
     		addGameObject(gameObject);
 
     		gameObject = new TEGameObject();
-    		image = new Image(getContext().getResources().openRawResource(R.drawable.c_a));
+    		image = new RenderImage(getContext().getResources().openRawResource(R.drawable.c_a));
+    		touchDrag = new TouchDrag();
     		gameObject.addComponent(image);
-    		dataPoint = new TEDataPoint(x, 365);
-    		gameObject.setAttribute("position", dataPoint);
+    		gameObject.addComponent(touchDrag);
+    		gameObject.position = new Point(x, 365);
+    		gameObject.size = image.getSize();
     		addGameObject(gameObject);
     		x += 40;
     	}
 
     	for (int counter = 0; counter < 4; ++counter) {
     		gameObject = new TEGameObject();
-    		image = new Image(getContext().getResources().openRawResource(R.drawable.suit_stack));
+    		image = new RenderImage(getContext().getResources().openRawResource(R.drawable.suit_stack));
     		gameObject.addComponent(image);
-            dataPoint = new TEDataPoint(x, 420);
-    		gameObject.setAttribute("position", dataPoint);
+    		gameObject.position = new Point(x, 420);
     		addGameObject(gameObject);
 
     		gameObject = new TEGameObject();
-    		image = new Image(getContext().getResources().openRawResource(R.drawable.freecell));
+    		image = new RenderImage(getContext().getResources().openRawResource(R.drawable.freecell));
     		gameObject.addComponent(image);
-    		dataPoint = new TEDataPoint(x, 365);
-    		gameObject.setAttribute("position", dataPoint);
+    		gameObject.position = new Point(x, 365);
     		addGameObject(gameObject);
 
+    		gameObject = new TEGameObject();
+    		colorBox = new RenderColorBox(new Size(34, 47));
+            touchBounce = new TouchBounce();
+    		gameObject.addComponent(colorBox);
+            gameObject.addComponent(touchBounce);
+    		gameObject.position = new Point(x, 365);
+    		gameObject.size = new Size(34, 47);		
+    		addGameObject(gameObject);
     		x += 40;
     	}
-	}
-
-	@Override
-	public void run() {
-        TERenderManager renderManager = TERenderManager.sharedManager();
-        renderManager.update();
 	}
 }
