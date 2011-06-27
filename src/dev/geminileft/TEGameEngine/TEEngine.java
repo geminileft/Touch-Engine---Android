@@ -19,9 +19,11 @@ public abstract class TEEngine {
 		mContext = context;
 		mGameObjects = new Vector<TEGameObject>();
 		mManagers = new Vector<TEManager>();
-        TETouchManager touchManager = TETouchManager.sharedManager();
-        TERenderManager renderManager = TERenderManager.sharedManager();
+        TEManagerTouch touchManager = TEManagerTouch.sharedManager();
+        TEManagerSound soundManager = TEManagerSound.sharedManager();
+        TEManagerRender renderManager = TEManagerRender.sharedManager();
         mManagers.add(touchManager);
+        mManagers.add(soundManager);
         mManagers.add(renderManager);
 	}
 	
@@ -43,17 +45,22 @@ public abstract class TEEngine {
 	}
 	
 	public final void addGameObject(TEGameObject gameObject) {
-		TERenderManager renderManager = TERenderManager.sharedManager();
-		TETouchManager touchManager = TETouchManager.sharedManager();
+		TEManagerRender renderManager = TEManagerRender.sharedManager();
+		TEManagerTouch touchManager = TEManagerTouch.sharedManager();
+		TEManagerSound soundManager = TEManagerSound.sharedManager();
 		Vector<TEComponent> components = gameObject.getComponents();
 		Iterator<TEComponent> iterator = components.iterator();
 		TEComponent component;
 		while (iterator.hasNext()) {
 			component = iterator.next();
-			if (component instanceof TERenderComponent) {
+			if (component instanceof TEComponentRender) {
 				renderManager.addComponent(component);
-			} else if (component instanceof TETouchComponent) {
+			} else if (component instanceof TEComponentTouch) {
 				touchManager.addComponent(component);
+			} else if (component instanceof TEComponentSound) {
+				soundManager.addComponent(component);
+			} else {
+				int i = 1 / 0;
 			}
 		}
 		mGameObjects.add(gameObject);

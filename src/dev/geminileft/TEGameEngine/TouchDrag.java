@@ -2,7 +2,7 @@ package dev.geminileft.TEGameEngine;
 
 import android.util.Log;
 
-public class TouchDrag extends TETouchComponent {
+public class TouchDrag extends TEComponentTouch {
 	private TEInputTouch mTouch = null;
 	private Point mPreviousPosition = null;
 	private Point mTouchOffset = null;
@@ -40,6 +40,7 @@ public class TouchDrag extends TETouchComponent {
 	        float x = mTouch.getEndPoint().x + mTouchOffset.x;
 	        float y = mTouch.getEndPoint().y + mTouchOffset.y;
 	        if (mTouch.ended()) {
+	        	getParent().invokeEvent("touch ended");
 	            mTouch = null;
 				x = mPreviousPosition.x;
 				y = mPreviousPosition.y;

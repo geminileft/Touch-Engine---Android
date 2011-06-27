@@ -1,6 +1,6 @@
 package dev.geminileft.TEGameEngine;
 
-public abstract class TETouchComponent extends TEComponent {
+public abstract class TEComponentTouch extends TEComponent {
 	public abstract boolean addTouch(TEInputTouch touch);
 	public abstract boolean updateTouch(TEInputTouch touch);
 

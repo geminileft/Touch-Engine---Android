@@ -6,7 +6,7 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public class RenderColorBox extends TERenderComponent {
+public class RenderColorBox extends TEComponentRender {
 	private FloatBuffer mVertexBuffer;
 	private float mX = 0;
 	private float mY = 0;

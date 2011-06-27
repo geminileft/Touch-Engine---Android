@@ -8,11 +8,12 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
 
-public class RenderImage extends TERenderComponent {
+public class RenderImage extends TEComponentRender {
 	private int mName;
 	private int mWidth = 0;
 	private int mHeight = 0;
@@ -23,7 +24,13 @@ public class RenderImage extends TERenderComponent {
 	float mX = 0;
 	float mY = 0;
 	
-	public RenderImage(InputStream is) {
+	public RenderImage(int resourceId) {
+		this(resourceId, null, null);
+	}
+
+	public RenderImage(int resourceId, Point position, Size size) {
+		Context context = TEStaticSettings.getContext();
+		InputStream is = context.getResources().openRawResource(resourceId);
 		GL10 gl = TEGraphicsManager.getGL();
 		int mTextures[] = new int[1];
 		gl.glGenTextures(1, mTextures, 0);
@@ -52,27 +59,48 @@ public class RenderImage extends TERenderComponent {
 			}
 		}
 		
-		mHeight = bitmap.getHeight();
-		mWidth = bitmap.getWidth();
+		final int bitmapHeight = bitmap.getHeight();
+		final int bitmapWidth = bitmap.getWidth();
+
+		if (size != null) {
+			mWidth = size.width;
+			mHeight = size.height;
+		} else {
+			mWidth = bitmapWidth;
+			mHeight = bitmapHeight;
+		}
 		
-		Bitmap adjustedBitmap = Bitmap.createScaledBitmap(bitmap, 64, 64, false);
-        GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, adjustedBitmap, 0);
+		final int textureHeight = MathUtils.closestPowerOf2(bitmapHeight);
+		final int textureWidth = MathUtils.closestPowerOf2(bitmapWidth);
+		if ((bitmapHeight == textureHeight) && (bitmapWidth == textureWidth)) {
+			GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);			
+		} else {
+			Bitmap adjustedBitmap = Bitmap.createScaledBitmap(bitmap, textureHeight, textureWidth, false);
+	        GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, adjustedBitmap, 0);
+	        adjustedBitmap.recycle();
+		}
 		bitmap.recycle();
-		adjustedBitmap.recycle();
 		final int arraySize = 8;
 		final int floatSize = 4;
-
-		float maxS = 1.0f;//(float)mWidth / 50;
-		float maxT = 1.0f;//(float)mHeight / 50;
 		
-		coordinates[0] = 0.0f;//bottom
-		coordinates[1] = maxT;//right
-		coordinates[2] = maxS;//bottom
-		coordinates[3] = maxT;//left
-		coordinates[4] = maxS;//top
-		coordinates[5] = 0.0f;//right
-		coordinates[6] = 0.0f;//top
-		coordinates[7] = 0.0f;//left
+		float left;
+		if (position != null) {
+			left = position.x / textureWidth;
+		} else {
+			left = 0;
+		}
+		
+		final float maxS = ((float)mWidth / bitmapWidth) + left;
+		final float maxT = (float)mHeight / bitmapHeight;
+		
+		coordinates[0] = left;//left
+		coordinates[1] = maxT;//top
+		coordinates[2] = maxS;//right
+		coordinates[3] = maxT;//top
+		coordinates[4] = maxS;//right
+		coordinates[5] = 0.0f;//bottom
+		coordinates[6] = left;//left
+		coordinates[7] = 0.0f;//bottom
 		ByteBuffer byteBuf = ByteBuffer.allocateDirect(arraySize * floatSize);
 		byteBuf.order(ByteOrder.nativeOrder());
 		mTextureBuffer = byteBuf.asFloatBuffer();

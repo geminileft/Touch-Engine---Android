@@ -5,18 +5,18 @@ import java.util.Vector;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public class TERenderManager extends TEComponentManager {
+public class TEManagerRender extends TEManagerComponent {
 
-	private static TERenderManager mSharedInstance = null;
+	private static TEManagerRender mSharedInstance = null;
 	
-	public static TERenderManager sharedManager() {
+	public static TEManagerRender sharedManager() {
 		if (mSharedInstance == null) {
-			mSharedInstance = new TERenderManager();
+			mSharedInstance = new TEManagerRender();
 		}
 		return mSharedInstance;
 	}
 
-	public TERenderManager() {
+	public TEManagerRender() {
 		super();
 	}
 	
@@ -24,9 +24,9 @@ public class TERenderManager extends TEComponentManager {
 		GL10 gl = TEGraphicsManager.getGL();
 		Vector<TEComponent> components = getComponents();
 		Iterator<TEComponent> itr = components.iterator();
-		TERenderComponent component;
+		TEComponentRender component;
 		    while(itr.hasNext()) {
-		    	component = (TERenderComponent)itr.next();
+		    	component = (TEComponentRender)itr.next();
 		    	component.update();
 		    	component.draw(gl);
 		    }

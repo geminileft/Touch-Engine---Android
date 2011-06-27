@@ -7,17 +7,17 @@ import java.util.Vector;
 
 import android.util.Log;
 
-public class TETouchManager extends TEComponentManager {
-	private static TETouchManager mSharedInstance = null;
-	private HashMap<Integer, TETouchComponent> mTouchComponents;
+public class TEManagerTouch extends TEManagerComponent {
+	private static TEManagerTouch mSharedInstance = null;
+	private HashMap<Integer, TEComponentTouch> mTouchComponents;
 	
-	public TETouchManager() {
-		mTouchComponents = new HashMap<Integer, TETouchComponent>();
+	public TEManagerTouch() {
+		mTouchComponents = new HashMap<Integer, TEComponentTouch>();
 	}
 	
-	public static TETouchManager sharedManager() {
+	public static TEManagerTouch sharedManager() {
 		if (mSharedInstance == null) {
-			mSharedInstance = new TETouchManager();
+			mSharedInstance = new TEManagerTouch();
 		}
 		return mSharedInstance;
 	}
@@ -25,8 +25,8 @@ public class TETouchManager extends TEComponentManager {
 	@Override
 	public void update() {
 		Vector<TEComponent> components = getComponents();
-		Iterator<TEComponent> itr = components.iterator();
-		TETouchComponent component;
+		Iterator<TEComponent> itr;
+		TEComponentTouch component;
 		TEInputManager inputManager = TEInputManager.sharedManager();
 		HashMap<Integer, TEInputTouch> inputState = inputManager.getInputState();
 		Collection<TEInputTouch> collection = inputState.values();
@@ -38,7 +38,7 @@ public class TETouchManager extends TEComponentManager {
 				Log.v("info", "x: " + String.valueOf(touch.getStartPoint().x) + " y: " + String.valueOf(touch.getStartPoint().y));
 				itr = components.iterator();
 				 while(itr.hasNext()) {
-					 component = (TETouchComponent)itr.next();
+					 component = (TEComponentTouch)itr.next();
 					 if (component.containsPoint(touch.getStartPoint())) {
 						if (component.addTouch(touch) && !touch.ended()) {
 							mTouchComponents.put(touch.getPointerId(), component);
@@ -54,9 +54,9 @@ public class TETouchManager extends TEComponentManager {
 				}
 			}
 		}
-		
+		itr = components.iterator();
 	    while(itr.hasNext()) {
-	    	component = (TETouchComponent)itr.next();
+	    	component = (TEComponentTouch)itr.next();
 	    	component.update();
 	    }
 	}

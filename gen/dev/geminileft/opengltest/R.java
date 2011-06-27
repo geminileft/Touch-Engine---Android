@@ -14,13 +14,19 @@ public final class R {
         public static final int c_a=0x7f020000;
         public static final int freecell=0x7f020001;
         public static final int icon=0x7f020002;
-        public static final int suit_stack=0x7f020003;
+        public static final int redhead_moosader=0x7f020003;
+        public static final int spade_ace=0x7f020004;
+        public static final int suit_stack=0x7f020005;
     }
     public static final class layout {
         public static final int main=0x7f030000;
     }
+    public static final class raw {
+        public static final int sound=0x7f040000;
+        public static final int voice=0x7f040001;
+    }
     public static final class string {
-        public static final int app_name=0x7f040001;
-        public static final int hello=0x7f040000;
+        public static final int app_name=0x7f050001;
+        public static final int hello=0x7f050000;
     }
 }

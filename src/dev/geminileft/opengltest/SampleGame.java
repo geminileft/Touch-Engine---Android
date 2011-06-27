@@ -7,6 +7,7 @@ import dev.geminileft.TEGameEngine.RenderImage;
 import dev.geminileft.TEGameEngine.Size;
 import dev.geminileft.TEGameEngine.TEEngine;
 import dev.geminileft.TEGameEngine.TEGameObject;
+import dev.geminileft.TEGameEngine.TEStaticSettings;
 import dev.geminileft.TEGameEngine.TouchBounce;
 import dev.geminileft.TEGameEngine.TouchDrag;
 
@@ -23,7 +24,12 @@ public class SampleGame extends TEEngine {
         RenderColorBox colorBox;
         TouchDrag touchDrag;
         TouchBounce touchBounce;
-
+        TEStaticSettings.setContext(getContext());
+///*
+		gameObject = SampleGameObjectFactory.createPlayingCard(new Point(128, 420));
+		addGameObject(gameObject);
+//*/
+/*
         int x = 20;
     	for (int counter = 0; counter < 4; ++counter) {
     		gameObject = new TEGameObject();
@@ -72,5 +78,6 @@ public class SampleGame extends TEEngine {
     		addGameObject(gameObject);
     		x += 40;
     	}
+*/
 	}
 }

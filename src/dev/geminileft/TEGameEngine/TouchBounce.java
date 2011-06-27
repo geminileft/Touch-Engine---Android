@@ -1,6 +1,6 @@
 package dev.geminileft.TEGameEngine;
 
-public class TouchBounce extends TETouchComponent {
+public class TouchBounce extends TEComponentTouch {
 	private boolean mMoving = false;
 
 	@Override
