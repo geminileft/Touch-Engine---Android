@@ -21,7 +21,7 @@ public class TEManagerRender extends TEManagerComponent {
 	}
 	
 	public void update() {
-		GL10 gl = TEGraphicsManager.getGL();
+		GL10 gl = TEManagerGraphics.getGL();
 		Vector<TEComponent> components = getComponents();
 		Iterator<TEComponent> itr = components.iterator();
 		TEComponentRender component;

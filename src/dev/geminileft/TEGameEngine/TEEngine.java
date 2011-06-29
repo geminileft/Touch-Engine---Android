@@ -14,15 +14,19 @@ public abstract class TEEngine {
 	private Vector<TEGameObject> mGameObjects;
 	private Vector<TEManager> mManagers;
 	private int mHeight;
+	private int mWidth;
 
 	public TEEngine(Context context) {
 		mContext = context;
+        TEStaticSettings.setContext(context);
 		mGameObjects = new Vector<TEGameObject>();
 		mManagers = new Vector<TEManager>();
         TEManagerTouch touchManager = TEManagerTouch.sharedManager();
+        TEManagerStack stackManager = TEManagerStack.sharedManager();
         TEManagerSound soundManager = TEManagerSound.sharedManager();
         TEManagerRender renderManager = TEManagerRender.sharedManager();
         mManagers.add(touchManager);
+        mManagers.add(stackManager);
         mManagers.add(soundManager);
         mManagers.add(renderManager);
 	}
@@ -37,7 +41,7 @@ public abstract class TEEngine {
 	}
 	
 	public void setGraphicManager(GL10 gl) {
-		TEGraphicsManager.setGL(gl);
+		TEManagerGraphics.setGL(gl);
 	}
 	
 	public Context getContext() {
@@ -48,6 +52,7 @@ public abstract class TEEngine {
 		TEManagerRender renderManager = TEManagerRender.sharedManager();
 		TEManagerTouch touchManager = TEManagerTouch.sharedManager();
 		TEManagerSound soundManager = TEManagerSound.sharedManager();
+		TEManagerStack stackManager = TEManagerStack.sharedManager();
 		Vector<TEComponent> components = gameObject.getComponents();
 		Iterator<TEComponent> iterator = components.iterator();
 		TEComponent component;
@@ -59,14 +64,14 @@ public abstract class TEEngine {
 				touchManager.addComponent(component);
 			} else if (component instanceof TEComponentSound) {
 				soundManager.addComponent(component);
-			} else {
-				int i = 1 / 0;
+			} else if (component instanceof TEComponentStack) {
+				stackManager.addComponent(component);
 			}
 		}
 		mGameObjects.add(gameObject);
 	}
     public boolean onTouchEvent(MotionEvent event) {
-    	TEInputManager inputManager = TEInputManager.sharedManager();
+    	TEManagerInput inputManager = TEManagerInput.sharedManager();
     	int pointerId;
     	float x;
     	float y;
@@ -101,6 +106,11 @@ public abstract class TEEngine {
     
     public void setScreenSize(int width, int height) {
     	mHeight = height;
-		TEGraphicsManager.setScreenSize(width, height);
+    	mWidth = width;
+		TEManagerGraphics.setScreenSize(width, height);
+    }
+    
+    public Size getScreenSize() {
+    	return new Size(mWidth, mHeight);
     }
 }

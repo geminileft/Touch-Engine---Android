@@ -31,7 +31,7 @@ public class RenderImage extends TEComponentRender {
 	public RenderImage(int resourceId, Point position, Size size) {
 		Context context = TEStaticSettings.getContext();
 		InputStream is = context.getResources().openRawResource(resourceId);
-		GL10 gl = TEGraphicsManager.getGL();
+		GL10 gl = TEManagerGraphics.getGL();
 		int mTextures[] = new int[1];
 		gl.glGenTextures(1, mTextures, 0);
         mName = mTextures[0];		

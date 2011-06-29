@@ -2,7 +2,7 @@ package dev.geminileft.TEGameEngine;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public class TEGraphicsManager {
+public class TEManagerGraphics {
 	private static GL10 mGL;
 	private static int mWidth;
 	private static int mHeight;

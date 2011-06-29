@@ -4,7 +4,6 @@ import android.util.Log;
 
 public class TouchDrag extends TEComponentTouch {
 	private TEInputTouch mTouch = null;
-	private Point mPreviousPosition = null;
 	private Point mTouchOffset = null;
 
 	public TouchDrag() {
@@ -16,10 +15,11 @@ public class TouchDrag extends TEComponentTouch {
 		boolean added = false;
 		if (mTouch == null) {
 			Point pt = getParent().position;
-			mPreviousPosition = pt;
 			mTouchOffset = new Point(pt.x - touch.getStartPoint().x, pt.y - touch.getStartPoint().y);
 			mTouch = touch.copy();
 			added = true;
+        	getParent().invokeEvent("touch started");
+        	Log.v("TEComponentTouch.addTouch", "we are here");
 		}
 		return added;
 	}
@@ -42,9 +42,6 @@ public class TouchDrag extends TEComponentTouch {
 	        if (mTouch.ended()) {
 	        	getParent().invokeEvent("touch ended");
 	            mTouch = null;
-				x = mPreviousPosition.x;
-				y = mPreviousPosition.y;
-	            Log.v("info", "x: " + String.valueOf(x) + " y: " + String.valueOf(y));
 	        }
 	        TEGameObject parent = getParent();
 	        parent.position = new Point(x, y);

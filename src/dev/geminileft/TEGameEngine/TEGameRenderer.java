@@ -29,8 +29,8 @@ public class TEGameRenderer implements GLSurfaceView.Renderer {
 		//required for vertex/textures
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-		//gl.glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
-		gl.glClearColor(0.05f, 0.5f, 1.0f, 1.0f);
+		gl.glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
+		//gl.glClearColor(0.05f, 0.5f, 1.0f, 1.0f);
         mGame.start();
 	}
 

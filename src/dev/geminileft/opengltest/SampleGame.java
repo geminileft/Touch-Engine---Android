@@ -2,14 +2,10 @@ package dev.geminileft.opengltest;
 
 import android.content.Context;
 import dev.geminileft.TEGameEngine.Point;
-import dev.geminileft.TEGameEngine.RenderColorBox;
-import dev.geminileft.TEGameEngine.RenderImage;
-import dev.geminileft.TEGameEngine.Size;
+import dev.geminileft.TEGameEngine.StackCard;
+import dev.geminileft.TEGameEngine.StackFreeCell;
 import dev.geminileft.TEGameEngine.TEEngine;
 import dev.geminileft.TEGameEngine.TEGameObject;
-import dev.geminileft.TEGameEngine.TEStaticSettings;
-import dev.geminileft.TEGameEngine.TouchBounce;
-import dev.geminileft.TEGameEngine.TouchDrag;
 
 public class SampleGame extends TEEngine {
 
@@ -20,64 +16,30 @@ public class SampleGame extends TEEngine {
 	@Override
 	public void start() {
 		TEGameObject gameObject;
-		RenderImage image;
-        RenderColorBox colorBox;
-        TouchDrag touchDrag;
-        TouchBounce touchBounce;
-        TEStaticSettings.setContext(getContext());
-///*
-		gameObject = SampleGameObjectFactory.createPlayingCard(new Point(128, 420));
-		addGameObject(gameObject);
-//*/
-/*
-        int x = 20;
-    	for (int counter = 0; counter < 4; ++counter) {
-    		gameObject = new TEGameObject();
-    		image = new RenderImage(getContext().getResources().openRawResource(R.drawable.freecell));
-    		gameObject.addComponent(image);
-    		gameObject.position = new Point(x, 420);
-    		addGameObject(gameObject);
+		StackFreeCell freeCellStack;
+		StackCard cardStack;
+		StackCard mainStack;
+		
+    	gameObject = SampleGameObjectFactory.createFreeCell(new Point(35, 350));
+    	freeCellStack = new StackFreeCell();
+    	gameObject.addComponent(freeCellStack);
+    	addGameObject(gameObject);
+    	
+    	gameObject = SampleGameObjectFactory.createPlayingCard(null);
+    	cardStack = new StackCard();
+    	gameObject.addComponent(cardStack);
+    	addGameObject(gameObject);
+    	freeCellStack.pushStack(cardStack);
 
-    		gameObject = new TEGameObject();
-    		image = new RenderImage(getContext().getResources().openRawResource(R.drawable.freecell));
-    		gameObject.addComponent(image);
-    		gameObject.position = new Point(x, 365);
-    		addGameObject(gameObject);
-
-    		gameObject = new TEGameObject();
-    		image = new RenderImage(getContext().getResources().openRawResource(R.drawable.c_a));
-    		touchDrag = new TouchDrag();
-    		gameObject.addComponent(image);
-    		gameObject.addComponent(touchDrag);
-    		gameObject.position = new Point(x, 365);
-    		gameObject.size = image.getSize();
-    		addGameObject(gameObject);
-    		x += 40;
-    	}
-
-    	for (int counter = 0; counter < 4; ++counter) {
-    		gameObject = new TEGameObject();
-    		image = new RenderImage(getContext().getResources().openRawResource(R.drawable.suit_stack));
-    		gameObject.addComponent(image);
-    		gameObject.position = new Point(x, 420);
-    		addGameObject(gameObject);
-
-    		gameObject = new TEGameObject();
-    		image = new RenderImage(getContext().getResources().openRawResource(R.drawable.freecell));
-    		gameObject.addComponent(image);
-    		gameObject.position = new Point(x, 365);
-    		addGameObject(gameObject);
-
-    		gameObject = new TEGameObject();
-    		colorBox = new RenderColorBox(new Size(34, 47));
-            touchBounce = new TouchBounce();
-    		gameObject.addComponent(colorBox);
-            gameObject.addComponent(touchBounce);
-    		gameObject.position = new Point(x, 365);
-    		gameObject.size = new Size(34, 47);		
-    		addGameObject(gameObject);
-    		x += 40;
-    	}
-*/
+    	gameObject = SampleGameObjectFactory.createPlayingCard(new Point(90, 350));
+    	mainStack = new StackCard();
+    	gameObject.addComponent(mainStack);
+    	addGameObject(gameObject);
+    	
+    	gameObject = SampleGameObjectFactory.createPlayingCard(null);
+    	cardStack = new StackCard();
+    	gameObject.addComponent(cardStack);
+    	addGameObject(gameObject);
+    	mainStack.pushStack(cardStack);
 	}
 }

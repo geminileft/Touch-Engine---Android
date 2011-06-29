@@ -4,15 +4,15 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public final class TEInputManager {
-	private final static TEInputManager mSharedInstance = new TEInputManager();
+public final class TEManagerInput {
+	private final static TEManagerInput mSharedInstance = new TEManagerInput();
 	private HashMap<Integer, TEInputTouch> mTouches;
 	
-	public TEInputManager() {
+	public TEManagerInput() {
 		mTouches = new HashMap<Integer, TEInputTouch>();
 	}
 
-	public static TEInputManager sharedManager() {
+	public static TEManagerInput sharedManager() {
 		return mSharedInstance;
 	}
 
