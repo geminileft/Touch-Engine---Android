@@ -16,6 +16,8 @@ public abstract class TEEngine {
 	private int mHeight;
 	private int mWidth;
 
+	public abstract void start();
+
 	public TEEngine(Context context) {
 		mContext = context;
         TEStaticSettings.setContext(context);
@@ -31,8 +33,6 @@ public abstract class TEEngine {
         mManagers.add(renderManager);
 	}
 	
-	public abstract void start();
-
 	public final void run() {
 		final int managerCount = mManagers.size();
 		for (int count = 0;count < managerCount; ++count) {
@@ -70,6 +70,7 @@ public abstract class TEEngine {
 		}
 		mGameObjects.add(gameObject);
 	}
+
     public boolean onTouchEvent(MotionEvent event) {
     	TEManagerInput inputManager = TEManagerInput.sharedManager();
     	int pointerId;

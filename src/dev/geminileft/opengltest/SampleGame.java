@@ -41,5 +41,6 @@ public class SampleGame extends TEEngine {
     	gameObject.addComponent(cardStack);
     	addGameObject(gameObject);
     	mainStack.pushStack(cardStack);
+
 	}
 }

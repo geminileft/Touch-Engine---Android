@@ -5,9 +5,17 @@ import java.util.Vector;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public class TEManagerRender extends TEManagerComponent {
+import android.util.Log;
 
+public class TEManagerRender extends TEManagerComponent {
 	private static TEManagerRender mSharedInstance = null;
+	
+	private TEComponent.EventListener mTouchStartedListener = new TEComponent.EventListener() {
+		
+		@Override
+		public void invoke() {
+		}
+	};
 	
 	public static TEManagerRender sharedManager() {
 		if (mSharedInstance == null) {
@@ -30,5 +38,19 @@ public class TEManagerRender extends TEManagerComponent {
 		    	component.update();
 		    	component.draw(gl);
 		    }
+	}
+	
+	public TEComponent.EventListener getTouchStartedListener() {
+		return mTouchStartedListener;
+	}
+
+	public final void moveComponentToTop(TEComponent component) {
+		Vector<TEComponent> components = getComponents();
+		if (components.remove(component)) {
+			int size = components.size();
+			addComponent(component, size);			
+		} else {
+			Log.v("TEManagerComponent.moveComponentToTop", "did not find component");
+		}
 	}
 }

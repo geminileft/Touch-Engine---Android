@@ -11,9 +11,18 @@ public class StackCard extends TEComponentStack {
 		@Override
 		public void invoke() {
 			mMoving = true;
-			TEComponentStack parent = StackCard.this.getParentStack();
+			TEComponentStack component = StackCard.this;
+			TEComponentStack parent = component.getParentStack();
 			if (parent != null) {
-				parent.popStack(StackCard.this);				
+				parent.popStack(component);				
+			}
+			component.getParent().invokeEvent(TEComponent.Event.EVENT_MOVE_TO_TOP);
+			LinkedList<TEComponentStack> components = component.getStack();
+			if (!components.isEmpty()) {
+				Iterator<TEComponentStack> iterator = components.iterator();
+				while (iterator.hasNext()) {
+					iterator.next().getParent().invokeEvent(TEComponent.Event.EVENT_MOVE_TO_TOP);
+				}
 			}
 		}
 	};
@@ -28,8 +37,8 @@ public class StackCard extends TEComponentStack {
 	
 	public StackCard() {
 		super();
-		addEventSubscription("touch started", mTouchStartedListener);
-		addEventSubscription("touch ended", mTouchEndedListener);
+		addEventSubscription(TEComponent.Event.EVENT_TOUCH_STARTED, mTouchStartedListener);
+		addEventSubscription(TEComponent.Event.EVENT_TOUCH_ENDED, mTouchEndedListener);
 	}
 	
 	@Override

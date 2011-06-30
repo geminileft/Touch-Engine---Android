@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.Vector;
 
 public class TEGameObject extends TEManagerComponent {
-	private HashMap<String, Vector<TEComponent>> mEventSubscribers = new HashMap<String, Vector<TEComponent>>(); 
+	private HashMap<TEComponent.Event, Vector<TEComponent.EventListener>> mEventSubscribers = new HashMap<TEComponent.Event, Vector<TEComponent.EventListener>>(); 
 	
 	public Size size;
 	public Point position;
@@ -23,28 +23,37 @@ public class TEGameObject extends TEManagerComponent {
 	@Override
 	public void addComponent(TEComponent component) {
 		super.addComponent(component);
-		Set<String> keys = component.getEventSubscriptions();
-		Iterator<String> iterator = keys.iterator();
-		while (iterator.hasNext()) {
-			String event = iterator.next();
-			Vector<TEComponent> subscribers = mEventSubscribers.get(event);
-			if (subscribers == null) {
-				subscribers = new Vector<TEComponent>();
+		HashMap<TEComponent.Event, TEComponent.EventListener> eventSubscriptions = component.getEventSubscriptions();
+		if (!eventSubscriptions.isEmpty()) {
+			Set<TEComponent.Event> keys = eventSubscriptions.keySet();
+			Iterator<TEComponent.Event> iterator = keys.iterator();
+			while (iterator.hasNext()) {
+				TEComponent.Event event = iterator.next();
+				addEventSubscription(event, eventSubscriptions.get(event));
 			}
-			subscribers.add(component);
-			mEventSubscribers.put(event, subscribers);
 		}
-		component.setParent(this);
+		component.setParent(this);		
 	}
 
-	public void invokeEvent(String event) {
-		Vector<TEComponent> subscribers = mEventSubscribers.get(event);
+	public void invokeEvent(TEComponent.Event event) {
+		Vector<TEComponent.EventListener> subscribers = mEventSubscribers.get(event);
 		if (subscribers != null) {
-			Iterator<TEComponent> iterator = subscribers.iterator();
+			Iterator<TEComponent.EventListener> iterator = subscribers.iterator();
 			while (iterator.hasNext()) {
-				TEComponent component = iterator.next();
-				component.eventNotification(event);
+				TEComponent.EventListener eventListener = iterator.next();
+				eventListener.invoke();
 			}
 		}
 	}
+	
+	public final void addEventSubscription(TEComponent.Event event, TEComponent.EventListener eventListener) {
+		Vector<TEComponent.EventListener> subscribers = mEventSubscribers.get(event);
+		if (subscribers == null) {
+			subscribers = new Vector<TEComponent.EventListener>();
+		}
+		subscribers.add(eventListener);
+		mEventSubscribers.put(event, subscribers);		
+	}
+
+	public final void moveComponentToTop(TEComponent component) {}
 }

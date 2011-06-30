@@ -24,7 +24,7 @@ public class SoundTouch extends TEComponentSound {
 		if (soundPool != null) {
 			mSoundId = soundPool.load(context, resourceId, 1);			
 		}
-		addEventSubscription("touch ended", mTouchEndedEventListener);
+		addEventSubscription(TEComponent.Event.EVENT_TOUCH_ENDED, mTouchEndedEventListener);
 	}
 	
 	public void update() {

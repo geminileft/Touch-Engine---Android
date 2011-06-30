@@ -59,4 +59,14 @@ public class TEManagerTouch extends TEManagerComponent {
 	    	component.update();
 	    }
 	}
+
+	public final void moveComponentToTop(TEComponent component) {
+		Vector<TEComponent> components = getComponents();
+		if (components.remove(component)) {
+			addComponent(component, 0);	
+		} else {
+			Log.v("TEManagerComponent.moveComponentToTop", "did not find component");
+		}
+	}
+
 }

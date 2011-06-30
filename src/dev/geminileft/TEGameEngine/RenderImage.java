@@ -24,11 +24,21 @@ public class RenderImage extends TEComponentRender {
 	float mX = 0;
 	float mY = 0;
 	
+	private TEComponent.EventListener mMoveToTopListener = new TEComponent.EventListener() {
+		
+		@Override
+		public void invoke() {
+			RenderImage.this.getManager().moveComponentToTop(RenderImage.this);
+		}
+	};
+	
 	public RenderImage(int resourceId) {
 		this(resourceId, null, null);
 	}
 
 	public RenderImage(int resourceId, Point position, Size size) {
+		super();
+		addEventSubscription(TEComponent.Event.EVENT_MOVE_TO_TOP, mMoveToTopListener);
 		Context context = TEStaticSettings.getContext();
 		InputStream is = context.getResources().openRawResource(resourceId);
 		GL10 gl = TEManagerGraphics.getGL();
@@ -36,13 +46,10 @@ public class RenderImage extends TEComponentRender {
 		gl.glGenTextures(1, mTextures, 0);
         mName = mTextures[0];		
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextures[0]);
-		
         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
-
         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_CLAMP_TO_EDGE);
         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE);
-
         gl.glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, GL10.GL_MODULATE); //GL10.GL_REPLACE);
 
 		Bitmap bitmap = null;
@@ -141,6 +148,7 @@ public class RenderImage extends TEComponentRender {
 	}
 	
 	public void update() {
+		super.update();
 		Point point = getParent().position;
 		mX = point.x;
 		mY = point.y;

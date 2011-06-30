@@ -2,6 +2,8 @@ package dev.geminileft.TEGameEngine;
 
 import java.util.LinkedList;
 
+import android.util.Log;
+
 public abstract class TEComponentStack extends TEComponent {
 	private LinkedList<TEComponentStack> mStack = new LinkedList<TEComponentStack>();;
 	private TEComponentStack mParentStack = null;
@@ -13,8 +15,13 @@ public abstract class TEComponentStack extends TEComponent {
 	
 	public void pushStack(TEComponentStack stack) {
 		mStack.add(stack);
-		stack.getParent().position = new Point(getParent().position.x, getParent().position.y);
-		stack.setParentStack(this);
+		TEGameObject parent = getParent();
+		if (parent == null) {
+			Log.v("info", "parent null");
+		} else {
+			stack.getParent().position = new Point(getParent().position.x, getParent().position.y);
+		}
+		stack.setParentStack(this);		
 	}
 	
 	public abstract void popStack(TEComponentStack stack);

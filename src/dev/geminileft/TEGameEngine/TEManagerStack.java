@@ -9,4 +9,7 @@ public class TEManagerStack extends TEManagerComponent {
 		}
 		return mSharedInstance;
 	}
+
+	public final void moveComponentToTop(TEComponent component) {}
+	
 }

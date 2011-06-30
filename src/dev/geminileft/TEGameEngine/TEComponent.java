@@ -2,16 +2,23 @@ package dev.geminileft.TEGameEngine;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.Vector;
 
 public abstract class TEComponent {
 	public interface EventListener {
 		public abstract void invoke();
 	}
-
+	
+	public static enum Event {
+		EVENT_TOUCH_STARTED
+		, EVENT_TOUCH_ENDED
+		, EVENT_MOVE_TO_TOP
+	}
+	
 	private TEGameObject mParent;
-	private HashMap<String, EventListener> mEventSubscriptions = new HashMap<String, EventListener>();
+	private TEManagerComponent mManager;
+	
+	private HashMap<TEComponent.Event, EventListener> mEventSubscriptions = new HashMap<TEComponent.Event, EventListener>();
 	private Vector<String> mEventNotifications = new Vector<String>();
 
 	public void update() {
@@ -28,16 +35,24 @@ public abstract class TEComponent {
 		mParent = parent;
 	}
 	
+	public final void setManager(TEManagerComponent manager) {
+		mManager = manager;
+	}
+	
 	public final TEGameObject getParent() {
 		return mParent;
 	}
 	
-	public final void addEventSubscription(String event, EventListener listener) {
+	public final TEManagerComponent getManager() {
+		return mManager;
+	}
+	
+	public final void addEventSubscription(TEComponent.Event event, EventListener listener) {
 		mEventSubscriptions.put(event, listener);
 	}
 	
-	public final Set<String> getEventSubscriptions() {
-		return mEventSubscriptions.keySet();
+	public final HashMap<TEComponent.Event, EventListener> getEventSubscriptions() {
+		return mEventSubscriptions;
 	}
 	
 	public final void eventNotification(String event) {
