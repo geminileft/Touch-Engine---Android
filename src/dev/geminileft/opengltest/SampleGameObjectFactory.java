@@ -8,6 +8,16 @@ import dev.geminileft.TEGameEngine.TouchDrag;
 
 public final class SampleGameObjectFactory {
 
+	public static TEGameObject createBackground(Point position) {
+		TEGameObject gameObject = new TEGameObject();
+		Size size = new Size(480, 854);
+		RenderImage image = new RenderImage(R.drawable.table_background, null, size);
+		gameObject.addComponent(image);
+		gameObject.position = position;
+		gameObject.size = size;
+		return gameObject;
+	}
+	
 	public static TEGameObject createPlayingCard(Point position) {
 		TEGameObject gameObject = new TEGameObject();
 		Size size = new Size(48, 64);

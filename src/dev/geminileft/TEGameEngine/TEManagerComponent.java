@@ -37,13 +37,4 @@ public abstract class TEManagerComponent extends TEManager {
 	}
 
 	public abstract void moveComponentToTop(TEComponent component);
-/*
-	public final void moveComponentToTop(TEComponent component) {
-		if (mComponents.remove(component)) {
-			addComponent(component, 0);			
-		} else {
-			Log.v("TEManagerComponent.moveComponentToTop", "did not find component");
-		}
-	}
-*/
 }

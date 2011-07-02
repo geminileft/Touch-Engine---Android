@@ -20,7 +20,10 @@ public class SampleGame extends TEEngine {
 		StackCard cardStack;
 		StackCard mainStack;
 		
-    	gameObject = SampleGameObjectFactory.createFreeCell(new Point(35, 350));
+		gameObject = SampleGameObjectFactory.createBackground(new Point(240, 427));
+		addGameObject(gameObject);
+
+		gameObject = SampleGameObjectFactory.createFreeCell(new Point(35, 350));
     	freeCellStack = new StackFreeCell();
     	gameObject.addComponent(freeCellStack);
     	addGameObject(gameObject);
@@ -35,7 +38,7 @@ public class SampleGame extends TEEngine {
     	mainStack = new StackCard();
     	gameObject.addComponent(mainStack);
     	addGameObject(gameObject);
-    	
+
     	gameObject = SampleGameObjectFactory.createPlayingCard(null);
     	cardStack = new StackCard();
     	gameObject.addComponent(cardStack);

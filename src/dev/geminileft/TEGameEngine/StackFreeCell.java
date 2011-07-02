@@ -3,11 +3,7 @@ package dev.geminileft.TEGameEngine;
 public class StackFreeCell extends TEComponentStack {
 
 	@Override
-	public void pushStack(TEComponentStack stack) {
-		super.pushStack(stack);
-		stack.getParent().position = new Point(getParent().position.x, getParent().position.y);
+	public final int getStackOffset() {
+		return 0;
 	}
-	
-	@Override
-	public void popStack(TEComponentStack stack) {};
 }

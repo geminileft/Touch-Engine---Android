@@ -1,33 +1,24 @@
 package dev.geminileft.TEGameEngine;
 
-import java.util.LinkedList;
-
-import android.util.Log;
-
 public abstract class TEComponentStack extends TEComponent {
-	private LinkedList<TEComponentStack> mStack = new LinkedList<TEComponentStack>();;
+	private TEComponentStack mChildStack = null;
 	private TEComponentStack mParentStack = null;
-	
-	@Override
-	public void update() {
-		super.update();
-	}
-	
+	private boolean mTopStack = true;
+	private boolean mEvaluateReady = false;
+
 	public void pushStack(TEComponentStack stack) {
-		mStack.add(stack);
-		TEGameObject parent = getParent();
-		if (parent == null) {
-			Log.v("info", "parent null");
-		} else {
-			stack.getParent().position = new Point(getParent().position.x, getParent().position.y);
-		}
-		stack.setParentStack(this);		
+		mChildStack = stack;
+		stack.setParentStack(this);
+		mTopStack = false;
+		adjustStackPositions();
 	}
 	
-	public abstract void popStack(TEComponentStack stack);
-	
-	public final LinkedList<TEComponentStack> getStack() {
-		return mStack;
+	public final void popStack(TEComponentStack stack) {
+		if (stack == mChildStack) {
+			stack.setParentStack(null);
+			mChildStack = null;
+			mTopStack = true;
+		}
 	}
 	
 	public final void setParentStack(TEComponentStack stack) {
@@ -36,5 +27,75 @@ public abstract class TEComponentStack extends TEComponent {
 	
 	public final TEComponentStack getParentStack() {
 		return mParentStack;
+	}
+	
+	public final boolean doesOverlap(TEComponentStack stack) {
+		boolean returnValue = false;
+		if (!isParentOf(stack)) {
+			TEGameObject parent = getParent();
+			TEUtilRect parentRect = new TEUtilRect(parent.position, parent.size);
+			TEGameObject stackParent = stack.getParent();
+			TEUtilRect stackRect = new TEUtilRect(stackParent.position, stackParent.size);
+			returnValue = parentRect.overlaps(stackRect);
+		}
+		return returnValue;
+	}
+	
+	public final boolean isTopStack() {
+		return mTopStack;
+	}
+	
+	public final boolean isEvaluateReady() {
+		return mEvaluateReady;
+	}
+	
+	public abstract int getStackOffset();
+	
+	public final void adjustStackPositions() {
+		TEComponentStack rootStack = getRootStack();
+		int offset = rootStack.getStackOffset();
+		TEGameObject rootParent = rootStack.getParent();
+		Point position = new Point(rootParent.position.x, rootParent.position.y);
+		while (rootStack.getChildStack() != null) {
+			position.y -= offset;
+			rootStack = rootStack.getChildStack();
+			rootStack.getParent().position = new Point(position.x, position.y);
+			offset = rootStack.getStackOffset();
+		}
+	}
+	
+	public TEComponentStack getRootStack() {
+		TEComponentStack rootStack;
+		if (mParentStack != null) {
+			rootStack = mParentStack;
+			while (rootStack.getParentStack() != null) {
+				rootStack = rootStack.getParentStack();
+			}
+		} else {
+			rootStack = this;
+		}
+		return rootStack;
+	}
+	
+	public final TEComponentStack getChildStack() {
+		return mChildStack;
+	}
+	
+	public final void evaluate() {
+		mEvaluateReady = true;
+	}
+	
+	public final void resetEvaluate() {
+		mEvaluateReady = false;
+	}
+	
+	private final boolean isParentOf(TEComponentStack stack) {
+		boolean returnValue = (stack == this);
+		TEComponentStack childStack = this.getChildStack();
+		while (!returnValue && (childStack != null)) {
+			returnValue = (stack == childStack);
+			childStack = childStack.getChildStack();
+		}
+		return returnValue;
 	}
 }

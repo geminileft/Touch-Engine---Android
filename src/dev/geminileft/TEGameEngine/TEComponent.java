@@ -13,6 +13,7 @@ public abstract class TEComponent {
 		EVENT_TOUCH_STARTED
 		, EVENT_TOUCH_ENDED
 		, EVENT_MOVE_TO_TOP
+		, EVENT_REJECT_MOVE
 	}
 	
 	private TEGameObject mParent;

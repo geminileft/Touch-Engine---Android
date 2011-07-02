@@ -19,6 +19,7 @@ public final class R {
         public static final int redhead_moosader=0x7f020005;
         public static final int spade_ace=0x7f020006;
         public static final int suit_stack=0x7f020007;
+        public static final int table_background=0x7f020008;
     }
     public static final class layout {
         public static final int main=0x7f030000;
