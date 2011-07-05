@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import dev.geminileft.TEGameEngine.Point;
 import dev.geminileft.TEGameEngine.TEGameRenderer;
@@ -18,7 +19,10 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
         GLSurfaceView view = new GLSurfaceView(this);
-   		mGame = new SampleGame(MainActivity.this);
+        Display display = getWindowManager().getDefaultDisplay(); 
+        int width = display.getWidth();
+        int height = display.getHeight();
+   		mGame = new SampleGame(this, width, height);
    		view.setRenderer(new TEGameRenderer(mGame));
    		setContentView(view);
    		Point point = new Point(100.0f, 200.0f);

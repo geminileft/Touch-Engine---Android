@@ -46,7 +46,7 @@ public class TEManagerStack extends TEManagerComponent {
 			Iterator<TEComponent> itr = components.iterator();
 		    while(itr.hasNext()) {
 		    	TEComponentStack stack = (TEComponentStack)itr.next();
-		    	if ((stack.isTopStack()) && component.doesOverlap(stack)){
+		    	if ((stack.isTopStack()) && component.doesOverlap(stack) && stack.getRootStack().doesAccept(component)) {
 		    		returnStack = stack;
 		    		break;
 		    	}

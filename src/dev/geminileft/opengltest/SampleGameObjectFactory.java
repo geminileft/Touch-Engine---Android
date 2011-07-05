@@ -1,14 +1,53 @@
 package dev.geminileft.opengltest;
 
+import java.util.HashMap;
+
+import dev.geminileft.TEGameEngine.PlayingCard;
 import dev.geminileft.TEGameEngine.Point;
 import dev.geminileft.TEGameEngine.RenderImage;
 import dev.geminileft.TEGameEngine.Size;
+import dev.geminileft.TEGameEngine.StackAceCell;
+import dev.geminileft.TEGameEngine.StackFreeCell;
+import dev.geminileft.TEGameEngine.StackTableCell;
+import dev.geminileft.TEGameEngine.TEComponentStack.StackType;
 import dev.geminileft.TEGameEngine.TEGameObject;
 import dev.geminileft.TEGameEngine.TouchDrag;
 
 public final class SampleGameObjectFactory {
+	private HashMap<String, Integer> mCardMap = new HashMap<String, Integer>();
+	
+	public SampleGameObjectFactory() {
+		super();
+		mCardMap.put("SpadeAce", R.drawable.spade_ace);
+		mCardMap.put("SpadeTwo", R.drawable.spade_two);
+		mCardMap.put("SpadeThree", R.drawable.spade_three);
+		mCardMap.put("SpadeFour", R.drawable.spade_four);
+		mCardMap.put("SpadeFive", R.drawable.spade_five);
+		mCardMap.put("SpadeSix", R.drawable.spade_six);
+		mCardMap.put("SpadeSeven", R.drawable.spade_seven);
+		mCardMap.put("SpadeEight", R.drawable.spade_eight);
+		mCardMap.put("SpadeNine", R.drawable.spade_nine);
+		mCardMap.put("SpadeTen", R.drawable.spade_ten);
+		mCardMap.put("SpadeJack", R.drawable.spade_jack);
+		mCardMap.put("SpadeQueen", R.drawable.spade_queen);
+		mCardMap.put("SpadeKing", R.drawable.spade_king);
+		
+		mCardMap.put("DiamondAce", R.drawable.diamond_ace);
+		mCardMap.put("DiamondTwo", R.drawable.diamond_two);
+		mCardMap.put("DiamondThree", R.drawable.diamond_three);
+		mCardMap.put("DiamondFour", R.drawable.diamond_four);
+		mCardMap.put("DiamondFive", R.drawable.diamond_five);
+		mCardMap.put("DiamondSix", R.drawable.diamond_six);
+		mCardMap.put("DiamondSeven", R.drawable.diamond_seven);
+		mCardMap.put("DiamondEight", R.drawable.diamond_eight);
+		mCardMap.put("DiamondNine", R.drawable.diamond_nine);
+		mCardMap.put("DiamondTen", R.drawable.diamond_ten);
+		mCardMap.put("DiamondJack", R.drawable.diamond_jack);
+		mCardMap.put("DiamondQueen", R.drawable.diamond_queen);
+		mCardMap.put("DiamondKing", R.drawable.diamond_king);
+	}
 
-	public static TEGameObject createBackground(Point position) {
+	public TEGameObject createBackground(Point position) {
 		TEGameObject gameObject = new TEGameObject();
 		Size size = new Size(480, 854);
 		RenderImage image = new RenderImage(R.drawable.table_background, null, size);
@@ -18,10 +57,18 @@ public final class SampleGameObjectFactory {
 		return gameObject;
 	}
 	
-	public static TEGameObject createPlayingCard(Point position) {
+	public TEGameObject createPlayingCard(Point position, PlayingCard card) {
 		TEGameObject gameObject = new TEGameObject();
 		Size size = new Size(48, 64);
-		RenderImage image = new RenderImage(R.drawable.spade_ace, null, size);
+		String key = card.getCardName();
+		Integer resource = mCardMap.get(key);
+		int resourceId;
+		if (resource == null) {
+			resourceId = R.drawable.spade_ace;
+		} else {
+			resourceId = resource;
+		}
+		RenderImage image = new RenderImage(resourceId, null, size);
 		gameObject.addComponent(image);
 		gameObject.addComponent(new TouchDrag());
 		gameObject.position = position;
@@ -29,23 +76,32 @@ public final class SampleGameObjectFactory {
 		return gameObject;
 	}
 
-	public static TEGameObject createFreeCell(Point position) {
+	public TEGameObject createFreeCell(Point position) {
 		TEGameObject gameObject = new TEGameObject();
 		Size size = new Size(48, 64);
 		gameObject.addComponent(new RenderImage(R.drawable.free_cell, null, size));
+		gameObject.addComponent(new StackFreeCell());
 		gameObject.position = position;
 		gameObject.size = size;
 		return gameObject;
 	}
 
-	public static TEGameObject createAceCell(Point position) {
+	public TEGameObject createAceCellStack(Point position) {
 		TEGameObject gameObject = new TEGameObject();
 		Size size = new Size(48, 64);
-		RenderImage image = new RenderImage(R.drawable.ace_cell, null, size);
-		gameObject.addComponent(image);
-		gameObject.position = position;
+		gameObject.addComponent(new RenderImage(R.drawable.ace_cell, null, size));
+    	gameObject.addComponent(new StackAceCell());
+    	gameObject.position = position;
 		gameObject.size = size;
 		return gameObject;
 	}
 
+	public TEGameObject createTableCellStack(Point position) {
+		TEGameObject gameObject = new TEGameObject();
+		Size size = new Size(48, 64);
+		gameObject.addComponent(new RenderImage(R.drawable.free_cell, null, size));
+    	gameObject.position = position;
+		gameObject.size = size;
+		return gameObject;
+	}
 }

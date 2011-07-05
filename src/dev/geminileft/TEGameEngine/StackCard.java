@@ -1,5 +1,8 @@
 package dev.geminileft.TEGameEngine;
 
+import dev.geminileft.TEGameEngine.PlayingCard.FaceValue;
+import dev.geminileft.TEGameEngine.PlayingCard.Suit;
+
 public class StackCard extends TEComponentStack {
 	private boolean mMoving = false;
 	private Point mPreviousPosition;
@@ -49,8 +52,9 @@ public class StackCard extends TEComponentStack {
 		}
 	};
 	
-	public StackCard() {
-		super();
+	public StackCard(PlayingCard card) {
+		super(StackType.Card);
+		setPlayingCard(card);
 		addEventSubscription(Event.EVENT_TOUCH_STARTED, mTouchStartedListener);
 		addEventSubscription(Event.EVENT_TOUCH_ENDED, mTouchEndedListener);
 		addEventSubscription(Event.EVENT_REJECT_MOVE, mRejectMoveListener);
@@ -67,5 +71,10 @@ public class StackCard extends TEComponentStack {
 	@Override
 	public final int getStackOffset() {
 		return 40;
+	}
+	
+	@Override
+	public final boolean doesAccept(TEComponentStack stack) {
+		return true;
 	}
 }

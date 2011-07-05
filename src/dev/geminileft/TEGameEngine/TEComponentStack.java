@@ -1,11 +1,32 @@
 package dev.geminileft.TEGameEngine;
 
 public abstract class TEComponentStack extends TEComponent {
-	private TEComponentStack mChildStack = null;
-	private TEComponentStack mParentStack = null;
-	private boolean mTopStack = true;
-	private boolean mEvaluateReady = false;
+	public enum StackType {
+		FreeCell
+		, AceCell
+		, TableCell
+		, Card
+	}
 
+	private TEComponentStack mChildStack;
+	private TEComponentStack mParentStack;
+	private boolean mTopStack = true;
+	private boolean mEvaluateReady;
+	private StackType mStackType;
+	private PlayingCard mCard;
+	
+	public abstract int getStackOffset();
+	public abstract boolean doesAccept(TEComponentStack stack);
+
+	public TEComponentStack(StackType stackType) {
+		super();
+		mStackType = stackType;
+	}
+	
+	public StackType getStackType() {
+		return mStackType;
+	}
+	
 	public void pushStack(TEComponentStack stack) {
 		mChildStack = stack;
 		stack.setParentStack(this);
@@ -48,19 +69,18 @@ public abstract class TEComponentStack extends TEComponent {
 	public final boolean isEvaluateReady() {
 		return mEvaluateReady;
 	}
-	
-	public abstract int getStackOffset();
-	
+		
 	public final void adjustStackPositions() {
 		TEComponentStack rootStack = getRootStack();
-		int offset = rootStack.getStackOffset();
+		final int offset = rootStack.getStackOffset();
+		int stackOffset = 0;
 		TEGameObject rootParent = rootStack.getParent();
 		Point position = new Point(rootParent.position.x, rootParent.position.y);
 		while (rootStack.getChildStack() != null) {
-			position.y -= offset;
+			position.y -= stackOffset;
 			rootStack = rootStack.getChildStack();
 			rootStack.getParent().position = new Point(position.x, position.y);
-			offset = rootStack.getStackOffset();
+			stackOffset = offset;
 		}
 	}
 	
@@ -97,5 +117,13 @@ public abstract class TEComponentStack extends TEComponent {
 			childStack = childStack.getChildStack();
 		}
 		return returnValue;
+	}
+		
+	public void setPlayingCard(PlayingCard card) {
+		mCard = card;
+	}
+	
+	public PlayingCard getPlayingCard() {
+		return mCard;
 	}
 }
