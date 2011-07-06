@@ -8,8 +8,6 @@ import dev.geminileft.TEGameEngine.RenderImage;
 import dev.geminileft.TEGameEngine.Size;
 import dev.geminileft.TEGameEngine.StackAceCell;
 import dev.geminileft.TEGameEngine.StackFreeCell;
-import dev.geminileft.TEGameEngine.StackTableCell;
-import dev.geminileft.TEGameEngine.TEComponentStack.StackType;
 import dev.geminileft.TEGameEngine.TEGameObject;
 import dev.geminileft.TEGameEngine.TouchDrag;
 

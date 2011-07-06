@@ -1,8 +1,5 @@
 package dev.geminileft.TEGameEngine;
 
-import dev.geminileft.TEGameEngine.PlayingCard.FaceValue;
-import dev.geminileft.TEGameEngine.PlayingCard.Suit;
-
 public class StackCard extends TEComponentStack {
 	private boolean mMoving = false;
 	private Point mPreviousPosition;

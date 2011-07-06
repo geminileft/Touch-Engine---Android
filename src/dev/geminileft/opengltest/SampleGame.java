@@ -13,15 +13,13 @@ import dev.geminileft.TEGameEngine.TEEngine;
 import dev.geminileft.TEGameEngine.TEGameObject;
 
 public class SampleGame extends TEEngine {
-	private Context mContext;
-	private int mWidth;
+	//private int mWidth;
 	private int mHeight;
 	private final int START_X = 35;
 	
 	public SampleGame(Context context, int width, int height) {
 		super(context);
-		mContext = context;
-		mWidth = width;
+		//mWidth = width;
 		mHeight = height;
 	}
 	
