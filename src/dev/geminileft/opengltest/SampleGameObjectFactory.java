@@ -45,6 +45,34 @@ public final class SampleGameObjectFactory {
 		mCardMap.put("DiamondJack", R.drawable.diamond_jack);
 		mCardMap.put("DiamondQueen", R.drawable.diamond_queen);
 		mCardMap.put("DiamondKing", R.drawable.diamond_king);
+		
+		mCardMap.put("HeartAce", R.drawable.heart_ace);
+		mCardMap.put("HeartTwo", R.drawable.heart_two);
+		mCardMap.put("HeartThree", R.drawable.heart_three);
+		mCardMap.put("HeartFour", R.drawable.heart_four);
+		mCardMap.put("HeartFive", R.drawable.heart_five);
+		mCardMap.put("HeartSix", R.drawable.heart_six);
+		mCardMap.put("HeartSeven", R.drawable.heart_seven);
+		mCardMap.put("HeartEight", R.drawable.heart_eight);
+		mCardMap.put("HeartNine", R.drawable.heart_nine);
+		mCardMap.put("HeartTen", R.drawable.heart_ten);
+		mCardMap.put("HeartJack", R.drawable.heart_jack);
+		mCardMap.put("HeartQueen", R.drawable.heart_queen);
+		mCardMap.put("HeartKing", R.drawable.heart_king);
+		
+		mCardMap.put("ClubAce", R.drawable.club_ace);
+		mCardMap.put("ClubTwo", R.drawable.club_two);
+		mCardMap.put("ClubThree", R.drawable.club_three);
+		mCardMap.put("ClubFour", R.drawable.club_four);
+		mCardMap.put("ClubFive", R.drawable.club_five);
+		mCardMap.put("ClubSix", R.drawable.club_six);
+		mCardMap.put("ClubSeven", R.drawable.club_seven);
+		mCardMap.put("ClubEight", R.drawable.club_eight);
+		mCardMap.put("ClubNine", R.drawable.club_nine);
+		mCardMap.put("ClubTen", R.drawable.club_ten);
+		mCardMap.put("ClubJack", R.drawable.club_jack);
+		mCardMap.put("ClubQueen", R.drawable.club_queen);
+		mCardMap.put("ClubKing", R.drawable.club_king);
 	}
 
 	public TEGameObject createBackground(Point position) {
@@ -56,7 +84,7 @@ public final class SampleGameObjectFactory {
 		gameObject.size = size;
 		return gameObject;
 	}
-	
+
 	public TEGameObject createPlayingCard(Point position, PlayingCard card) {
 		TEGameObject gameObject = new TEGameObject();
 		Size size = new Size(48, 64);

@@ -16,7 +16,14 @@ public class StackTableCell extends TEComponentStack {
 	@Override
 	public boolean doesAccept(TEComponentStack stack) {
 		// TODO Auto-generated method stub
-		return true;
+		PlayingCard card = getPlayingCard();
+		PlayingCard stackCard = stack.getPlayingCard();
+		PlayingCard.Suit suit = card.getSuit();
+		PlayingCard.SuitColor suitColor = suit.getSuitColor();
+		PlayingCard.SuitColor stackSuitColor = stackCard.getSuit().getSuitColor();
+		boolean results = ((suitColor != stackSuitColor)
+				&& ((card.getFaceValue().getValue() - 1) == stackCard.getFaceValue().getValue()));
+		return results;
 	}
 
 }

@@ -10,7 +10,18 @@ public class PlayingCard {
 	public enum FaceValue {
 		Ace(1)
 		, Two(2)
-		, Three(3);
+		, Three(3)
+		, Four(4)
+		, Five(5)
+		, Six(6)
+		, Seven(7)
+		, Eight(8)
+		, Nine(9)
+		, Ten(10)
+		, Jack(11)
+		, Queen(12)
+		, King(13)
+		;
 		
 		private int mValue;
 		
@@ -86,6 +97,36 @@ public class PlayingCard {
 			break;
 		case Three:
 			Value = Value + "Three";
+			break;
+		case Four:
+			Value = Value + "Four";
+			break;
+		case Five:
+			Value = Value + "Five";
+			break;
+		case Six:
+			Value = Value + "Six";
+			break;
+		case Seven:
+			Value = Value + "Seven";
+			break;
+		case Eight:
+			Value = Value + "Eight";
+			break;
+		case Nine:
+			Value = Value + "Nine";
+			break;
+		case Ten:
+			Value = Value + "Ten";
+			break;
+		case Jack:
+			Value = Value + "Jack";
+			break;
+		case Queen:
+			Value = Value + "Queen";
+			break;
+		case King:
+			Value = Value + "King";
 			break;
 		default:
 			Value = Value + "";
