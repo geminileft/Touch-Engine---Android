@@ -8,21 +8,35 @@ public class StackTableCell extends TEComponentStack {
 	}
 
 	@Override
-	public int getStackOffset() {
-		// TODO Auto-generated method stub
-		return 40;
+	public int getStackOffset(boolean isFirst) {
+		int offset = 0;
+		if (isFirst) {
+			offset = 0;
+		} else {
+			offset = CARD_OFFSET;
+		}
+		return offset;
 	}
 
 	@Override
 	public boolean doesAccept(TEComponentStack stack) {
-		// TODO Auto-generated method stub
-		PlayingCard card = getPlayingCard();
-		PlayingCard stackCard = stack.getPlayingCard();
-		PlayingCard.Suit suit = card.getSuit();
-		PlayingCard.SuitColor suitColor = suit.getSuitColor();
-		PlayingCard.SuitColor stackSuitColor = stackCard.getSuit().getSuitColor();
-		boolean results = ((suitColor != stackSuitColor)
-				&& ((card.getFaceValue().getValue() - 1) == stackCard.getFaceValue().getValue()));
+		boolean results = false;
+		TEComponentStack childStack = getChildStack();
+		
+		if (childStack == null) {
+			results = true;
+		} else {
+			while (childStack.getChildStack() != null) {
+				childStack = childStack.getChildStack();
+			}
+			PlayingCard card = childStack.getPlayingCard();
+			PlayingCard stackCard = stack.getPlayingCard();
+			PlayingCard.Suit suit = card.getSuit();
+			PlayingCard.SuitColor suitColor = suit.getSuitColor();
+			PlayingCard.SuitColor stackSuitColor = stackCard.getSuit().getSuitColor();
+			results = ((suitColor != stackSuitColor)
+					&& ((card.getFaceValue().getValue() - 1) == stackCard.getFaceValue().getValue()));		
+		}
 		return results;
 	}
 

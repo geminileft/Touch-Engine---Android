@@ -7,7 +7,9 @@ public abstract class TEComponentStack extends TEComponent {
 		, TableCell
 		, Card
 	}
-
+	
+	public final int CARD_OFFSET = 40;
+	
 	private TEComponentStack mChildStack;
 	private TEComponentStack mParentStack;
 	private boolean mTopStack = true;
@@ -15,7 +17,7 @@ public abstract class TEComponentStack extends TEComponent {
 	private StackType mStackType;
 	private PlayingCard mCard;
 	
-	public abstract int getStackOffset();
+	public abstract int getStackOffset(boolean isFirst);
 	public abstract boolean doesAccept(TEComponentStack stack);
 
 	public TEComponentStack(StackType stackType) {
@@ -71,16 +73,16 @@ public abstract class TEComponentStack extends TEComponent {
 	}
 		
 	public final void adjustStackPositions() {
-		TEComponentStack rootStack = getRootStack();
-		final int offset = rootStack.getStackOffset();
-		int stackOffset = 0;
-		TEGameObject rootParent = rootStack.getParent();
+		TEComponentStack stack = getRootStack();
+		int offset = stack.getStackOffset(true);
+		final int newOffset = stack.getStackOffset(false);
+		TEGameObject rootParent = stack.getParent();
 		Point position = new Point(rootParent.position.x, rootParent.position.y);
-		while (rootStack.getChildStack() != null) {
-			position.y -= stackOffset;
-			rootStack = rootStack.getChildStack();
-			rootStack.getParent().position = new Point(position.x, position.y);
-			stackOffset = offset;
+		while (stack.getChildStack() != null) {
+			position.y -= offset;
+			stack = stack.getChildStack();
+			stack.getParent().position = new Point(position.x, position.y);
+			offset = newOffset;
 		}
 	}
 	

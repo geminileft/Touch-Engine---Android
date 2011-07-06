@@ -8,7 +8,7 @@ public class StackAceCell extends TEComponentStack {
 	}
 	
 	@Override
-	public final int getStackOffset() {
+	public final int getStackOffset(boolean isFirst) {
 		return 0;
 	}
 	

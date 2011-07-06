@@ -7,7 +7,7 @@ public class StackFreeCell extends TEComponentStack {
 	}
 	
 	@Override
-	public final int getStackOffset() {
+	public final int getStackOffset(boolean isFirst) {
 		return 0;
 	}
 

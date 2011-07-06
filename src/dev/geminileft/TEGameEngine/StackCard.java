@@ -69,8 +69,8 @@ public class StackCard extends TEComponentStack {
 	}
 	
 	@Override
-	public final int getStackOffset() {
-		return 40;
+	public final int getStackOffset(boolean isFirst) {
+		return CARD_OFFSET;
 	}
 	
 	@Override
