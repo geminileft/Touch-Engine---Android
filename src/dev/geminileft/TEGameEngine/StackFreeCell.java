@@ -15,4 +15,16 @@ public class StackFreeCell extends TEComponentStack {
 	public final boolean doesAccept(TEComponentStack stack) {
 		return ((getChildStack() == null) && (stack.getChildStack() == null));
 	}
+	
+	@Override
+	public void pushStack(TEComponentStack stack) {
+		super.pushStack(stack);
+		--TEComponentStack.openFreeCellCount;
+	}
+	
+	@Override
+	public void popStack(TEComponentStack stack) {
+		super.popStack(stack);
+		++TEComponentStack.openFreeCellCount;
+	}
 }

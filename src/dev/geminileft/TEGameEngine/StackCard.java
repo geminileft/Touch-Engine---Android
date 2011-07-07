@@ -9,19 +9,40 @@ public class StackCard extends TEComponentStack {
 		
 		@Override
 		public void invoke() {
-			mMoving = true;
+			boolean isGoodStack = true;
 			TEComponentStack component = StackCard.this;
-			TEGameObject parent = component.getParent();
-			mPreviousPosition = new Point(parent.position.x, parent.position.y);
-			mPreviousStack = component.getParentStack();
-			if (mPreviousStack != null) {
-				mPreviousStack.popStack(component);				
-			}
-			parent.invokeEvent(Event.EVENT_MOVE_TO_TOP);
+			int cardCount = 1;
 			TEComponentStack childStack = component.getChildStack();
-			while (childStack != null) {
-				childStack.getParent().invokeEvent(Event.EVENT_MOVE_TO_TOP);
-				childStack = childStack.getChildStack();
+			if (childStack != null) {
+				PlayingCard oldCard = component.getPlayingCard();
+				while (childStack != null) {
+					PlayingCard card = childStack.getPlayingCard();
+					++cardCount;
+					if (!oldCard.canStack(card)) {
+						isGoodStack = false;
+						break;
+					}
+					oldCard = card;
+					childStack = childStack.getChildStack();
+				}
+			}
+			if (isGoodStack && (cardCount <= getPickupCount())) {
+				getParent().invokeEvent(Event.EVENT_TOUCH_ACCEPT);
+				mMoving = true;
+				TEGameObject parent = component.getParent();
+				mPreviousPosition = new Point(parent.position.x, parent.position.y);
+				mPreviousStack = component.getParentStack();
+				if (mPreviousStack != null) {
+					mPreviousStack.popStack(component);				
+				}
+				parent.invokeEvent(Event.EVENT_MOVE_TO_TOP);
+				childStack = component.getChildStack();
+				while (childStack != null) {
+					childStack.getParent().invokeEvent(Event.EVENT_MOVE_TO_TOP);
+					childStack = childStack.getChildStack();
+				}
+			} else {
+				getParent().invokeEvent(Event.EVENT_TOUCH_REJECT);
 			}
 		}
 	};

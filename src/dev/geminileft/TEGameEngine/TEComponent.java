@@ -11,6 +11,8 @@ public abstract class TEComponent {
 	
 	public static enum Event {
 		EVENT_TOUCH_STARTED
+		, EVENT_TOUCH_REJECT
+		, EVENT_TOUCH_ACCEPT
 		, EVENT_TOUCH_ENDED
 		, EVENT_MOVE_TO_TOP
 		, EVENT_REJECT_MOVE

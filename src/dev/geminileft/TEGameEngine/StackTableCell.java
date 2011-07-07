@@ -31,13 +31,20 @@ public class StackTableCell extends TEComponentStack {
 			}
 			PlayingCard card = childStack.getPlayingCard();
 			PlayingCard stackCard = stack.getPlayingCard();
-			PlayingCard.Suit suit = card.getSuit();
-			PlayingCard.SuitColor suitColor = suit.getSuitColor();
-			PlayingCard.SuitColor stackSuitColor = stackCard.getSuit().getSuitColor();
-			results = ((suitColor != stackSuitColor)
-					&& ((card.getFaceValue().getValue() - 1) == stackCard.getFaceValue().getValue()));		
+			results = card.canStack(stackCard);		
 		}
 		return results;
 	}
 
+	@Override
+	public void pushStack(TEComponentStack stack) {
+		super.pushStack(stack);
+		--TEComponentStack.openTableCellCount;
+	}
+	
+	@Override
+	public void popStack(TEComponentStack stack) {
+		super.popStack(stack);
+		++TEComponentStack.openTableCellCount;
+	}
 }

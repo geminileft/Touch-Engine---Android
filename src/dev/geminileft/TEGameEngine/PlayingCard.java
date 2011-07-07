@@ -134,4 +134,11 @@ public class PlayingCard {
 		
 		return Value;
 	}
+	
+	public boolean canStack(PlayingCard stackCard) {
+		PlayingCard.Suit suit = this.getSuit();
+		PlayingCard.SuitColor suitColor = suit.getSuitColor();
+		PlayingCard.SuitColor stackSuitColor = stackCard.getSuit().getSuitColor();
+		return ((suitColor != stackSuitColor) && ((this.getFaceValue().getValue() - 1) == stackCard.getFaceValue().getValue()));		
+	}
 }

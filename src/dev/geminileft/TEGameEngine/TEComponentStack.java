@@ -9,7 +9,8 @@ public abstract class TEComponentStack extends TEComponent {
 	}
 	
 	public final int CARD_OFFSET = 40;
-	
+	public static int openFreeCellCount;
+	public static int openTableCellCount;
 	private TEComponentStack mChildStack;
 	private TEComponentStack mParentStack;
 	private boolean mTopStack = true;
@@ -36,7 +37,7 @@ public abstract class TEComponentStack extends TEComponent {
 		adjustStackPositions();
 	}
 	
-	public final void popStack(TEComponentStack stack) {
+	public void popStack(TEComponentStack stack) {
 		if (stack == mChildStack) {
 			stack.setParentStack(null);
 			mChildStack = null;
@@ -127,5 +128,13 @@ public abstract class TEComponentStack extends TEComponent {
 	
 	public PlayingCard getPlayingCard() {
 		return mCard;
+	}
+	
+	public final int getPickupCount() {
+		int pickupCount = openFreeCellCount + 1;
+		for (int i = 0;i < openTableCellCount;++i) {
+			pickupCount += i + 1 + openFreeCellCount;
+		}
+		return pickupCount;
 	}
 }
