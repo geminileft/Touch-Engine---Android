@@ -16,26 +16,31 @@ import dev.geminileft.TEGameEngine.TEEngine;
 import dev.geminileft.TEGameEngine.TEGameObject;
 
 public class SampleGame extends TEEngine {
-	//private int mWidth;
+	private int mWidth;
 	private int mHeight;
 	private final int START_X = 35;
 	
 	public SampleGame(Context context, int width, int height) {
 		super(context);
-		//mWidth = width;
+		mWidth = width;
 		mHeight = height;
 	}
 	
 	@Override
 	public void start() {
 		TEGameObject gameObject;
-
+		
 		SampleGameObjectFactory factory = new SampleGameObjectFactory();
 		
 		gameObject = factory.createBackground(new Point(240, 427));
 		addGameObject(gameObject);
+		
+		gameObject = factory.createHUDTimer(new Point(mWidth / 2, 50));
+		addGameObject(gameObject);
+		
 		int x = START_X;
 		int y = mHeight - 50;
+		
 		
 		for (int i = 0;i < 4;++i) {
 			gameObject = factory.createFreeCell(new Point(x, y));
@@ -111,67 +116,6 @@ public class SampleGame extends TEEngine {
 		        stacks[(i % 8)][i / 8] = deck[j];
 		        deck[j] = deck[--wLeft];
 		}
-/*
-    	stack[0][0] = new PlayingCard(FaceValue.Four, Suit.Club);
-    	stack[0][1] = new PlayingCard(FaceValue.Jack, Suit.Club);
-    	stack[0][2] = new PlayingCard(FaceValue.Ace, Suit.Diamond);
-    	stack[0][3] = new PlayingCard(FaceValue.Four, Suit.Diamond);
-    	stack[0][4] = new PlayingCard(FaceValue.Eight, Suit.Heart);
-    	stack[0][5] = new PlayingCard(FaceValue.Queen, Suit.Spade);
-    	stack[0][6] = new PlayingCard(FaceValue.Four, Suit.Heart);
-
-    	stack[1][0] = new PlayingCard(FaceValue.Nine, Suit.Spade);
-    	stack[1][1] = new PlayingCard(FaceValue.Three, Suit.Club);
-    	stack[1][2] = new PlayingCard(FaceValue.Jack, Suit.Diamond);
-    	stack[1][3] = new PlayingCard(FaceValue.Jack, Suit.Spade);
-    	stack[1][4] = new PlayingCard(FaceValue.King, Suit.Heart);
-    	stack[1][5] = new PlayingCard(FaceValue.Ace, Suit.Spade);
-    	stack[1][6] = new PlayingCard(FaceValue.Ten, Suit.Diamond);
-
-    	stack[2][0] = new PlayingCard(FaceValue.Four, Suit.Spade);
-    	stack[2][1] = new PlayingCard(FaceValue.Seven, Suit.Heart);
-    	stack[2][2] = new PlayingCard(FaceValue.King, Suit.Diamond);
-    	stack[2][3] = new PlayingCard(FaceValue.Five, Suit.Club);
-    	stack[2][4] = new PlayingCard(FaceValue.Six, Suit.Diamond);
-    	stack[2][5] = new PlayingCard(FaceValue.Nine, Suit.Diamond);
-    	stack[2][6] = new PlayingCard(FaceValue.Ten, Suit.Heart);
-
-    	stack[3][0] = new PlayingCard(FaceValue.Five, Suit.Spade);
-    	stack[3][1] = new PlayingCard(FaceValue.King, Suit.Spade);
-    	stack[3][2] = new PlayingCard(FaceValue.Ten, Suit.Club);
-    	stack[3][3] = new PlayingCard(FaceValue.Six, Suit.Club);
-    	stack[3][4] = new PlayingCard(FaceValue.Three, Suit.Heart);
-    	stack[3][5] = new PlayingCard(FaceValue.Six, Suit.Heart);
-    	stack[3][6] = new PlayingCard(FaceValue.Two, Suit.Club);
-    
-    	stack[4][0] = new PlayingCard(FaceValue.Three, Suit.Spade);
-    	stack[4][1] = new PlayingCard(FaceValue.Nine, Suit.Club);
-    	stack[4][2] = new PlayingCard(FaceValue.Five, Suit.Heart);
-    	stack[4][3] = new PlayingCard(FaceValue.Nine, Suit.Heart);
-    	stack[4][4] = new PlayingCard(FaceValue.Queen, Suit.Club);
-    	stack[4][5] = new PlayingCard(FaceValue.Seven, Suit.Diamond);
-
-    	stack[5][0] = new PlayingCard(FaceValue.Ten, Suit.Spade);
-    	stack[5][1] = new PlayingCard(FaceValue.Queen, Suit.Diamond);
-    	stack[5][2] = new PlayingCard(FaceValue.Five, Suit.Diamond);
-    	stack[5][3] = new PlayingCard(FaceValue.Seven, Suit.Spade);
-    	stack[5][4] = new PlayingCard(FaceValue.Jack, Suit.Heart);
-    	stack[5][5] = new PlayingCard(FaceValue.Ace, Suit.Heart);
-
-    	stack[6][0] = new PlayingCard(FaceValue.Eight, Suit.Spade);
-    	stack[6][1] = new PlayingCard(FaceValue.Three, Suit.Diamond);
-    	stack[6][2] = new PlayingCard(FaceValue.Eight, Suit.Club);
-    	stack[6][3] = new PlayingCard(FaceValue.Two, Suit.Spade);
-    	stack[6][4] = new PlayingCard(FaceValue.King, Suit.Club);
-    	stack[6][5] = new PlayingCard(FaceValue.Eight, Suit.Diamond);
-
-    	stack[7][0] = new PlayingCard(FaceValue.Queen, Suit.Heart);
-    	stack[7][1] = new PlayingCard(FaceValue.Six, Suit.Spade);
-    	stack[7][2] = new PlayingCard(FaceValue.Two, Suit.Heart);
-    	stack[7][3] = new PlayingCard(FaceValue.Seven, Suit.Club);
-    	stack[7][4] = new PlayingCard(FaceValue.Two, Suit.Diamond);
-    	stack[7][5] = new PlayingCard(FaceValue.Ace, Suit.Club);
-*/
     	addTableStack(START_X, factory, stacks);
     	TEComponentStack.openFreeCellCount = 4;
     	TEComponentStack.openTableCellCount = 0;

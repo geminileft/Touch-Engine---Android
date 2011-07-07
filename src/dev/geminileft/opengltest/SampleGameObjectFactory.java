@@ -5,6 +5,7 @@ import java.util.HashMap;
 import dev.geminileft.TEGameEngine.PlayingCard;
 import dev.geminileft.TEGameEngine.Point;
 import dev.geminileft.TEGameEngine.RenderImage;
+import dev.geminileft.TEGameEngine.RenderText;
 import dev.geminileft.TEGameEngine.Size;
 import dev.geminileft.TEGameEngine.StackAceCell;
 import dev.geminileft.TEGameEngine.StackFreeCell;
@@ -80,6 +81,14 @@ public final class SampleGameObjectFactory {
 		gameObject.addComponent(image);
 		gameObject.position = position;
 		gameObject.size = size;
+		return gameObject;
+	}
+
+	public TEGameObject createHUDTimer(Point position) {
+		TEGameObject gameObject = new TEGameObject();
+		RenderText text = new RenderText(R.drawable.numbers, null, null);
+		gameObject.addComponent(text);
+		gameObject.position = position;
 		return gameObject;
 	}
 

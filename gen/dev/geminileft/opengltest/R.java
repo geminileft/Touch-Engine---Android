@@ -53,20 +53,21 @@ public final class R {
         public static final int heart_three=0x7f020027;
         public static final int heart_two=0x7f020028;
         public static final int icon=0x7f020029;
-        public static final int spade_ace=0x7f02002a;
-        public static final int spade_eight=0x7f02002b;
-        public static final int spade_five=0x7f02002c;
-        public static final int spade_four=0x7f02002d;
-        public static final int spade_jack=0x7f02002e;
-        public static final int spade_king=0x7f02002f;
-        public static final int spade_nine=0x7f020030;
-        public static final int spade_queen=0x7f020031;
-        public static final int spade_seven=0x7f020032;
-        public static final int spade_six=0x7f020033;
-        public static final int spade_ten=0x7f020034;
-        public static final int spade_three=0x7f020035;
-        public static final int spade_two=0x7f020036;
-        public static final int table_background=0x7f020037;
+        public static final int numbers=0x7f02002a;
+        public static final int spade_ace=0x7f02002b;
+        public static final int spade_eight=0x7f02002c;
+        public static final int spade_five=0x7f02002d;
+        public static final int spade_four=0x7f02002e;
+        public static final int spade_jack=0x7f02002f;
+        public static final int spade_king=0x7f020030;
+        public static final int spade_nine=0x7f020031;
+        public static final int spade_queen=0x7f020032;
+        public static final int spade_seven=0x7f020033;
+        public static final int spade_six=0x7f020034;
+        public static final int spade_ten=0x7f020035;
+        public static final int spade_three=0x7f020036;
+        public static final int spade_two=0x7f020037;
+        public static final int table_background=0x7f020038;
     }
     public static final class layout {
         public static final int main=0x7f030000;
