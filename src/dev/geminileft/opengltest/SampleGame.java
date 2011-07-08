@@ -8,8 +8,13 @@ import dev.geminileft.TEGameEngine.PlayingCard;
 import dev.geminileft.TEGameEngine.PlayingCard.FaceValue;
 import dev.geminileft.TEGameEngine.PlayingCard.Suit;
 import dev.geminileft.TEGameEngine.Point;
+import dev.geminileft.TEGameEngine.RenderHUDMoves;
+import dev.geminileft.TEGameEngine.RenderImage;
+import dev.geminileft.TEGameEngine.Size;
 import dev.geminileft.TEGameEngine.StackCard;
 import dev.geminileft.TEGameEngine.StackTableCell;
+import dev.geminileft.TEGameEngine.TEComponent;
+import dev.geminileft.TEGameEngine.TEComponent.Event;
 import dev.geminileft.TEGameEngine.TEComponentStack;
 import dev.geminileft.TEGameEngine.TEComponentStack.StackType;
 import dev.geminileft.TEGameEngine.TEEngine;
@@ -19,6 +24,7 @@ public class SampleGame extends TEEngine {
 	private int mWidth;
 	private int mHeight;
 	private final int START_X = 35;
+	private final SampleGameObjectFactory mFactory = new SampleGameObjectFactory();
 	
 	public SampleGame(Context context, int width, int height) {
 		super(context);
@@ -29,27 +35,24 @@ public class SampleGame extends TEEngine {
 	@Override
 	public void start() {
 		TEGameObject gameObject;
+		TEComponent.EventListener listener;
 		
-		SampleGameObjectFactory factory = new SampleGameObjectFactory();
-		
-		gameObject = factory.createBackground(new Point(240, 427));
+		gameObject = mFactory.createBackground(new Point(240, 427));
 		addGameObject(gameObject);
-		
-		gameObject = factory.createHUDTimer(new Point(mWidth / 2, 50));
-		addGameObject(gameObject);
-		
+				
 		int x = START_X;
 		int y = mHeight - 50;
 		
+		listener = addHUDTimer();
 		
 		for (int i = 0;i < 4;++i) {
-			gameObject = factory.createFreeCell(new Point(x, y));
+			gameObject = mFactory.createFreeCell(new Point(x, y));
 	    	addGameObject(gameObject);
 	    	x += 55;
 		}
 		
 		for (int i = 0;i < 4;++i) {
-			gameObject = factory.createAceCellStack(new Point(x, y));
+			gameObject = mFactory.createAceCellStack(new Point(x, y));
 	    	addGameObject(gameObject);
 	    	x += 55;
 		}
@@ -116,12 +119,12 @@ public class SampleGame extends TEEngine {
 		        stacks[(i % 8)][i / 8] = deck[j];
 		        deck[j] = deck[--wLeft];
 		}
-    	addTableStack(START_X, factory, stacks);
+    	addTableStack(START_X, mFactory, stacks, listener);
     	TEComponentStack.openFreeCellCount = 4;
     	TEComponentStack.openTableCellCount = 0;
 	}
 	
-	public void addTableStack(int startX, SampleGameObjectFactory factory, PlayingCard[][] cards) {
+	private void addTableStack(int startX, SampleGameObjectFactory factory, PlayingCard[][] cards, TEComponent.EventListener listener) {
 		int x = startX;
 		int y = mHeight - 120;
     	for (int j = 0; j < cards.length;++j) {
@@ -139,10 +142,33 @@ public class SampleGame extends TEEngine {
 			    	gameObject.addComponent(cardStack);
 			    	stack.pushStack(cardStack);
 			    	stack = cardStack;
+			    	gameObject.addEventSubscription(Event.EVENT_ACCEPT_MOVE, listener);
 			    	addGameObject(gameObject);				
 				}
 			}
 	    	x += 55;
     	}
+	}
+	
+	private TEComponent.EventListener addHUDTimer() {
+		final int height = 50;
+		TEComponent.EventListener eventListener;
+		final int x = 100;
+		RenderImage image = new RenderImage(R.drawable.moves, null, new Size(118, 26));
+		TEGameObject gameObject = new TEGameObject();
+		gameObject.addComponent(image);
+		gameObject.position = new Point(x, height);
+		addGameObject(gameObject);
+		Size size = image.getSize();
+
+		gameObject = new TEGameObject();
+		RenderHUDMoves text = new RenderHUDMoves(R.drawable.numbers, null, null);
+		eventListener = text.getTouchAcceptListener();
+		gameObject.addComponent(text);
+		gameObject.position = new Point(x + size.width / 2 + 17, height);
+		//return gameObject;
+		//gameObject = mFactory.createHUDTimer(new Point(x + size.width / 2 + 17, height), eventListener);
+		addGameObject(gameObject);
+		return eventListener;
 	}
 }

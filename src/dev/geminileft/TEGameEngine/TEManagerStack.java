@@ -31,6 +31,7 @@ public class TEManagerStack extends TEManagerComponent {
 		    		if (dropStack == null) {
 		    			component.getParent().invokeEvent(Event.EVENT_REJECT_MOVE);
 		    		} else {
+		    			component.getParent().invokeEvent(Event.EVENT_ACCEPT_MOVE);
 			    		dropStack.pushStack(component);
 		    		}
 		    		component.resetEvaluate();

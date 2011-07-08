@@ -15,6 +15,7 @@ public abstract class TEComponent {
 		, EVENT_TOUCH_ACCEPT
 		, EVENT_TOUCH_ENDED
 		, EVENT_MOVE_TO_TOP
+		, EVENT_ACCEPT_MOVE
 		, EVENT_REJECT_MOVE
 	}
 	
