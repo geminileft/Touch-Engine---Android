@@ -40,7 +40,9 @@ public class TEGameRenderer implements GLSurfaceView.Renderer {
 	}
 
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
-		final boolean useOrtho = false;
+		width *= 2;
+		height *= 2;
+		final boolean useOrtho = true;
 		mGame.setScreenSize(width, height);
 		final float ratio = (float)width / height;
 		gl.glViewport(0, 0, width, height);

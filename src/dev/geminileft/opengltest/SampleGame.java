@@ -9,6 +9,7 @@ import dev.geminileft.TEGameEngine.PlayingCard.FaceValue;
 import dev.geminileft.TEGameEngine.PlayingCard.Suit;
 import dev.geminileft.TEGameEngine.Point;
 import dev.geminileft.TEGameEngine.RenderHUDMoves;
+import dev.geminileft.TEGameEngine.RenderHUDTimer;
 import dev.geminileft.TEGameEngine.RenderImage;
 import dev.geminileft.TEGameEngine.Size;
 import dev.geminileft.TEGameEngine.StackCard;
@@ -21,14 +22,14 @@ import dev.geminileft.TEGameEngine.TEEngine;
 import dev.geminileft.TEGameEngine.TEGameObject;
 
 public class SampleGame extends TEEngine {
-	private int mWidth;
+	//private int mWidth;
 	private int mHeight;
 	private final int START_X = 35;
 	private final SampleGameObjectFactory mFactory = new SampleGameObjectFactory();
 	
 	public SampleGame(Context context, int width, int height) {
 		super(context);
-		mWidth = width;
+		//mWidth = width;
 		mHeight = height;
 	}
 	
@@ -43,7 +44,8 @@ public class SampleGame extends TEEngine {
 		int x = START_X;
 		int y = mHeight - 50;
 		
-		listener = addHUDTimer();
+		listener = addHUDMoves();
+		addHUDTimer();
 		
 		for (int i = 0;i < 4;++i) {
 			gameObject = mFactory.createFreeCell(new Point(x, y));
@@ -150,7 +152,7 @@ public class SampleGame extends TEEngine {
     	}
 	}
 	
-	private TEComponent.EventListener addHUDTimer() {
+	private TEComponent.EventListener addHUDMoves() {
 		final int height = 50;
 		TEComponent.EventListener eventListener;
 		final int x = 100;
@@ -170,5 +172,21 @@ public class SampleGame extends TEEngine {
 		//gameObject = mFactory.createHUDTimer(new Point(x + size.width / 2 + 17, height), eventListener);
 		addGameObject(gameObject);
 		return eventListener;
+	}
+	
+	private void addHUDTimer() {
+		final int height = 50;
+		final int x = 275;
+		Size size = new Size(90, 26);
+		RenderImage image = new RenderImage(R.drawable.image_time, null, size);
+		TEGameObject gameObject = new TEGameObject();
+		gameObject.addComponent(image);
+		gameObject.position = new Point(x, height);
+		addGameObject(gameObject);
+		gameObject = new TEGameObject();
+		RenderHUDTimer text = new RenderHUDTimer(R.drawable.numbers, null, null);
+		gameObject.addComponent(text);
+		gameObject.position = new Point(x + size.width / 2 + 17, height);
+		addGameObject(gameObject);
 	}
 }

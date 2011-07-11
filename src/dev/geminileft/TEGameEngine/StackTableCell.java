@@ -24,14 +24,21 @@ public class StackTableCell extends TEComponentStack {
 		TEComponentStack childStack = getChildStack();
 		
 		if (childStack == null) {
-			results = true;
+			final int dropCount = getPickupCount(openFreeCellCount, openTableCellCount - 1);
+			childStack = stack;
+			int stackCount = 0;
+			while (childStack != null) {
+				++stackCount;
+				childStack = childStack.getChildStack();
+			}
+			results = stackCount <= dropCount;
 		} else {
 			while (childStack.getChildStack() != null) {
 				childStack = childStack.getChildStack();
 			}
 			PlayingCard card = childStack.getPlayingCard();
 			PlayingCard stackCard = stack.getPlayingCard();
-			results = card.canStack(stackCard);		
+			results = card.canStack(stackCard);	
 		}
 		return results;
 	}

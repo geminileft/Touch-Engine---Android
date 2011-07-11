@@ -130,10 +130,10 @@ public abstract class TEComponentStack extends TEComponent {
 		return mCard;
 	}
 	
-	public final int getPickupCount() {
-		int pickupCount = openFreeCellCount + 1;
-		for (int i = 0;i < openTableCellCount;++i) {
-			pickupCount += i + 1 + openFreeCellCount;
+	public final int getPickupCount(int freeCellCount, int tableCellCount) {
+		int pickupCount = freeCellCount + 1;
+		for (int i = 0;i < tableCellCount;++i) {
+			pickupCount += i + 1 + freeCellCount;
 		}
 		return pickupCount;
 	}

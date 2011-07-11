@@ -5,11 +5,10 @@ import java.util.HashMap;
 import dev.geminileft.TEGameEngine.PlayingCard;
 import dev.geminileft.TEGameEngine.Point;
 import dev.geminileft.TEGameEngine.RenderImage;
-import dev.geminileft.TEGameEngine.RenderHUDMoves;
 import dev.geminileft.TEGameEngine.Size;
+import dev.geminileft.TEGameEngine.SoundStart;
 import dev.geminileft.TEGameEngine.StackAceCell;
 import dev.geminileft.TEGameEngine.StackFreeCell;
-import dev.geminileft.TEGameEngine.TEComponent;
 import dev.geminileft.TEGameEngine.TEGameObject;
 import dev.geminileft.TEGameEngine.TouchDrag;
 
@@ -80,6 +79,7 @@ public final class SampleGameObjectFactory {
 		Size size = new Size(480, 854);
 		RenderImage image = new RenderImage(R.drawable.table_background, null, size);
 		gameObject.addComponent(image);
+		gameObject.addComponent(new SoundStart(R.raw.shuffle));
 		gameObject.position = position;
 		gameObject.size = size;
 		return gameObject;

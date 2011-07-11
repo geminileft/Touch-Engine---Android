@@ -26,7 +26,7 @@ public class StackCard extends TEComponentStack {
 					childStack = childStack.getChildStack();
 				}
 			}
-			if (isGoodStack && (cardCount <= getPickupCount())) {
+			if (isGoodStack && (cardCount <= getPickupCount(TEComponentStack.openFreeCellCount, TEComponentStack.openTableCellCount))) {
 				getParent().invokeEvent(Event.EVENT_TOUCH_ACCEPT);
 				mMoving = true;
 				TEGameObject parent = component.getParent();

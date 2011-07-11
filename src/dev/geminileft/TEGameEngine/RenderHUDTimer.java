@@ -6,15 +6,10 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public class RenderHUDMoves extends TEComponentRender {
-	private TEComponent.EventListener mTouchAcceptListener = new TEComponent.EventListener() {
-		
-		@Override
-		public void invoke() {
-			++mCount;
-		}
-	};
-	private int mCount;
+import android.os.SystemClock;
+
+public class RenderHUDTimer extends TEComponentRender {
+
 	private final int FLOAT_SIZE = 4;
 	private final int MAX_TEXT_SIZE = 18;
 	private final int MAX_DIGIT_COUNT = 4;
@@ -23,13 +18,16 @@ public class RenderHUDMoves extends TEComponentRender {
 	float mX;
 	float mY;
 	private TEUtilTexture mTexture;
-	private FloatBuffer mTextureBuffers[] = new FloatBuffer[10];
-	private FloatBuffer mVertexBuffers[] = new FloatBuffer[10];
-	public RenderHUDMoves(int resourceId) {
+	private FloatBuffer mTextureBuffers[] = new FloatBuffer[11];
+	private FloatBuffer mVertexBuffers[] = new FloatBuffer[11];
+	private long mElapsedTime;
+	private long mPreviousTime;
+	
+	public RenderHUDTimer(int resourceId) {
 		this(resourceId, null, null);
 	}
-
-	public RenderHUDMoves(int resourceId, Point position, Size size) {
+	
+	public RenderHUDTimer(int resourceId, Point position, Size size) {
 		super();
 		mTexture = new TEUtilTexture(resourceId, position, size);
 		if (size == null) {
@@ -66,7 +64,9 @@ public class RenderHUDMoves extends TEComponentRender {
 		x += width;
 		//width = 9;
 		mTextureBuffers[9] = createTextureBuffer(x, width, height);
-		
+		x += width;
+		width = 9;
+		mTextureBuffers[10] = createTextureBuffer(x, width, height);
 		FloatBuffer tempVertexBuffers[] = new FloatBuffer[4];
 
 		width = 9;
@@ -88,31 +88,43 @@ public class RenderHUDMoves extends TEComponentRender {
 		mVertexBuffers[7] = tempVertexBuffers[2];
 		mVertexBuffers[8] = tempVertexBuffers[2];
 		mVertexBuffers[9] = tempVertexBuffers[2];
+		mVertexBuffers[10] = tempVertexBuffers[0];
+		mPreviousTime = SystemClock.uptimeMillis();
 	}
 
 	public void draw(GL10 gl) {
-		int moveCountDigits[] = new int[MAX_DIGIT_COUNT];
-		
+		final int seconds_size = 2;
+		final int minute_size = 2;
+		int secondsDigits[] = new int[seconds_size + minute_size + 1];
 		int digits = 0;
 		int number;
 		final int radix = 10;
-		int count = mCount;
-		while ((count > 0) && (digits < MAX_DIGIT_COUNT)) {
-			moveCountDigits[digits] = count % radix;
-			count /= radix;
+		long seconds = (mElapsedTime / 1000) % 60;
+		while ((digits < seconds_size)) {
+			secondsDigits[digits] = (int)seconds % radix;
+			seconds /= radix;
 			++digits;
 		}
-		digits = (digits == 0) ? 1 : digits;
+		secondsDigits[digits] = 10;
+		++digits;
+		
+		int minutes = (int)mElapsedTime / 60000;
+		while ((minutes > 0) && (digits < seconds_size + minute_size + 1)) {
+			secondsDigits[digits] = (int)minutes % radix;
+			minutes /= radix;
+			++digits;
+		}
+		digits = (digits < 4) ? 4 : digits;
 		gl.glPushMatrix();
-		gl.glTranslatef(mX, mY, 0.0f);
+		gl.glTranslatef(mX + (MAX_TEXT_SIZE * (secondsDigits.length - 1)), mY, 0.0f);
 		gl.glEnable(GL10.GL_TEXTURE_2D);
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTexture.getName());
-		while (digits > 0) {
-			number = moveCountDigits[--digits];
+		for(int i = 0;i < digits;i++) {
+			number = secondsDigits[i];
 			gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, mTextureBuffers[number]);
 			gl.glVertexPointer(2, GL10.GL_FLOAT, 0, mVertexBuffers[number]);
 			gl.glDrawArrays(GL10.GL_TRIANGLE_FAN, 0, 4);
-			gl.glTranslatef(MAX_TEXT_SIZE, 0.0f, 0.0f);
+			gl.glTranslatef(-MAX_TEXT_SIZE, 0.0f, 0.0f);
 		}
 		gl.glDisable(GL10.GL_TEXTURE_2D);
 		gl.glPopMatrix();
@@ -123,6 +135,10 @@ public class RenderHUDMoves extends TEComponentRender {
 		Point point = getParent().position;
 		mX = point.x;
 		mY = point.y;
+		final long mTime = SystemClock.uptimeMillis();
+		mElapsedTime += mTime - mPreviousTime;
+		mPreviousTime = mTime;
+		
 	}
 	
 	public Size getSize() {
@@ -173,9 +189,5 @@ public class RenderHUDMoves extends TEComponentRender {
 		buffer.put(vertices);
 		buffer.position(0);
 		return buffer;
-	}
-	
-	public TEComponent.EventListener getTouchAcceptListener() {
-		return mTouchAcceptListener;
 	}
 }
