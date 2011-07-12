@@ -7,13 +7,11 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.os.SystemClock;
-import android.util.Log;
 
 public class RenderHUDTimer extends TEComponentRender {
 
 	private final int FLOAT_SIZE = 4;
 	private final int MAX_TEXT_SIZE = 18;
-	private final int MAX_DIGIT_COUNT = 4;
 	private int mWidth;
 	private int mHeight;
 	float mX;

@@ -1,8 +1,5 @@
 package dev.geminileft.TEGameEngine;
 
-import android.os.SystemClock;
-import android.util.Log;
-
 public class TouchDrag extends TEComponentTouch {
 	private TEInputTouch mTouch;
 	private Point mTouchOffset;
