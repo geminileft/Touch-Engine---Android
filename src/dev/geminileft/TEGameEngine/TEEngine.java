@@ -1,6 +1,5 @@
 package dev.geminileft.TEGameEngine;
 
-import java.util.Iterator;
 import java.util.Vector;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -53,11 +52,12 @@ public abstract class TEEngine {
 		TEManagerTouch touchManager = TEManagerTouch.sharedManager();
 		TEManagerSound soundManager = TEManagerSound.sharedManager();
 		TEManagerStack stackManager = TEManagerStack.sharedManager();
-		Vector<TEComponent> components = gameObject.getComponents();
-		Iterator<TEComponent> iterator = components.iterator();
+		TEComponentContainer components = gameObject.getComponents();
+		final int size = components.size();
+		//Iterator<TEComponent> iterator = components.iterator();
 		TEComponent component;
-		while (iterator.hasNext()) {
-			component = iterator.next();
+		for(int i = 0; i < size; ++i) {
+			component = components.get(i);
 			if (component instanceof TEComponentRender) {
 				renderManager.addComponent(component);
 			} else if (component instanceof TEComponentTouch) {

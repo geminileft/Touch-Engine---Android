@@ -3,7 +3,6 @@ package dev.geminileft.TEGameEngine;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Vector;
 
 import android.util.Log;
 
@@ -24,8 +23,7 @@ public class TEManagerTouch extends TEManagerComponent {
 
 	@Override
 	public void update() {
-		Vector<TEComponent> components = getComponents();
-		Iterator<TEComponent> itr;
+		TEComponentContainer components = getComponents();
 		TEComponentTouch component;
 		TEManagerInput inputManager = TEManagerInput.sharedManager();
 		HashMap<Integer, TEInputTouch> inputState = inputManager.getInputState();
@@ -35,9 +33,9 @@ public class TEManagerTouch extends TEManagerComponent {
 		while (iterator.hasNext()) {
 			touch = iterator.next();
 			if (touch.began()) {
-				itr = components.iterator();
-				 while(itr.hasNext()) {
-					 component = (TEComponentTouch)itr.next();
+				final int size = components.size();
+				 for(int i = 0;i < size;++i) {
+					 component = (TEComponentTouch)components.get(i);
 					 if (component.containsPoint(touch.getStartPoint())) {
 						if (component.addTouch(touch) && !touch.ended()) {
 							mTouchComponents.put(touch.getPointerId(), component);
@@ -53,15 +51,15 @@ public class TEManagerTouch extends TEManagerComponent {
 				}
 			}
 		}
-		itr = components.iterator();
-	    while(itr.hasNext()) {
-	    	component = (TEComponentTouch)itr.next();
+		final int size = components.size();
+	    for(int i = 0;i < size;++i) {
+	    	component = (TEComponentTouch)components.get(i);
 	    	component.update();
 	    }
 	}
 
 	public final void moveComponentToTop(TEComponent component) {
-		Vector<TEComponent> components = getComponents();
+		TEComponentContainer components = getComponents();
 		if (components.remove(component)) {
 			addComponent(component, 0);	
 		} else {

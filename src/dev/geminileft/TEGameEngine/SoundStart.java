@@ -16,8 +16,8 @@ public class SoundStart extends TEComponentSound {
 		}
 	}
 	
+	@Override
 	public void update() {
-		super.update();
 		if (!hasPlayed) {
 			SoundPool soundPool = TEManagerAudio.getSoundPool();
 			soundPool.play(mSoundId, 1.0f, 1.0f, 1, 0, 1.0f);

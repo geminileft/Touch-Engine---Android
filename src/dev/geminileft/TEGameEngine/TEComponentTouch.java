@@ -6,7 +6,6 @@ public abstract class TEComponentTouch extends TEComponent {
 
 	public boolean containsPoint(Point point) {
 		boolean returnValue = false;
-		TEGameObject parent = getParent();
 		Point position = parent.position;
 		Size size  = parent.size;
 		float left = (float)position.x - ((float)size.width / 2);

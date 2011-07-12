@@ -14,9 +14,9 @@ import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
 
 public class TEUtilTexture {
-	private int mName;
-	private FloatBuffer mTextureBuffer;
-	private FloatBuffer mVertexBuffer;
+	public int textureName;
+	public FloatBuffer textureBuffer;
+	public FloatBuffer vertexBuffer;
 	private int mBitmapWidth;
 	private int mBitmapHeight;
 	
@@ -27,9 +27,9 @@ public class TEUtilTexture {
 
 		int mTextures[] = new int[1];
 		gl.glGenTextures(1, mTextures, 0);
-		mName = mTextures[0];
+		textureName = mTextures[0];
 		InputStream is = context.getResources().openRawResource(resourceId);
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, mName);
+		gl.glBindTexture(GL10.GL_TEXTURE_2D, textureName);
         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_CLAMP_TO_EDGE);
@@ -99,9 +99,9 @@ public class TEUtilTexture {
 		coordinates[7] = 0.0f;//bottom
 		ByteBuffer byteBuf = ByteBuffer.allocateDirect(arraySize * floatSize);
 		byteBuf.order(ByteOrder.nativeOrder());
-		mTextureBuffer = byteBuf.asFloatBuffer();
-		mTextureBuffer.put(coordinates);
-		mTextureBuffer.position(0);
+		textureBuffer = byteBuf.asFloatBuffer();
+		textureBuffer.put(coordinates);
+		textureBuffer.position(0);
 
 		final float leftX = -(float)width / 2;
 		final float rightX = leftX + width;
@@ -119,21 +119,9 @@ public class TEUtilTexture {
 
 		byteBuf = ByteBuffer.allocateDirect(arraySize * floatSize);
 		byteBuf.order(ByteOrder.nativeOrder());
-		mVertexBuffer = byteBuf.asFloatBuffer();
-		mVertexBuffer.put(vertices);
-		mVertexBuffer.position(0);
-	}
-	
-	public final int getName() {
-		return mName;
-	}
-	
-	public final FloatBuffer getTextureBuffer() {
-		return mTextureBuffer;
-	}
-	
-	public final FloatBuffer getVertexBuffer() {
-		return mVertexBuffer;
+		vertexBuffer = byteBuf.asFloatBuffer();
+		vertexBuffer.put(vertices);
+		vertexBuffer.position(0);
 	}
 	
 	public final Size getBitmapSize() {

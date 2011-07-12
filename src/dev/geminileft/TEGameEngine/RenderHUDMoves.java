@@ -105,8 +105,8 @@ public class RenderHUDMoves extends TEComponentRender {
 		digits = (digits == 0) ? 1 : digits;
 		gl.glPushMatrix();
 		gl.glTranslatef(mX, mY, 0.0f);
-		gl.glEnable(GL10.GL_TEXTURE_2D);
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTexture.getName());
+		//gl.glEnable(GL10.GL_TEXTURE_2D);
+		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTexture.textureName);
 		while (digits > 0) {
 			number = moveCountDigits[--digits];
 			gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, mTextureBuffers[number]);
@@ -114,13 +114,13 @@ public class RenderHUDMoves extends TEComponentRender {
 			gl.glDrawArrays(GL10.GL_TRIANGLE_FAN, 0, 4);
 			gl.glTranslatef(MAX_TEXT_SIZE, 0.0f, 0.0f);
 		}
-		gl.glDisable(GL10.GL_TEXTURE_2D);
+		//gl.glDisable(GL10.GL_TEXTURE_2D);
 		gl.glPopMatrix();
 	}
 	
+	@Override
 	public void update() {
-		super.update();
-		Point point = getParent().position;
+		Point point = parent.position;
 		mX = point.x;
 		mY = point.y;
 	}

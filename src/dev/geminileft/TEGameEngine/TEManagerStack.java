@@ -1,8 +1,5 @@
 package dev.geminileft.TEGameEngine;
 
-import java.util.Iterator;
-import java.util.Vector;
-
 import dev.geminileft.TEGameEngine.TEComponent.Event;
 
 public class TEManagerStack extends TEManagerComponent {
@@ -20,18 +17,18 @@ public class TEManagerStack extends TEManagerComponent {
 
 	@Override
 	public void update() {
-		Vector<TEComponent> components = getComponents();
+		TEComponentContainer components = getComponents();
 		if (!components.isEmpty()) {
-			Iterator<TEComponent> itr = components.iterator();
-		    while(itr.hasNext()) {
-		    	TEComponentStack component = (TEComponentStack)itr.next();
+			final int size = components.size();
+		    for(int i = 0;i < size;++i) {
+		    	TEComponentStack component = (TEComponentStack)components.get(i);
 		    	component.update();
-		    	if (component.isEvaluateReady()) {
+		    	if (component.isEvaluateReady) {
 		    		TEComponentStack dropStack = getDropStack(component);
 		    		if (dropStack == null) {
-		    			component.getParent().invokeEvent(Event.EVENT_REJECT_MOVE);
+		    			component.parent.invokeEvent(Event.EVENT_REJECT_MOVE);
 		    		} else {
-		    			component.getParent().invokeEvent(Event.EVENT_ACCEPT_MOVE);
+		    			component.parent.invokeEvent(Event.EVENT_ACCEPT_MOVE);
 			    		dropStack.pushStack(component);
 		    		}
 		    		component.resetEvaluate();
@@ -42,11 +39,11 @@ public class TEManagerStack extends TEManagerComponent {
 	
 	private TEComponentStack getDropStack(TEComponentStack component) {
 		TEComponentStack returnStack = null;
-		Vector<TEComponent> components = getComponents();
+		TEComponentContainer components = getComponents();
 		if (!components.isEmpty()) {
-			Iterator<TEComponent> itr = components.iterator();
-		    while(itr.hasNext()) {
-		    	TEComponentStack stack = (TEComponentStack)itr.next();
+			final int size = components.size();
+		    for(int i = 0;i < size;++i) {
+		    	TEComponentStack stack = (TEComponentStack)components.get(i);
 		    	if ((stack.isTopStack()) && component.doesOverlap(stack) && stack.getRootStack().doesAccept(component)) {
 		    		returnStack = stack;
 		    		break;

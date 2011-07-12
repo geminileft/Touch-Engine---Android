@@ -27,9 +27,9 @@ public class StackCard extends TEComponentStack {
 				}
 			}
 			if (isGoodStack && (cardCount <= getPickupCount(TEComponentStack.openFreeCellCount, TEComponentStack.openTableCellCount))) {
-				getParent().invokeEvent(Event.EVENT_TOUCH_ACCEPT);
+				parent.invokeEvent(Event.EVENT_TOUCH_ACCEPT);
 				mMoving = true;
-				TEGameObject parent = component.getParent();
+				TEGameObject parent = component.parent;
 				mPreviousPosition = new Point(parent.position.x, parent.position.y);
 				mPreviousStack = component.getParentStack();
 				if (mPreviousStack != null) {
@@ -38,11 +38,11 @@ public class StackCard extends TEComponentStack {
 				parent.invokeEvent(Event.EVENT_MOVE_TO_TOP);
 				childStack = component.getChildStack();
 				while (childStack != null) {
-					childStack.getParent().invokeEvent(Event.EVENT_MOVE_TO_TOP);
+					childStack.parent.invokeEvent(Event.EVENT_MOVE_TO_TOP);
 					childStack = childStack.getChildStack();
 				}
 			} else {
-				getParent().invokeEvent(Event.EVENT_TOUCH_REJECT);
+				parent.invokeEvent(Event.EVENT_TOUCH_REJECT);
 			}
 		}
 	};
@@ -64,7 +64,7 @@ public class StackCard extends TEComponentStack {
 			if (mPreviousStack != null) {
 				mPreviousStack.pushStack(component);
 			} else {
-				component.getParent().position = new Point(mPreviousPosition.x, mPreviousPosition.y);
+				component.parent.position = new Point(mPreviousPosition.x, mPreviousPosition.y);
 				adjustStackPositions();
 			}
 		}
@@ -80,7 +80,6 @@ public class StackCard extends TEComponentStack {
 	
 	@Override
 	public void update() {
-		super.update();
 		if (mMoving) {
 			adjustStackPositions();			
 		}

@@ -1,8 +1,6 @@
 package dev.geminileft.TEGameEngine;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Vector;
 
 public abstract class TEComponent {
 	public interface EventListener {
@@ -19,32 +17,19 @@ public abstract class TEComponent {
 		, EVENT_REJECT_MOVE
 	}
 	
-	private TEGameObject mParent;
+	public TEGameObject parent;
 	private TEManagerComponent mManager;
 	
 	private HashMap<TEComponent.Event, EventListener> mEventSubscriptions = new HashMap<TEComponent.Event, EventListener>();
-	private Vector<String> mEventNotifications = new Vector<String>();
 
-	public void update() {
-		Iterator<String> iterator = mEventNotifications.iterator();
-		while (iterator.hasNext()) {
-			String event = iterator.next();
-			EventListener listener = mEventSubscriptions.get(event);
-			listener.invoke();
-		}
-		mEventNotifications.clear();
-	}
+	public abstract void update();
 	
-	public final void setParent(TEGameObject parent) {
-		mParent = parent;
+	public final void setParent(TEGameObject parentGameObject) {
+		parent = parentGameObject;
 	}
 	
 	public final void setManager(TEManagerComponent manager) {
 		mManager = manager;
-	}
-	
-	public final TEGameObject getParent() {
-		return mParent;
 	}
 	
 	public final TEManagerComponent getManager() {
@@ -57,9 +42,5 @@ public abstract class TEComponent {
 	
 	public final HashMap<TEComponent.Event, EventListener> getEventSubscriptions() {
 		return mEventSubscriptions;
-	}
-	
-	public final void eventNotification(String event) {
-		mEventNotifications.add(event);
 	}
 }

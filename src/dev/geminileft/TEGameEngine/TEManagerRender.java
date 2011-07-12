@@ -1,10 +1,6 @@
 package dev.geminileft.TEGameEngine;
 
-import java.util.Iterator;
-import java.util.Vector;
-
 import javax.microedition.khronos.opengles.GL10;
-
 import android.util.Log;
 
 public class TEManagerRender extends TEManagerComponent {
@@ -30,11 +26,10 @@ public class TEManagerRender extends TEManagerComponent {
 	
 	public void update() {
 		GL10 gl = TEManagerGraphics.getGL();
-		Vector<TEComponent> components = getComponents();
-		Iterator<TEComponent> itr = components.iterator();
-		TEComponentRender component;
-		    while(itr.hasNext()) {
-		    	component = (TEComponentRender)itr.next();
+		TEComponentContainer components = getComponents();
+		final int size = components.size();
+		for(int i = 0; i < size; ++i) {
+				TEComponentRender component = (TEComponentRender)components.get(i);
 		    	component.update();
 		    	component.draw(gl);
 		    }
@@ -45,7 +40,7 @@ public class TEManagerRender extends TEManagerComponent {
 	}
 
 	public final void moveComponentToTop(TEComponent component) {
-		Vector<TEComponent> components = getComponents();
+		TEComponentContainer components = getComponents();
 		if (components.remove(component)) {
 			int size = components.size();
 			addComponent(component, size);			

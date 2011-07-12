@@ -35,9 +35,9 @@ public class TouchDrag extends TEComponentTouch {
 		if (mTouch == null) {
 			added = true;
 			mTouch = touch.copy();
-			Point pt = getParent().position;
+			Point pt = parent.position;
 			mTouchOffset = new Point(pt.x - touch.getStartPoint().x, pt.y - touch.getStartPoint().y);
-        	getParent().invokeEvent(TEComponent.Event.EVENT_TOUCH_STARTED);
+        	parent.invokeEvent(TEComponent.Event.EVENT_TOUCH_STARTED);
 			this.getManager().moveComponentToTop(this);
 		}
 		return added;
@@ -59,11 +59,10 @@ public class TouchDrag extends TEComponentTouch {
 	        float x = mTouch.getEndPoint().x + mTouchOffset.x;
 	        float y = mTouch.getEndPoint().y + mTouchOffset.y;
 	        if (mTouch.ended()) {
-	        	getParent().invokeEvent(TEComponent.Event.EVENT_TOUCH_ENDED);
+	        	parent.invokeEvent(TEComponent.Event.EVENT_TOUCH_ENDED);
 	            mTouch = null;
 	            mTouchValid = false;
 	        }
-	        TEGameObject parent = getParent();
 	        parent.position = new Point(x, y);
 	    }
 	}

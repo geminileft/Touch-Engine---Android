@@ -116,8 +116,8 @@ public class RenderHUDTimer extends TEComponentRender {
 		digits = (digits < 4) ? 4 : digits;
 		gl.glPushMatrix();
 		gl.glTranslatef(mX + (MAX_TEXT_SIZE * (secondsDigits.length - 1)), mY, 0.0f);
-		gl.glEnable(GL10.GL_TEXTURE_2D);
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTexture.getName());
+		//gl.glEnable(GL10.GL_TEXTURE_2D);
+		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTexture.textureName);
 		for(int i = 0;i < digits;i++) {
 			number = secondsDigits[i];
 			gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, mTextureBuffers[number]);
@@ -125,13 +125,13 @@ public class RenderHUDTimer extends TEComponentRender {
 			gl.glDrawArrays(GL10.GL_TRIANGLE_FAN, 0, 4);
 			gl.glTranslatef(-MAX_TEXT_SIZE, 0.0f, 0.0f);
 		}
-		gl.glDisable(GL10.GL_TEXTURE_2D);
+		//gl.glDisable(GL10.GL_TEXTURE_2D);
 		gl.glPopMatrix();
 	}
 	
+	@Override
 	public void update() {
-		super.update();
-		Point point = getParent().position;
+		Point point = parent.position;
 		mX = point.x;
 		mY = point.y;
 		final long mCurrentTime = SystemClock.uptimeMillis();

@@ -27,4 +27,7 @@ public class StackFreeCell extends TEComponentStack {
 		super.popStack(stack);
 		++TEComponentStack.openFreeCellCount;
 	}
+	
+	@Override
+	public void update() {}
 }

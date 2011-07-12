@@ -1,20 +1,17 @@
 package dev.geminileft.TEGameEngine;
 
-import java.util.Iterator;
-import java.util.Vector;
-
 public abstract class TEManagerComponent extends TEManager {
-	private Vector<TEComponent> mComponents;
+	private TEComponentContainer mComponents;
 	
 	public TEManagerComponent() {
-		mComponents = new Vector<TEComponent>();
+		mComponents = new TEComponentContainer();
 	}
 
 	public void update() {
-		Vector<TEComponent> components = getComponents();
-		Iterator<TEComponent> itr = components.iterator();
-	    while(itr.hasNext()) {
-	    	TEComponent component = itr.next();
+		TEComponentContainer components = getComponents();
+		final int size = components.size();
+		for(int i = 0; i < size; ++i) {
+			TEComponent component = components.get(i);
 	    	component.update();
 	    }
 	}
@@ -32,7 +29,7 @@ public abstract class TEManagerComponent extends TEManager {
 		component.setManager(this);
 	}
 	
-	public final Vector<TEComponent> getComponents() {
+	public final TEComponentContainer getComponents() {
 		return mComponents;
 	}
 

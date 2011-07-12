@@ -54,4 +54,7 @@ public class StackTableCell extends TEComponentStack {
 		super.popStack(stack);
 		++TEComponentStack.openTableCellCount;
 	}
+
+	@Override
+	public void update() {}
 }

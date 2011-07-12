@@ -35,20 +35,19 @@ public class RenderImage extends TEComponentRender {
 	public void draw(GL10 gl) {
 		gl.glPushMatrix();
 		gl.glTranslatef(mX, mY, 0.0f);
-		gl.glEnable(GL10.GL_TEXTURE_2D);
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTexture.getName());
-		gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, mTexture.getTextureBuffer());
-		gl.glVertexPointer(2, GL10.GL_FLOAT, 0, mTexture.getVertexBuffer());
+		//gl.glEnable(GL10.GL_TEXTURE_2D);
+		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTexture.textureName);
+		gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, mTexture.textureBuffer);
+		gl.glVertexPointer(2, GL10.GL_FLOAT, 0, mTexture.vertexBuffer);
 		gl.glDrawArrays(GL10.GL_TRIANGLE_FAN, 0, 4);			
-		gl.glDisable(GL10.GL_TEXTURE_2D);
+		//gl.glDisable(GL10.GL_TEXTURE_2D);
 		gl.glPopMatrix();
 	}
 	
+	@Override
 	public void update() {
-		super.update();
-		Point point = getParent().position;
-		mX = point.x;
-		mY = point.y;
+		mX = parent.position.x;
+		mY = parent.position.y;
 	}
 	
 	public Size getSize() {

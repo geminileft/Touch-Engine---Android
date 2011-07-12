@@ -14,13 +14,13 @@ public abstract class TEComponentStack extends TEComponent {
 	private TEComponentStack mChildStack;
 	private TEComponentStack mParentStack;
 	private boolean mTopStack = true;
-	private boolean mEvaluateReady;
+	public boolean isEvaluateReady;
 	private StackType mStackType;
 	private PlayingCard mCard;
 	
 	public abstract int getStackOffset(boolean isFirst);
 	public abstract boolean doesAccept(TEComponentStack stack);
-
+	
 	public TEComponentStack(StackType stackType) {
 		super();
 		mStackType = stackType;
@@ -56,9 +56,8 @@ public abstract class TEComponentStack extends TEComponent {
 	public final boolean doesOverlap(TEComponentStack stack) {
 		boolean returnValue = false;
 		if (!isParentOf(stack)) {
-			TEGameObject parent = getParent();
 			TEUtilRect parentRect = new TEUtilRect(parent.position, parent.size);
-			TEGameObject stackParent = stack.getParent();
+			TEGameObject stackParent = stack.parent;
 			TEUtilRect stackRect = new TEUtilRect(stackParent.position, stackParent.size);
 			returnValue = parentRect.overlaps(stackRect);
 		}
@@ -69,20 +68,16 @@ public abstract class TEComponentStack extends TEComponent {
 		return mTopStack;
 	}
 	
-	public final boolean isEvaluateReady() {
-		return mEvaluateReady;
-	}
-		
 	public final void adjustStackPositions() {
 		TEComponentStack stack = getRootStack();
 		int offset = stack.getStackOffset(true);
 		final int newOffset = stack.getStackOffset(false);
-		TEGameObject rootParent = stack.getParent();
+		TEGameObject rootParent = stack.parent;
 		Point position = new Point(rootParent.position.x, rootParent.position.y);
 		while (stack.getChildStack() != null) {
 			position.y -= offset;
 			stack = stack.getChildStack();
-			stack.getParent().position = new Point(position.x, position.y);
+			stack.parent.position = new Point(position.x, position.y);
 			offset = newOffset;
 		}
 	}
@@ -105,11 +100,11 @@ public abstract class TEComponentStack extends TEComponent {
 	}
 	
 	public final void evaluate() {
-		mEvaluateReady = true;
+		isEvaluateReady = true;
 	}
 	
 	public final void resetEvaluate() {
-		mEvaluateReady = false;
+		isEvaluateReady = false;
 	}
 	
 	private final boolean isParentOf(TEComponentStack stack) {
