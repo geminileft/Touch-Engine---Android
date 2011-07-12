@@ -21,6 +21,7 @@ public class RenderHUDTimer extends TEComponentRender {
 	private FloatBuffer mVertexBuffers[] = new FloatBuffer[11];
 	private long mElapsedTime;
 	private long mPreviousTime;
+	private GL10 mGL;
 	
 	public RenderHUDTimer(int resourceId) {
 		this(resourceId, null, null);
@@ -89,9 +90,10 @@ public class RenderHUDTimer extends TEComponentRender {
 		mVertexBuffers[9] = tempVertexBuffers[2];
 		mVertexBuffers[10] = tempVertexBuffers[0];
 		mPreviousTime = SystemClock.uptimeMillis();
+		mGL = TEManagerGraphics.getGL();
 	}
 
-	public void draw(GL10 gl) {
+	public void draw() {
 		final int seconds_size = 2;
 		final int minute_size = 2;
 		int secondsDigits[] = new int[seconds_size + minute_size + 1];
@@ -114,19 +116,19 @@ public class RenderHUDTimer extends TEComponentRender {
 			++digits;
 		}
 		digits = (digits < 4) ? 4 : digits;
-		gl.glPushMatrix();
-		gl.glTranslatef(mX + (MAX_TEXT_SIZE * (secondsDigits.length - 1)), mY, 0.0f);
+		mGL.glPushMatrix();
+		mGL.glTranslatef(mX + (MAX_TEXT_SIZE * (secondsDigits.length - 1)), mY, 0.0f);
 		//gl.glEnable(GL10.GL_TEXTURE_2D);
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTexture.textureName);
+		mGL.glBindTexture(GL10.GL_TEXTURE_2D, mTexture.textureName);
 		for(int i = 0;i < digits;i++) {
 			number = secondsDigits[i];
-			gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, mTextureBuffers[number]);
-			gl.glVertexPointer(2, GL10.GL_FLOAT, 0, mVertexBuffers[number]);
-			gl.glDrawArrays(GL10.GL_TRIANGLE_FAN, 0, 4);
-			gl.glTranslatef(-MAX_TEXT_SIZE, 0.0f, 0.0f);
+			mGL.glTexCoordPointer(2, GL10.GL_FLOAT, 0, mTextureBuffers[number]);
+			mGL.glVertexPointer(2, GL10.GL_FLOAT, 0, mVertexBuffers[number]);
+			mGL.glDrawArrays(GL10.GL_TRIANGLE_FAN, 0, 4);
+			mGL.glTranslatef(-MAX_TEXT_SIZE, 0.0f, 0.0f);
 		}
 		//gl.glDisable(GL10.GL_TEXTURE_2D);
-		gl.glPopMatrix();
+		mGL.glPopMatrix();
 	}
 	
 	@Override

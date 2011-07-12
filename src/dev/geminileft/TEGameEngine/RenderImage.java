@@ -8,6 +8,7 @@ public class RenderImage extends TEComponentRender {
 	float mX = 0;
 	float mY = 0;
 	private TEUtilTexture mTexture;
+	private GL10 mGL;
 	
 	private TEComponent.EventListener mMoveToTopListener = new TEComponent.EventListener() {
 		
@@ -30,25 +31,23 @@ public class RenderImage extends TEComponentRender {
 		}
 		mWidth = size.width;
 		mHeight = size.height;
+		mGL = TEManagerGraphics.getGL();
 	}
 
-	public void draw(GL10 gl) {
-		gl.glPushMatrix();
-		gl.glTranslatef(mX, mY, 0.0f);
+	public void draw() {
+		mGL.glPushMatrix();
+		mGL.glTranslatef(parent.position.x, parent.position.y, 0.0f);
 		//gl.glEnable(GL10.GL_TEXTURE_2D);
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTexture.textureName);
-		gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, mTexture.textureBuffer);
-		gl.glVertexPointer(2, GL10.GL_FLOAT, 0, mTexture.vertexBuffer);
-		gl.glDrawArrays(GL10.GL_TRIANGLE_FAN, 0, 4);			
+		mGL.glBindTexture(GL10.GL_TEXTURE_2D, mTexture.textureName);
+		mGL.glTexCoordPointer(2, GL10.GL_FLOAT, 0, mTexture.textureBuffer);
+		mGL.glVertexPointer(2, GL10.GL_FLOAT, 0, mTexture.vertexBuffer);
+		mGL.glDrawArrays(GL10.GL_TRIANGLE_FAN, 0, 4);			
 		//gl.glDisable(GL10.GL_TEXTURE_2D);
-		gl.glPopMatrix();
+		mGL.glPopMatrix();
 	}
 	
 	@Override
-	public void update() {
-		mX = parent.position.x;
-		mY = parent.position.y;
-	}
+	public void update() {}
 	
 	public Size getSize() {
 		return new Size(mWidth, mHeight);
