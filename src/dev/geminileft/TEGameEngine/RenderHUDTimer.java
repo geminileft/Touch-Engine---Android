@@ -7,6 +7,7 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.os.SystemClock;
+import android.util.Log;
 
 public class RenderHUDTimer extends TEComponentRender {
 
@@ -135,10 +136,12 @@ public class RenderHUDTimer extends TEComponentRender {
 		Point point = getParent().position;
 		mX = point.x;
 		mY = point.y;
-		final long mTime = SystemClock.uptimeMillis();
-		mElapsedTime += mTime - mPreviousTime;
-		mPreviousTime = mTime;
+		final long mCurrentTime = SystemClock.uptimeMillis();
 		
+		final long dt = mCurrentTime - mPreviousTime;
+		mElapsedTime += dt;
+		//Log.v("RenderHUDTimer.update", Long.valueOf(dt).toString());
+		mPreviousTime = mCurrentTime;
 	}
 	
 	public Size getSize() {

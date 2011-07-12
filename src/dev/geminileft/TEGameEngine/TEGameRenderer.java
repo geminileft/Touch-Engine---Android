@@ -4,9 +4,12 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.opengl.GLSurfaceView;
+import android.os.SystemClock;
+import android.util.Log;
 
 public class TEGameRenderer implements GLSurfaceView.Renderer {
 	private TEEngine mGame;
+	private long mPreviousTime;
 
 	public TEGameRenderer(TEEngine game) {
 		mGame = game;
@@ -32,17 +35,21 @@ public class TEGameRenderer implements GLSurfaceView.Renderer {
 		gl.glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
 		//gl.glClearColor(0.05f, 0.5f, 1.0f, 1.0f);
         mGame.start();
+        mPreviousTime = SystemClock.uptimeMillis();
 	}
 
 	public void onDrawFrame(GL10 gl) {
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		mGame.run();
+		final long currentTime = SystemClock.uptimeMillis();
+		final long dt = currentTime - mPreviousTime;
+		Log.v("TEGameRenderer.onDrawFram", Long.valueOf(dt).toString());
+		mPreviousTime = currentTime;
 	}
 
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
-		width *= 2;
-		height *= 2;
-		final boolean useOrtho = true;
+		final boolean useOrtho = false;
+		final int zDepth = height / 2;
 		mGame.setScreenSize(width, height);
 		final float ratio = (float)width / height;
 		gl.glViewport(0, 0, width, height);
@@ -50,12 +57,12 @@ public class TEGameRenderer implements GLSurfaceView.Renderer {
 		if (useOrtho) {
 			gl.glOrthof(0.0f, width, 0.0f, height, 0.0f, 1.0f);
 		} else {
-			gl.glFrustumf(-ratio, ratio, -1, 1, 1, height / 2);
+			gl.glFrustumf(-ratio, ratio, -1, 1, 1, zDepth);
 		}
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
 		gl.glLoadIdentity();
 		if (!useOrtho) {
-			gl.glTranslatef(-width / 2, -height / 2, -height / 2);				
+			gl.glTranslatef(-width / 2, -height / 2, -zDepth);				
 		}
 	}
 }
