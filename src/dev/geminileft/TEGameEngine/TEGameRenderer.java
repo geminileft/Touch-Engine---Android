@@ -45,12 +45,12 @@ public class TEGameRenderer implements GLSurfaceView.Renderer {
 		mGame.run();
 		final long currentTime = SystemClock.uptimeMillis();
 		final long dt = currentTime - mPreviousTime;
-		Log.v("TEGameRenderer.onDrawFram", Long.valueOf(dt).toString());
+		//Log.v("TEGameRenderer.onDrawFrame", Long.valueOf(dt).toString());
 		mPreviousTime = currentTime;
 	}
 
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
-		final boolean useOrtho = false;
+		final boolean useOrtho = true;
 		final int zDepth = height / 2;
 		mGame.setScreenSize(width, height);
 		final float ratio = (float)width / height;

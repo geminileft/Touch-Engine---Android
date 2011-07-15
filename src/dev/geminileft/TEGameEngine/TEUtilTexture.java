@@ -19,6 +19,8 @@ public class TEUtilTexture {
 	public FloatBuffer vertexBuffer;
 	private int mBitmapWidth;
 	private int mBitmapHeight;
+	private int mCropWidth;
+	private int mCropHeight;
 	
 	public TEUtilTexture(int resourceId, Point position, Size size) {
 		super();
@@ -63,6 +65,10 @@ public class TEUtilTexture {
 			width = bitmapWidth;
 			height = bitmapHeight;
 		}
+		mCropWidth = width;
+		mCropHeight = height;
+		mBitmapWidth = bitmapWidth;
+		mBitmapHeight = bitmapHeight;
 		
 		final int textureHeight = MathUtils.closestPowerOf2(bitmapHeight);
 		final int textureWidth = MathUtils.closestPowerOf2(bitmapWidth);
@@ -126,5 +132,9 @@ public class TEUtilTexture {
 	
 	public final Size getBitmapSize() {
 		return new Size(mBitmapWidth, mBitmapHeight);
+	}
+	
+	public final Size getCropSize() {
+		return new Size(mCropWidth, mCropHeight);
 	}
 }

@@ -1,6 +1,10 @@
 package dev.geminileft.TEGameEngine;
 
 import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL11;
+import javax.microedition.khronos.opengles.GL11Ext;
+
+import android.util.Log;
 
 public class RenderImage extends TEComponentRender {
 	private int mWidth;
@@ -9,6 +13,7 @@ public class RenderImage extends TEComponentRender {
 	float mY = 0;
 	private TEUtilTexture mTexture;
 	private GL10 mGL;
+	private int[] mCrop = new int[4];
 	
 	private TEComponent.EventListener mMoveToTopListener = new TEComponent.EventListener() {
 		
@@ -32,18 +37,33 @@ public class RenderImage extends TEComponentRender {
 		mWidth = size.width;
 		mHeight = size.height;
 		mGL = TEManagerGraphics.getGL();
+		mCrop[0] = 0;
+		mCrop[1] = mHeight;
+		mCrop[2] = mWidth;
+		mCrop[3] = -mHeight;
 	}
 
 	public void draw() {
+		mGL.glBindTexture(GL10.GL_TEXTURE_2D, mTexture.textureName);
+        //((GL11)mGL).glGetTexParameteriv(GL10.GL_TEXTURE_2D, GL11Ext.GL_TEXTURE_CROP_RECT_OES, mLastCrop, 0);        
+        ((GL11)mGL).glTexParameteriv(GL10.GL_TEXTURE_2D, GL11Ext.GL_TEXTURE_CROP_RECT_OES, mCrop, 0);
+/*		if (mLastCrop[0] != mCrop[0] || mLastCrop[1] != mCrop[1] || mLastCrop[2] != mCrop[2] || mLastCrop[3] != mCrop[3]) {
+	        ((GL11)mGL).glTexParameteriv(GL10.GL_TEXTURE_2D, GL11Ext.GL_TEXTURE_CROP_RECT_OES, mCrop, 0);
+			//mLastCrop = mCrop;
+		} else {
+			Log.v("RenderImage.draw", "crop cache hit");
+		}
+*/
+        ((GL11Ext)mGL).glDrawTexfOES(parent.position.x - (mWidth / 2), parent.position.y - (mHeight / 2), 
+        		0, mWidth, mHeight);
+		/*
 		mGL.glPushMatrix();
 		mGL.glTranslatef(parent.position.x, parent.position.y, 0.0f);
-		//gl.glEnable(GL10.GL_TEXTURE_2D);
-		mGL.glBindTexture(GL10.GL_TEXTURE_2D, mTexture.textureName);
-		mGL.glTexCoordPointer(2, GL10.GL_FLOAT, 0, mTexture.textureBuffer);
+        mGL.glTexCoordPointer(2, GL10.GL_FLOAT, 0, mTexture.textureBuffer);
 		mGL.glVertexPointer(2, GL10.GL_FLOAT, 0, mTexture.vertexBuffer);
 		mGL.glDrawArrays(GL10.GL_TRIANGLE_FAN, 0, 4);			
-		//gl.glDisable(GL10.GL_TEXTURE_2D);
 		mGL.glPopMatrix();
+		*/
 	}
 	
 	@Override
