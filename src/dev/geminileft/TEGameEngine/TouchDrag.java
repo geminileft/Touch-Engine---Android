@@ -44,6 +44,7 @@ public class TouchDrag extends TEComponentTouch {
 					break;
 				case 2:
 					mLastAction = TouchAction.DOUBLE_TAP;
+					parent.invokeEvent(Event.EVENT_MOVE_TO_FOUNDATION);
 					break;
 				}
 			} else {

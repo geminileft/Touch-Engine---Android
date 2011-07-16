@@ -54,7 +54,6 @@ public abstract class TEEngine {
 		TEManagerStack stackManager = TEManagerStack.sharedManager();
 		TEComponentContainer components = gameObject.getComponents();
 		final int size = components.size();
-		//Iterator<TEComponent> iterator = components.iterator();
 		TEComponent component;
 		for(int i = 0; i < size; ++i) {
 			component = components.get(i);

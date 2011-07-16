@@ -9,7 +9,9 @@ import dev.geminileft.TEGameEngine.Size;
 import dev.geminileft.TEGameEngine.SoundStart;
 import dev.geminileft.TEGameEngine.StackAceCell;
 import dev.geminileft.TEGameEngine.StackFreeCell;
+import dev.geminileft.TEGameEngine.TEComponent.Event;
 import dev.geminileft.TEGameEngine.TEGameObject;
+import dev.geminileft.TEGameEngine.TEManagerStack;
 import dev.geminileft.TEGameEngine.TouchDrag;
 
 public final class SampleGameObjectFactory {
@@ -101,6 +103,8 @@ public final class SampleGameObjectFactory {
 		gameObject.addComponent(new TouchDrag());
 		gameObject.position = position;
 		gameObject.size = size;
+		TEManagerStack stackManager = TEManagerStack.sharedManager();
+		gameObject.addEventSubscription(Event.EVENT_MOVE_TO_FOUNDATION, stackManager.getMoveToAceStackListener());
 		return gameObject;
 	}
 
@@ -115,12 +119,15 @@ public final class SampleGameObjectFactory {
 	}
 
 	public TEGameObject createAceCellStack(Point position) {
+		TEManagerStack stackManager = TEManagerStack.sharedManager();
 		TEGameObject gameObject = new TEGameObject();
+		StackAceCell aceCell = new StackAceCell();
 		Size size = new Size(48, 64);
 		gameObject.addComponent(new RenderImage(R.drawable.ace_cell, null, size));
-    	gameObject.addComponent(new StackAceCell());
+    	gameObject.addComponent(aceCell);
     	gameObject.position = position;
 		gameObject.size = size;
+		stackManager.addAceStack(aceCell);
 		return gameObject;
 	}
 

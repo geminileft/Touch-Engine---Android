@@ -52,7 +52,7 @@ public class TEGameObject extends TEManagerComponent {
 			subscribers = new Vector<TEComponent.EventListener>();
 		}
 		subscribers.add(eventListener);
-		mEventSubscribers.put(event, subscribers);		
+		mEventSubscribers.put(event, subscribers);
 	}
 
 	public final void moveComponentToTop(TEComponent component) {}

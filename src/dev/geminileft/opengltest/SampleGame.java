@@ -40,7 +40,7 @@ public class SampleGame extends TEEngine {
 		
 		gameObject = mFactory.createBackground(new Point(240, 427));
 		addGameObject(gameObject);
-				
+		
 		int x = START_X;
 		int y = mHeight - 50;
 		

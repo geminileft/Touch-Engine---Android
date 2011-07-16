@@ -15,6 +15,7 @@ public abstract class TEComponent {
 		, EVENT_MOVE_TO_TOP
 		, EVENT_ACCEPT_MOVE
 		, EVENT_REJECT_MOVE
+		, EVENT_MOVE_TO_FOUNDATION
 	}
 	
 	public TEGameObject parent;
