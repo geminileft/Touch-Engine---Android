@@ -19,9 +19,9 @@ public class TEManagerStack extends TEManagerComponent {
 				}
 			}
 			Log.v("TEManagerStack.mMoveToAceStack.invoke", "I am called");
-			
 		}
 	};
+	
 	public static TEManagerStack sharedManager() {
 		if (mSharedInstance == null) {
 			mSharedInstance = new TEManagerStack();
