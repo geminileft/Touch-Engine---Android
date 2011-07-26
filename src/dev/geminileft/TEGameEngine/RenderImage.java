@@ -4,8 +4,6 @@ import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 import javax.microedition.khronos.opengles.GL11Ext;
 
-import android.util.Log;
-
 public class RenderImage extends TEComponentRender {
 	private int mWidth;
 	private int mHeight;
@@ -17,7 +15,6 @@ public class RenderImage extends TEComponentRender {
 	
 	private TEComponent.EventListener mMoveToTopListener = new TEComponent.EventListener() {
 		
-		@Override
 		public void invoke() {
 			RenderImage.this.getManager().moveComponentToTop(RenderImage.this);
 		}
@@ -45,25 +42,20 @@ public class RenderImage extends TEComponentRender {
 
 	public void draw() {
 		mGL.glBindTexture(GL10.GL_TEXTURE_2D, mTexture.textureName);
-        //((GL11)mGL).glGetTexParameteriv(GL10.GL_TEXTURE_2D, GL11Ext.GL_TEXTURE_CROP_RECT_OES, mLastCrop, 0);        
-        ((GL11)mGL).glTexParameteriv(GL10.GL_TEXTURE_2D, GL11Ext.GL_TEXTURE_CROP_RECT_OES, mCrop, 0);
-/*		if (mLastCrop[0] != mCrop[0] || mLastCrop[1] != mCrop[1] || mLastCrop[2] != mCrop[2] || mLastCrop[3] != mCrop[3]) {
+
+		final boolean useDrawTexfOES = false;
+		if (useDrawTexfOES) {
 	        ((GL11)mGL).glTexParameteriv(GL10.GL_TEXTURE_2D, GL11Ext.GL_TEXTURE_CROP_RECT_OES, mCrop, 0);
-			//mLastCrop = mCrop;
+	        ((GL11Ext)mGL).glDrawTexfOES(parent.position.x - (mWidth / 2), parent.position.y - (mHeight / 2), 
+	        		0.001f, mWidth, mHeight);		
 		} else {
-			Log.v("RenderImage.draw", "crop cache hit");
+			mGL.glPushMatrix();
+			mGL.glTranslatef(parent.position.x, parent.position.y, 0.0f);
+	        mGL.glTexCoordPointer(2, GL10.GL_FLOAT, 0, mTexture.textureBuffer);
+			mGL.glVertexPointer(2, GL10.GL_FLOAT, 0, mTexture.vertexBuffer);
+			mGL.glDrawArrays(GL10.GL_TRIANGLE_FAN, 0, 4);			
+			mGL.glPopMatrix();
 		}
-*/
-        ((GL11Ext)mGL).glDrawTexfOES(parent.position.x - (mWidth / 2), parent.position.y - (mHeight / 2), 
-        		0, mWidth, mHeight);
-		/*
-		mGL.glPushMatrix();
-		mGL.glTranslatef(parent.position.x, parent.position.y, 0.0f);
-        mGL.glTexCoordPointer(2, GL10.GL_FLOAT, 0, mTexture.textureBuffer);
-		mGL.glVertexPointer(2, GL10.GL_FLOAT, 0, mTexture.vertexBuffer);
-		mGL.glDrawArrays(GL10.GL_TRIANGLE_FAN, 0, 4);			
-		mGL.glPopMatrix();
-		*/
 	}
 	
 	@Override

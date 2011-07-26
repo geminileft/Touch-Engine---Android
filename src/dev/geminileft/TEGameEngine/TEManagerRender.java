@@ -7,7 +7,6 @@ public class TEManagerRender extends TEManagerComponent {
 	
 	private TEComponent.EventListener mTouchStartedListener = new TEComponent.EventListener() {
 		
-		@Override
 		public void invoke() {
 		}
 	};

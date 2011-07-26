@@ -7,7 +7,6 @@ public class StackCard extends TEComponentStack {
 	
 	private TEComponent.EventListener mTouchStartedListener = new TEComponent.EventListener() {
 		
-		@Override
 		public void invoke() {
 			boolean isGoodStack = true;
 			TEComponentStack component = StackCard.this;
@@ -49,7 +48,6 @@ public class StackCard extends TEComponentStack {
 	
 	private TEComponent.EventListener mTouchEndedListener = new TEComponent.EventListener() {
 		
-		@Override
 		public void invoke() {
 			mMoving = false;
 			StackCard.this.evaluate();
@@ -58,7 +56,6 @@ public class StackCard extends TEComponentStack {
 	
 	private TEComponent.EventListener mRejectMoveListener = new TEComponent.EventListener() {
 		
-		@Override
 		public void invoke() {
 			StackCard component = StackCard.this;
 			if (mPreviousStack != null) {

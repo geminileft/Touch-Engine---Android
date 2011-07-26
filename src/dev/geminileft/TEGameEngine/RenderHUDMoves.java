@@ -9,7 +9,6 @@ import javax.microedition.khronos.opengles.GL10;
 public class RenderHUDMoves extends TEComponentRender {
 	private TEComponent.EventListener mTouchAcceptListener = new TEComponent.EventListener() {
 		
-		@Override
 		public void invoke() {
 			++mCount;
 		}

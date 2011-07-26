@@ -8,7 +8,7 @@ public class TouchDrag extends TEComponentTouch {
 	private Point mTouchOffset;
 	private boolean mTouchValid;
 	private TETouchHandler mTouchHandler = new TETouchHandler();
-	private int mTapCount;
+	//private int mTapCount;
 	public enum TouchAction {
 		NONE
 		, TAP
@@ -21,7 +21,7 @@ public class TouchDrag extends TEComponentTouch {
 		private long mLastUpTime;
 		static final int TAP_DOWN_THRESHOLD_MS = 130;
 		static final int TAP_UP_THRESHOLD_MS = 200;
-		private TouchAction mLastAction;
+		//private TouchAction mLastAction;
 		
 		private final void startTouch(TEInputTouch touch) {
 			mStartTime = SystemClock.uptimeMillis();
@@ -40,27 +40,26 @@ public class TouchDrag extends TEComponentTouch {
 				++mTapCount;
 				switch(mTapCount) {
 				case 1:
-					mLastAction = TouchAction.TAP;
+					//mLastAction = TouchAction.TAP;
 					break;
 				case 2:
-					mLastAction = TouchAction.DOUBLE_TAP;
+					//mLastAction = TouchAction.DOUBLE_TAP;
 					parent.invokeEvent(Event.EVENT_MOVE_TO_FOUNDATION);
 					break;
 				}
 			} else {
 				mTapCount = 0;
-				mLastAction = TouchAction.NONE;
+				//mLastAction = TouchAction.NONE;
 			}
 		}
 		
-		private final long splitTime() {
-			return SystemClock.uptimeMillis() - mStartTime;
-		}
+		//private final long splitTime() {
+		//	return SystemClock.uptimeMillis() - mStartTime;
+		//}
 	}
 	
 	private TEComponent.EventListener mEventTouchAccept = new TEComponent.EventListener() {
 		
-		@Override
 		public void invoke() {
 			mTouchValid = true;
 		}
@@ -68,7 +67,6 @@ public class TouchDrag extends TEComponentTouch {
 	
 	private TEComponent.EventListener mEventTouchReject = new TEComponent.EventListener() {
 		
-		@Override
 		public void invoke() {
 			mTouchValid = false;
 			mTouch = null;

@@ -11,7 +11,6 @@ public class TEManagerStack extends TEManagerComponent {
 	
 	private TEComponent.EventListener mMoveToFoundationListener = new TEComponent.EventListener() {
 		
-		@Override
 		public void invoke() {
 			for(int i = 0;i < ACE_STACK_COUNT;++i) {
 				if (mAceStacks[i].getChildStack() == null) {
