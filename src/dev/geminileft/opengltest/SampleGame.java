@@ -1,9 +1,7 @@
 package dev.geminileft.opengltest;
 
-import java.util.Random;
-
 import android.content.Context;
-import android.os.SystemClock;
+import android.util.Log;
 import dev.geminileft.TEGameEngine.PlayingCard;
 import dev.geminileft.TEGameEngine.PlayingCard.FaceValue;
 import dev.geminileft.TEGameEngine.PlayingCard.Suit;
@@ -20,6 +18,7 @@ import dev.geminileft.TEGameEngine.TEComponentStack;
 import dev.geminileft.TEGameEngine.TEComponentStack.StackType;
 import dev.geminileft.TEGameEngine.TEEngine;
 import dev.geminileft.TEGameEngine.TEGameObject;
+import dev.geminileft.TEGameEngine.TERandomizer;
 
 public class SampleGame extends TEEngine {
 	//private int mWidth;
@@ -114,12 +113,15 @@ public class SampleGame extends TEEngine {
 		deck[50] = new PlayingCard(FaceValue.Queen, Suit.Diamond);
 		deck[51] = new PlayingCard(FaceValue.King, Suit.Diamond);
 		
-		Random rand = new Random(SystemClock.uptimeMillis());
+		TERandomizer rand = new TERandomizer(17);
+		//Random rand = new Random(SystemClock.uptimeMillis());
 		int wLeft = 52;
 		for (int i = 0;i < 52;++i) {
-			int j = Math.abs(rand.nextInt()) % wLeft;
-		        stacks[(i % 8)][i / 8] = deck[j];
-		        deck[j] = deck[--wLeft];
+			long next = rand.next();
+			Log.v("SampleGame::Start", "Next: " + Long.valueOf(next).toString());
+			long j = Math.abs(next) % wLeft;
+		        stacks[(i % 8)][i / 8] = deck[(int)j];
+		        deck[(int)j] = deck[--wLeft];
 		}
     	addTableStack(START_X, mFactory, stacks, listener);
     	TEComponentStack.openFreeCellCount = 4;
