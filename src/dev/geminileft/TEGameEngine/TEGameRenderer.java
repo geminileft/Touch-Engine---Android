@@ -4,11 +4,13 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.opengl.GLSurfaceView;
+import android.os.SystemClock;
+import android.util.Log;
 //import android.os.SystemClock;
 
 public class TEGameRenderer implements GLSurfaceView.Renderer {
 	private TEEngine mGame;
-	//private long mPreviousTime;
+	private long mPreviousTime;
 
 	public TEGameRenderer(TEEngine game) {
 		mGame = game;
@@ -40,10 +42,10 @@ public class TEGameRenderer implements GLSurfaceView.Renderer {
 	public void onDrawFrame(GL10 gl) {
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		mGame.run();
-		//final long currentTime = SystemClock.uptimeMillis();
-		//final long dt = currentTime - mPreviousTime;
-		//Log.v("TEGameRenderer.onDrawFrame", Long.valueOf(dt).toString());
-		//mPreviousTime = currentTime;
+		final long currentTime = SystemClock.uptimeMillis();
+		final long dt = currentTime - mPreviousTime;
+		Log.v("TEGameRenderer.onDrawFrame", Long.valueOf(dt).toString());
+		mPreviousTime = currentTime;
 	}
 
 	public void onSurfaceChanged(GL10 gl, int width, int height) {

@@ -43,7 +43,7 @@ public class RenderImage extends TEComponentRender {
 	public void draw() {
 		mGL.glBindTexture(GL10.GL_TEXTURE_2D, mTexture.textureName);
 
-		final boolean useDrawTexfOES = false;
+		final boolean useDrawTexfOES = true;
 		if (useDrawTexfOES) {
 	        ((GL11)mGL).glTexParameteriv(GL10.GL_TEXTURE_2D, GL11Ext.GL_TEXTURE_CROP_RECT_OES, mCrop, 0);
 	        ((GL11Ext)mGL).glDrawTexfOES(parent.position.x - (mWidth / 2), parent.position.y - (mHeight / 2), 
