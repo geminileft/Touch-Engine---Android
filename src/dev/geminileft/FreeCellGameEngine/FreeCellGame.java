@@ -1,11 +1,9 @@
 package dev.geminileft.FreeCellGameEngine;
 
-import android.content.Context;
 import dev.geminileft.TEGameEngine.PlayingCard;
 import dev.geminileft.TEGameEngine.PlayingCard.FaceValue;
 import dev.geminileft.TEGameEngine.PlayingCard.Suit;
 import dev.geminileft.TEGameEngine.RenderHUDMoves;
-import dev.geminileft.TEGameEngine.RenderHUDTimer;
 import dev.geminileft.TEGameEngine.RenderImage;
 import dev.geminileft.TEGameEngine.StackCard;
 import dev.geminileft.TEGameEngine.StackTableCell;
@@ -15,6 +13,7 @@ import dev.geminileft.TEGameEngine.TEComponentStack;
 import dev.geminileft.TEGameEngine.TEComponentStack.StackType;
 import dev.geminileft.TEGameEngine.TEEngine;
 import dev.geminileft.TEGameEngine.TEGameObject;
+import dev.geminileft.TEGameEngine.TEManagerStack;
 import dev.geminileft.TEGameEngine.TEManagerTime;
 import dev.geminileft.TEGameEngine.TEPoint;
 import dev.geminileft.TEGameEngine.TERandomizer;
@@ -22,80 +21,13 @@ import dev.geminileft.TEGameEngine.TESize;
 import dev.geminileft.opengltest.R;
 
 public class FreeCellGame extends TEEngine {
-	private FreeCellGameObjectFactory mFactory;
 	private final static int START_X = 35;
 	private final static int X_GAP = 2;
 
-/*
+	private FreeCellGameObjectFactory mFactory;
 
-
-void FreeCellGame::addTableStack(int startX, FreeCellGameObjectFactory* factory, PlayingCard* cards[][7], TEEventListenerBase* listener) {
-	TEManagerStack* stackManager = TEManagerStack::sharedManager();
-	TEEventListenerBase* touchAcceptedListener = stackManager->getTouchAcceptListener();
-	
-    int x = startX;
-    int y = mHeight - 120;
-    for (int j = 0; j < 8;++j) {
-        TEPoint pt;
-        pt.x = x;
-        pt.y = y;
-        TEGameObject* gameObject = factory->createTableCellStack(pt);
-        StackTableCell* tableStack = new StackTableCell(TableCell);
-		stackManager->addTableStack(tableStack);
-        gameObject->addComponent(tableStack);
-        addGameObject(gameObject);
-        TEComponentStack* stack = tableStack;
-        for (int i = 0;i < 7;++i) {
-            PlayingCard* card = cards[j][i];
-            if (card != NULL) {
-                StackCard* cardStack;
-                gameObject = factory->createPlayingCard(card);
-                cardStack = new StackCard(card);
-                gameObject->addComponent(cardStack);
-                stack->pushStack(cardStack);
-                gameObject->addEventSubscription(EVENT_ACCEPT_MOVE, listener);
-                gameObject->addEventSubscription(EVENT_ACCEPT_MOVE, touchAcceptedListener);
-                addGameObject(gameObject);				
-                stack = cardStack;
-            }
-        }
-        x += CARD_SIZE_WIDTH + X_GAP;
-    }
-}
-
-TEEventListenerBase* FreeCellGame::addHUDMoves() {
-	const int y = 45;
-	const int xOffset = 10;
-	TEEventListenerBase* eventListener;
-	const int x = 60;
-	TESize size;
-	size.width = 118;
-	size.height = 26;
-	TEPoint offset;
-	offset.x = 0;
-	offset.y = 0;
-	RenderImage* image = new RenderImage(@"moves.png", offset, size);
-	TEGameObject* gameObject = new TEGameObject();
-	gameObject->addComponent(image);
-	gameObject->position.x = x;
-	gameObject->position.y = y;
-	addGameObject(gameObject);
-	gameObject = new TEGameObject();
-	size.width = 0;
-	size.height = 0;
-	RenderHUD* text = new RenderHUD(@"numbers.png", offset, size);
-	eventListener = text->getTouchAcceptListener();
-	gameObject->addComponent(text);
-	gameObject->position.x = x + size.width / 2 + xOffset;
-	gameObject->position.y = y;
-	addGameObject(gameObject);
-	return eventListener;
-}
-
- */
-
-	public FreeCellGame(Context context) {
-		super(context, 480, 854);
+	public FreeCellGame(int width, int height) {
+		super(width, height);
 		 mFactory = new FreeCellGameObjectFactory(this);
 	}
 
@@ -111,26 +43,29 @@ TEEventListenerBase* FreeCellGame::addHUDMoves() {
 	    addGameObject(mFactory.createMenu());
 	    for (int i = 0;i < 4;++i) {
 	        TEPoint pt = TEPoint.make(x, y);
-	        gameObject = mFactory.createFreeCell(pt);
-	        addGameObject(gameObject);
+	        addGameObject(mFactory.createFreeCell(pt));
 	        x += FreeCellGameObjectFactory.CARD_SIZE_WIDTH + X_GAP;
 	    }
 	    
 	    for (int i = 0;i < 4;++i) {
 	        TEPoint pt = TEPoint.make(x, y);
-	        gameObject = mFactory.createAceCellStack(pt);
-	        addGameObject(gameObject);
+	        addGameObject(mFactory.createAceCellStack(pt));
 	        x += FreeCellGameObjectFactory.CARD_SIZE_WIDTH + X_GAP;
 	    }
 	    
 		final int stack1 = 8;
 		final int stack2 = 7;
+		
 	    PlayingCard stacks[][] = new PlayingCard[stack1][stack2];
+		/*
+		//java initializes to null :|
 		for (int i = 0; i < stack1; ++i) {
 			for (int j = 0; j < stack2; ++j) {
 				stacks[i][j] = null;
 			}
 		}
+		*/
+		
 	    PlayingCard deck[] = new PlayingCard[52];
 	    deck[0] = new PlayingCard(FaceValue.Ace, Suit.Spade);
 	    deck[1] = new PlayingCard(FaceValue.Two, Suit.Spade);
@@ -199,11 +134,15 @@ TEEventListenerBase* FreeCellGame::addHUDMoves() {
 	}
 
 	private void addTableStack(int startX, FreeCellGameObjectFactory factory, PlayingCard[][] cards, TEComponent.EventListener listener) {
+		TEManagerStack stackManager = TEManagerStack.sharedManager();
+		TEComponent.EventListener touchAcceptedListener = stackManager.getTouchAcceptListener();
+		
 		int x = startX;
 		int y = mHeight - 120;
     	for (int j = 0; j < cards.length;++j) {
     		TEGameObject gameObject = factory.createTableCellStack(TEPoint.make(x, y));
     		StackTableCell tableStack = new StackTableCell(StackType.TableCell);
+    		stackManager.addTableStack(tableStack);
         	gameObject.addComponent(tableStack);
         	addGameObject(gameObject);
         	TEComponentStack stack = tableStack;
@@ -211,16 +150,17 @@ TEEventListenerBase* FreeCellGame::addHUDMoves() {
 				PlayingCard card = cards[j][i];
 				if (card != null) {
 					StackCard cardStack;
-			    	gameObject = factory.createPlayingCard(null, card);
+			    	gameObject = factory.createPlayingCard(card);
 			    	cardStack = new StackCard(card);
 			    	gameObject.addComponent(cardStack);
 			    	stack.pushStack(cardStack);
-			    	stack = cardStack;
 			    	gameObject.addEventSubscription(Event.EVENT_ACCEPT_MOVE, listener);
+			    	gameObject.addEventSubscription(Event.EVENT_ACCEPT_MOVE, touchAcceptedListener);
 			    	addGameObject(gameObject);				
+			    	stack = cardStack;
 				}
 			}
-	    	x += 55;
+	    	x += FreeCellGameObjectFactory.CARD_SIZE_WIDTH + X_GAP;
     	}
 	}
 	
@@ -240,12 +180,11 @@ TEEventListenerBase* FreeCellGame::addHUDMoves() {
 		eventListener = text.getTouchAcceptListener();
 		gameObject.addComponent(text);
 		gameObject.position = TEPoint.make(x + size.width / 2 + 17, height);
-		//return gameObject;
-		//gameObject = mFactory.createHUDTimer(new Point(x + size.width / 2 + 17, height), eventListener);
 		addGameObject(gameObject);
 		return eventListener;
 	}
-	
+
+/*
 	private void addHUDTimer() {
 		final int height = 50;
 		final int x = 275;
@@ -261,4 +200,5 @@ TEEventListenerBase* FreeCellGame::addHUDMoves() {
 		gameObject.position = TEPoint.make(x + size.width / 2 + 17, height);
 		addGameObject(gameObject);
 	}
+*/
 }

@@ -17,11 +17,9 @@ public abstract class TEEngine {
 
 	public abstract void start();
 
-	public TEEngine(Context context, int width, int height) {
-		mContext = context;
+	public TEEngine(int width, int height) {
 		mWidth = width;
 		mHeight = height;
-        TEStaticSettings.setContext(context);
 		mGameObjects = new Vector<TEGameObject>();
 		mManagers = new Vector<TEManager>();
         TEManagerTouch touchManager = TEManagerTouch.sharedManager();
@@ -32,6 +30,11 @@ public abstract class TEEngine {
         mManagers.add(stackManager);
         mManagers.add(soundManager);
         mManagers.add(renderManager);
+	}
+	
+	public void setContext(Context context) {
+		mContext = context;
+        TEStaticSettings.setContext(context);
 	}
 	
 	public final void run() {

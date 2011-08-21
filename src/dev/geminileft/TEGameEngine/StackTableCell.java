@@ -2,6 +2,8 @@ package dev.geminileft.TEGameEngine;
 
 public class StackTableCell extends TEComponentStack {
 
+	private boolean mClear;
+	
 	public StackTableCell(StackType stackType) {
 		super(stackType);
 		// TODO Auto-generated constructor stub
@@ -57,4 +59,12 @@ public class StackTableCell extends TEComponentStack {
 
 	@Override
 	public void update() {}
+	
+	public boolean getClear() {
+		return mClear;
+	}
+	
+	public void setClear() {
+		mClear = true;
+	}
 }

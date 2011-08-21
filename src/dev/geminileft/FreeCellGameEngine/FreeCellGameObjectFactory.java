@@ -95,9 +95,9 @@ public final class FreeCellGameObjectFactory {
 	    return gameObject;
 	}
 	
-	public TEGameObject createPlayingCard(TEPoint position, PlayingCard card) {
+	public TEGameObject createPlayingCard(PlayingCard card) {
 		TEGameObject gameObject = new TEGameObject();
-		TESize size = TESize.make(48, 64);
+		TESize size = TESize.make(FreeCellGameObjectFactory.CARD_SIZE_WIDTH, FreeCellGameObjectFactory.CARD_SIZE_HEIGHT);
 		String key = card.getCardName();
 		Integer resource = mCardMap.get(key);
 		int resourceId;
@@ -109,7 +109,7 @@ public final class FreeCellGameObjectFactory {
 		RenderImage image = new RenderImage(resourceId, null, size);
 		gameObject.addComponent(image);
 		gameObject.addComponent(new TouchDrag());
-		gameObject.position = position;
+		gameObject.position = TEPoint.make(0, 0);
 		gameObject.size = size;
 		TEManagerStack stackManager = TEManagerStack.sharedManager();
 		gameObject.addEventSubscription(Event.EVENT_MOVE_TO_FOUNDATION, stackManager.getMoveToAceStackListener());

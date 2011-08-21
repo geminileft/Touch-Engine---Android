@@ -6,8 +6,12 @@ import dev.geminileft.TEGameEngine.TEComponent.Event;
 public class TEManagerStack extends TEManagerComponent {
 	private static TEManagerStack mSharedInstance = null;
 	private final int ACE_STACK_COUNT = 4;
+	private final int TABLE_STACK_COUNT = 8;
+	
 	private StackAceCell mAceStacks[] = new StackAceCell[ACE_STACK_COUNT];
+	private StackTableCell mTableStacks[] = new StackTableCell[TABLE_STACK_COUNT];
 	private int mAceStackCount;
+	private int mTableStackCount;
 	
 	private TEComponent.EventListener mMoveToFoundationListener = new TEComponent.EventListener() {
 		
@@ -18,6 +22,33 @@ public class TEManagerStack extends TEManagerComponent {
 				}
 			}
 			Log.v("TEManagerStack.mMoveToAceStack.invoke", "I am called");
+		}
+	};
+	
+	private TEComponent.EventListener mTouchAcceptListener = new TEComponent.EventListener() {
+		
+		public void invoke() {
+			boolean good = true;
+			for (int i = 0;i < TABLE_STACK_COUNT;++i) {
+				StackTableCell stack = mTableStacks[i];
+				if (!stack.getClear()) {
+					StackCard card = (StackCard)stack.getChildStack();
+					if (card == null) {
+						stack.setClear();
+					} else {
+						PlayingCard playingCard = card.getPlayingCard();
+						while (card.getChildStack() != null) {
+							card = (StackCard)card.getChildStack();
+							PlayingCard childPlayingCard = card.getPlayingCard();
+							good = (playingCard.getFaceValue().getValue() >= childPlayingCard.getFaceValue().getValue());
+							if (!good) {
+								return;
+							}
+						}
+						stack.setClear();
+					}
+				}
+			}
 		}
 	};
 	
@@ -76,5 +107,14 @@ public class TEManagerStack extends TEManagerComponent {
 	public void addAceStack(StackAceCell aceStack) {
 		mAceStacks[mAceStackCount] = aceStack;
 		++mAceStackCount;
+	}
+	
+	public TEComponent.EventListener getTouchAcceptListener() {
+		return mTouchAcceptListener;
+	}
+	
+	public void addTableStack(StackTableCell tableStack) {
+		mTableStacks[mTableStackCount] = tableStack;
+		++mTableStackCount;
 	}
 }
