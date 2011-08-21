@@ -1,4 +1,4 @@
-package dev.geminileft.opengltest;
+package dev.geminileft.FreeCellGameEngine;
 
 import java.util.HashMap;
 

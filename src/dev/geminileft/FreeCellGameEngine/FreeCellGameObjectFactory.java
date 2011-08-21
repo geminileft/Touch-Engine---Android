@@ -1,4 +1,4 @@
-package dev.geminileft.opengltest;
+package dev.geminileft.FreeCellGameEngine;
 
 import java.util.HashMap;
 
@@ -14,6 +14,7 @@ import dev.geminileft.TEGameEngine.TEManagerStack;
 import dev.geminileft.TEGameEngine.TEPoint;
 import dev.geminileft.TEGameEngine.TESize;
 import dev.geminileft.TEGameEngine.TouchDrag;
+import dev.geminileft.opengltest.R;
 
 public final class FreeCellGameObjectFactory {
 	private HashMap<String, Integer> mCardMap = new HashMap<String, Integer>();
