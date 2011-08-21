@@ -3,22 +3,28 @@ package dev.geminileft.opengltest;
 import java.util.HashMap;
 
 import dev.geminileft.TEGameEngine.PlayingCard;
-import dev.geminileft.TEGameEngine.Point;
 import dev.geminileft.TEGameEngine.RenderImage;
-import dev.geminileft.TEGameEngine.Size;
 import dev.geminileft.TEGameEngine.SoundStart;
 import dev.geminileft.TEGameEngine.StackAceCell;
 import dev.geminileft.TEGameEngine.StackFreeCell;
 import dev.geminileft.TEGameEngine.TEComponent.Event;
+import dev.geminileft.TEGameEngine.TEEngine;
 import dev.geminileft.TEGameEngine.TEGameObject;
 import dev.geminileft.TEGameEngine.TEManagerStack;
+import dev.geminileft.TEGameEngine.TEPoint;
+import dev.geminileft.TEGameEngine.TESize;
 import dev.geminileft.TEGameEngine.TouchDrag;
 
-public final class SampleGameObjectFactory {
+public final class FreeCellGameObjectFactory {
 	private HashMap<String, Integer> mCardMap = new HashMap<String, Integer>();
+	private TEEngine mGame;
 	
-	public SampleGameObjectFactory() {
+	public static final int CARD_SIZE_WIDTH = 48;
+	public static final int CARD_SIZE_HEIGHT = 64;
+
+	public FreeCellGameObjectFactory(TEEngine game) {
 		super();
+		mGame = game;
 		mCardMap.put("SpadeAce", R.drawable.spade_ace);
 		mCardMap.put("SpadeTwo", R.drawable.spade_two);
 		mCardMap.put("SpadeThree", R.drawable.spade_three);
@@ -76,20 +82,21 @@ public final class SampleGameObjectFactory {
 		mCardMap.put("ClubKing", R.drawable.club_king);
 	}
 
-	public TEGameObject createBackground(Point position) {
-		TEGameObject gameObject = new TEGameObject();
-		Size size = new Size(480, 854);
-		RenderImage image = new RenderImage(R.drawable.table_background, null, size);
-		gameObject.addComponent(image);
-		gameObject.addComponent(new SoundStart(R.raw.shuffle));
-		gameObject.position = position;
-		gameObject.size = size;
-		return gameObject;
+	public TEGameObject createBackground() {
+	    TEGameObject gameObject = new TEGameObject();
+	    TESize size = TESize.make(mGame.mWidth, mGame.mHeight);
+	    gameObject.addComponent(new RenderImage(R.drawable.table_background, TEPoint.make(0, 0), size));
+	    gameObject.addComponent(new SoundStart(R.raw.shuffle));
+	    gameObject.position.x = size.width / 2;
+	    gameObject.position.y = size.height / 2;
+	    gameObject.size.width = size.width;
+	    gameObject.size.height = size.height;
+	    return gameObject;
 	}
-
-	public TEGameObject createPlayingCard(Point position, PlayingCard card) {
+	
+	public TEGameObject createPlayingCard(TEPoint position, PlayingCard card) {
 		TEGameObject gameObject = new TEGameObject();
-		Size size = new Size(48, 64);
+		TESize size = TESize.make(48, 64);
 		String key = card.getCardName();
 		Integer resource = mCardMap.get(key);
 		int resourceId;
@@ -108,9 +115,9 @@ public final class SampleGameObjectFactory {
 		return gameObject;
 	}
 
-	public TEGameObject createFreeCell(Point position) {
+	public TEGameObject createFreeCell(TEPoint position) {
 		TEGameObject gameObject = new TEGameObject();
-		Size size = new Size(48, 64);
+		TESize size = TESize.make(48, 64);
 		gameObject.addComponent(new RenderImage(R.drawable.free_cell, null, size));
 		gameObject.addComponent(new StackFreeCell());
 		gameObject.position = position;
@@ -118,11 +125,11 @@ public final class SampleGameObjectFactory {
 		return gameObject;
 	}
 
-	public TEGameObject createAceCellStack(Point position) {
+	public TEGameObject createAceCellStack(TEPoint position) {
 		TEManagerStack stackManager = TEManagerStack.sharedManager();
 		TEGameObject gameObject = new TEGameObject();
 		StackAceCell aceCell = new StackAceCell();
-		Size size = new Size(48, 64);
+		TESize size = TESize.make(48, 64);
 		gameObject.addComponent(new RenderImage(R.drawable.ace_cell, null, size));
     	gameObject.addComponent(aceCell);
     	gameObject.position = position;
@@ -131,12 +138,38 @@ public final class SampleGameObjectFactory {
 		return gameObject;
 	}
 
-	public TEGameObject createTableCellStack(Point position) {
+	public TEGameObject createTableCellStack(TEPoint position) {
 		TEGameObject gameObject = new TEGameObject();
-		Size size = new Size(48, 64);
+		TESize size = TESize.make(48, 64);
 		gameObject.addComponent(new RenderImage(R.drawable.free_cell, null, size));
     	gameObject.position = position;
 		gameObject.size = size;
 		return gameObject;
 	}
+
+	TEGameObject createHUDTimer() {
+		final int height = 15;
+		final int x = 105;
+		TESize size = TESize.make(46, 14);
+		TEPoint offset = TEPoint.make(0, 0);
+		RenderImage image = new RenderImage(R.drawable.image_time, offset, size);
+		TEGameObject gameObject = new TEGameObject();
+		gameObject.addComponent(image);
+		gameObject.position.x = x;
+		gameObject.position.y = height;
+		return gameObject;
+	}
+
+	TEGameObject createMenu() {
+		TESize size = TESize.make(64, 16);
+		TEPoint offset = TEPoint.make(0, 0);
+		RenderImage image = new RenderImage(R.drawable.menu, offset, size);
+		TEGameObject gameObject = new TEGameObject();
+		gameObject.addComponent(image);
+		TESize screenSize = mGame.getScreenSize();
+		gameObject.position.x = screenSize.width - (size.width / 2);
+		gameObject.position.y = 15;
+		return gameObject;
+	}
+
 }

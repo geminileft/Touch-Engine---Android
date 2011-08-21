@@ -12,13 +12,15 @@ public abstract class TEEngine {
 	private Context mContext;
 	private Vector<TEGameObject> mGameObjects;
 	private Vector<TEManager> mManagers;
-	private int mHeight;
-	private int mWidth;
+	public int mHeight;
+	public int mWidth;
 
 	public abstract void start();
 
-	public TEEngine(Context context) {
+	public TEEngine(Context context, int width, int height) {
 		mContext = context;
+		mWidth = width;
+		mHeight = height;
         TEStaticSettings.setContext(context);
 		mGameObjects = new Vector<TEGameObject>();
 		mManagers = new Vector<TEManager>();
@@ -110,7 +112,7 @@ public abstract class TEEngine {
 		TEManagerGraphics.setScreenSize(width, height);
     }
     
-    public Size getScreenSize() {
-    	return new Size(mWidth, mHeight);
+    public TESize getScreenSize() {
+    	return new TESize(mWidth, mHeight);
     }
 }

@@ -2,7 +2,7 @@ package dev.geminileft.TEGameEngine;
 
 public class StackCard extends TEComponentStack {
 	private boolean mMoving = false;
-	private Point mPreviousPosition;
+	private TEPoint mPreviousPosition;
 	private TEComponentStack mPreviousStack;
 	
 	private TEComponent.EventListener mTouchStartedListener = new TEComponent.EventListener() {
@@ -25,11 +25,11 @@ public class StackCard extends TEComponentStack {
 					childStack = childStack.getChildStack();
 				}
 			}
-			if (isGoodStack && (cardCount <= getPickupCount(TEComponentStack.openFreeCellCount, TEComponentStack.openTableCellCount))) {
+			if (isGoodStack && (cardCount <= getPickupCount(TEComponentStack.mOpenFreeCellCount, TEComponentStack.mOpenTableCellCount))) {
 				parent.invokeEvent(Event.EVENT_TOUCH_ACCEPT);
 				mMoving = true;
 				TEGameObject parent = component.parent;
-				mPreviousPosition = new Point(parent.position.x, parent.position.y);
+				mPreviousPosition = new TEPoint(parent.position.x, parent.position.y);
 				mPreviousStack = component.getParentStack();
 				if (mPreviousStack != null) {
 					mPreviousStack.popStack(component);				
@@ -61,7 +61,7 @@ public class StackCard extends TEComponentStack {
 			if (mPreviousStack != null) {
 				mPreviousStack.pushStack(component);
 			} else {
-				component.parent.position = new Point(mPreviousPosition.x, mPreviousPosition.y);
+				component.parent.position = new TEPoint(mPreviousPosition.x, mPreviousPosition.y);
 				adjustStackPositions();
 			}
 		}

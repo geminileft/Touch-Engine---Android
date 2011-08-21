@@ -5,7 +5,7 @@ import android.util.Log;
 
 public class TouchDrag extends TEComponentTouch {
 	private TEInputTouch mTouch;
-	private Point mTouchOffset;
+	private TEPoint mTouchOffset;
 	private boolean mTouchValid;
 	private TETouchHandler mTouchHandler = new TETouchHandler();
 	//private int mTapCount;
@@ -88,8 +88,8 @@ public class TouchDrag extends TEComponentTouch {
 			mTouchHandler.startTouch(touch);
 			added = true;
 			mTouch = touch.copy();
-			Point pt = parent.position;
-			mTouchOffset = new Point(pt.x - touch.getStartPoint().x, pt.y - touch.getStartPoint().y);
+			TEPoint pt = parent.position;
+			mTouchOffset = new TEPoint(pt.x - touch.getStartPoint().x, pt.y - touch.getStartPoint().y);
         	parent.invokeEvent(TEComponent.Event.EVENT_TOUCH_STARTED);
 			this.getManager().moveComponentToTop(this);
 		}
@@ -117,7 +117,7 @@ public class TouchDrag extends TEComponentTouch {
 	            mTouch = null;
 	            mTouchValid = false;
 	        }
-	        parent.position = new Point(x, y);
+	        parent.position = new TEPoint(x, y);
 	    }
 	}
 }

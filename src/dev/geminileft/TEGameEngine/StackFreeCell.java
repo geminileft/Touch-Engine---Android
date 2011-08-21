@@ -19,13 +19,13 @@ public class StackFreeCell extends TEComponentStack {
 	@Override
 	public void pushStack(TEComponentStack stack) {
 		super.pushStack(stack);
-		--TEComponentStack.openFreeCellCount;
+		--TEComponentStack.mOpenFreeCellCount;
 	}
 	
 	@Override
 	public void popStack(TEComponentStack stack) {
 		super.popStack(stack);
-		++TEComponentStack.openFreeCellCount;
+		++TEComponentStack.mOpenFreeCellCount;
 	}
 	
 	@Override

@@ -20,7 +20,7 @@ public class TEManagerGraphics {
 		mHeight = height;
 	}
 	
-	public static Size getScreenSize() {
-		return new Size(mWidth, mHeight);
+	public static TESize getScreenSize() {
+		return new TESize(mWidth, mHeight);
 	}
 }

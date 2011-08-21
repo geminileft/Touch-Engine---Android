@@ -24,7 +24,7 @@ public class RenderImage extends TEComponentRender {
 		this(resourceId, null, null);
 	}
 
-	public RenderImage(int resourceId, Point position, Size size) {
+	public RenderImage(int resourceId, TEPoint position, TESize size) {
 		super();
 		addEventSubscription(TEComponent.Event.EVENT_MOVE_TO_TOP, mMoveToTopListener);
 		mTexture = new TEUtilTexture(resourceId, position, size);
@@ -61,7 +61,7 @@ public class RenderImage extends TEComponentRender {
 	@Override
 	public void update() {}
 	
-	public Size getSize() {
-		return new Size(mWidth, mHeight);
+	public TESize getSize() {
+		return new TESize(mWidth, mHeight);
 	}
 }

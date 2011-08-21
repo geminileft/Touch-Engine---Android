@@ -22,7 +22,7 @@ public class TEUtilTexture {
 	private int mCropWidth;
 	private int mCropHeight;
 	
-	public TEUtilTexture(int resourceId, Point position, Size size) {
+	public TEUtilTexture(int resourceId, TEPoint position, TESize size) {
 		super();
 		GL10 gl = TEManagerGraphics.getGL();
 		Context context = TEStaticSettings.getContext();
@@ -130,11 +130,11 @@ public class TEUtilTexture {
 		vertexBuffer.position(0);
 	}
 	
-	public final Size getBitmapSize() {
-		return new Size(mBitmapWidth, mBitmapHeight);
+	public final TESize getBitmapSize() {
+		return new TESize(mBitmapWidth, mBitmapHeight);
 	}
 	
-	public final Size getCropSize() {
-		return new Size(mCropWidth, mCropHeight);
+	public final TESize getCropSize() {
+		return new TESize(mCropWidth, mCropHeight);
 	}
 }

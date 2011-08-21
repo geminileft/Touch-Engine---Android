@@ -3,18 +3,18 @@ package dev.geminileft.TEGameEngine;
 public class TEInputTouch {
 	private boolean mBegan;
 	private boolean mEnd;
-	private Point mStartPoint;
-	private Point mEndPoint;
+	private TEPoint mStartPoint;
+	private TEPoint mEndPoint;
 	private int mHash;
 	
 	public TEInputTouch(int hash, float x, float y) {
-		mStartPoint = new Point(x,y);
-		mEndPoint = new Point(x,y);
+		mStartPoint = new TEPoint(x,y);
+		mEndPoint = new TEPoint(x,y);
 		mBegan = true;
 		mEnd = false;
 	}
 
-	public TEInputTouch(boolean began, boolean ended, Point startPoint, Point endPoint, int hash) {
+	public TEInputTouch(boolean began, boolean ended, TEPoint startPoint, TEPoint endPoint, int hash) {
 		mBegan = began;
 		mEnd = ended;
 		mStartPoint = startPoint;
@@ -30,11 +30,11 @@ public class TEInputTouch {
 		return mEnd;
 	}
 	
-	public Point getStartPoint() {
+	public TEPoint getStartPoint() {
 		return mStartPoint;
 	}
 	
-	public Point getEndPoint() {
+	public TEPoint getEndPoint() {
 		return mEndPoint;
 	}
 	
@@ -42,7 +42,7 @@ public class TEInputTouch {
 		return mHash;
 	}
 	
-	public void endTouch(Point point) {
+	public void endTouch(TEPoint point) {
 		mEndPoint.x = point.x;
 		mEndPoint.y = point.y;
 		mEnd = true;
@@ -56,7 +56,7 @@ public class TEInputTouch {
 	public void reset() {
 		mBegan = false;
 		mEnd = false;
-		mStartPoint = new Point(mEndPoint.x, mEndPoint.y);
+		mStartPoint = new TEPoint(mEndPoint.x, mEndPoint.y);
 	}
 	
 }

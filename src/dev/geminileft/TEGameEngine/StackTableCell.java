@@ -24,7 +24,7 @@ public class StackTableCell extends TEComponentStack {
 		TEComponentStack childStack = getChildStack();
 		
 		if (childStack == null) {
-			final int dropCount = getPickupCount(openFreeCellCount, openTableCellCount - 1);
+			final int dropCount = getPickupCount(mOpenFreeCellCount, mOpenTableCellCount - 1);
 			childStack = stack;
 			int stackCount = 0;
 			while (childStack != null) {
@@ -46,13 +46,13 @@ public class StackTableCell extends TEComponentStack {
 	@Override
 	public void pushStack(TEComponentStack stack) {
 		super.pushStack(stack);
-		--TEComponentStack.openTableCellCount;
+		--TEComponentStack.mOpenTableCellCount;
 	}
 	
 	@Override
 	public void popStack(TEComponentStack stack) {
 		super.popStack(stack);
-		++TEComponentStack.openTableCellCount;
+		++TEComponentStack.mOpenTableCellCount;
 	}
 
 	@Override

@@ -3,9 +3,8 @@ package dev.geminileft.TEGameEngine;
 public final class TERandomizer {
 	private int mNumber;
 	
-	public TERandomizer(int seed) {
-		mNumber = seed;
-		
+	public TERandomizer(long seed) {
+		mNumber = (int)seed;
 	}
 	
 	public int next() {

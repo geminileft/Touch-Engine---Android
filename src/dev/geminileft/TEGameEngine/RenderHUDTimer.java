@@ -27,7 +27,7 @@ public class RenderHUDTimer extends TEComponentRender {
 		this(resourceId, null, null);
 	}
 	
-	public RenderHUDTimer(int resourceId, Point position, Size size) {
+	public RenderHUDTimer(int resourceId, TEPoint position, TESize size) {
 		super();
 		mTexture = new TEUtilTexture(resourceId, position, size);
 		if (size == null) {
@@ -133,7 +133,7 @@ public class RenderHUDTimer extends TEComponentRender {
 	
 	@Override
 	public void update() {
-		Point point = parent.position;
+		TEPoint point = parent.position;
 		mX = point.x;
 		mY = point.y;
 		final long mCurrentTime = SystemClock.uptimeMillis();
@@ -144,8 +144,8 @@ public class RenderHUDTimer extends TEComponentRender {
 		mPreviousTime = mCurrentTime;
 	}
 	
-	public Size getSize() {
-		return new Size(mWidth, mHeight);
+	public TESize getSize() {
+		return new TESize(mWidth, mHeight);
 	}
 	
 	private FloatBuffer createTextureBuffer(int left, int width, int height) {

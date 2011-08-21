@@ -4,10 +4,10 @@ public abstract class TEComponentTouch extends TEComponent {
 	public abstract boolean addTouch(TEInputTouch touch);
 	public abstract boolean updateTouch(TEInputTouch touch);
 
-	public boolean containsPoint(Point point) {
+	public boolean containsPoint(TEPoint point) {
 		boolean returnValue = false;
-		Point position = parent.position;
-		Size size  = parent.size;
+		TEPoint position = parent.position;
+		TESize size  = parent.size;
 		float left = (float)position.x - ((float)size.width / 2);
 		float right = (float)position.x + ((float)size.width / 2);
 		float bottom = (float)position.y - ((float)size.height / 2);

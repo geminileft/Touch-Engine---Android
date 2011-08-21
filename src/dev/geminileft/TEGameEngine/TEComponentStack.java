@@ -9,8 +9,8 @@ public abstract class TEComponentStack extends TEComponent {
 	}
 	
 	public final int CARD_OFFSET = 40;
-	public static int openFreeCellCount;
-	public static int openTableCellCount;
+	public static int mOpenFreeCellCount;
+	public static int mOpenTableCellCount;
 	private TEComponentStack mChildStack;
 	private TEComponentStack mParentStack;
 	private boolean mTopStack = true;
@@ -73,11 +73,11 @@ public abstract class TEComponentStack extends TEComponent {
 		int offset = stack.getStackOffset(true);
 		final int newOffset = stack.getStackOffset(false);
 		TEGameObject rootParent = stack.parent;
-		Point position = new Point(rootParent.position.x, rootParent.position.y);
+		TEPoint position = new TEPoint(rootParent.position.x, rootParent.position.y);
 		while (stack.getChildStack() != null) {
 			position.y -= offset;
 			stack = stack.getChildStack();
-			stack.parent.position = new Point(position.x, position.y);
+			stack.parent.position = new TEPoint(position.x, position.y);
 			offset = newOffset;
 		}
 	}
@@ -132,4 +132,13 @@ public abstract class TEComponentStack extends TEComponent {
 		}
 		return pickupCount;
 	}
+
+	public static void setOpenTableCellCount(int openTableCellCount) {
+		mOpenTableCellCount	= openTableCellCount;
+	}
+	
+	public static void setOpenFreeCellCount(int openFreeCellCount) {
+		mOpenFreeCellCount = openFreeCellCount;
+	}
 }
+

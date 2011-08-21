@@ -29,7 +29,7 @@ public class RenderHUDMoves extends TEComponentRender {
 		this(resourceId, null, null);
 	}
 
-	public RenderHUDMoves(int resourceId, Point position, Size size) {
+	public RenderHUDMoves(int resourceId, TEPoint position, TESize size) {
 		super();
 		mTexture = new TEUtilTexture(resourceId, position, size);
 		if (size == null) {
@@ -121,13 +121,13 @@ public class RenderHUDMoves extends TEComponentRender {
 	
 	@Override
 	public void update() {
-		Point point = parent.position;
+		TEPoint point = parent.position;
 		mX = point.x;
 		mY = point.y;
 	}
 	
-	public Size getSize() {
-		return new Size(mWidth, mHeight);
+	public TESize getSize() {
+		return new TESize(mWidth, mHeight);
 	}
 	
 	private FloatBuffer createTextureBuffer(int left, int width, int height) {

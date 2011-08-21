@@ -6,7 +6,7 @@ public class TEUtilRect {
 		public float top;
 		public float bottom;
 		
-		public TEUtilRect(Point position, Size size) {
+		public TEUtilRect(TEPoint position, TESize size) {
 			left = position.x - ((float)size.width / 2);
 			right = left + size.width;
 			bottom = position.y - ((float)size.height / 2);

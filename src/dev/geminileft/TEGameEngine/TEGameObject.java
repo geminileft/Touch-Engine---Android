@@ -8,8 +8,8 @@ import java.util.Vector;
 public class TEGameObject extends TEManagerComponent {
 	private HashMap<TEComponent.Event, Vector<TEComponent.EventListener>> mEventSubscribers = new HashMap<TEComponent.Event, Vector<TEComponent.EventListener>>(); 
 	
-	public Size size;
-	public Point position;
+	public TESize size = TESize.make(0, 0);
+	public TEPoint position = TEPoint.make(0, 0);
 	
 	public TEGameObject() {
 		super();
