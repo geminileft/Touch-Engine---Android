@@ -16,7 +16,7 @@ public class TEGameObject extends TEManagerComponent {
 	}
 	
 	@Override
-	public void update() {
+	public void update(long dt) {
 		// TODO Auto-generated method stub	
 	}
 	

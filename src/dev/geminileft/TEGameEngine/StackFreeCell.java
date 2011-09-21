@@ -29,5 +29,5 @@ public class StackFreeCell extends TEComponentStack {
 	}
 	
 	@Override
-	public void update() {}
+	public void update(long dt) {}
 }

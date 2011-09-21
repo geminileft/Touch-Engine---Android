@@ -40,7 +40,8 @@ public abstract class TEEngine {
 	public final void run() {
 		final int managerCount = mManagers.size();
 		for (int count = 0;count < managerCount; ++count) {
-			mManagers.get(count).update();
+			long dt = 0;
+			mManagers.get(count).update(dt);
 		}
 	}
 	

@@ -22,12 +22,12 @@ public class TEManagerRender extends TEManagerComponent {
 		super();
 	}
 	
-	public void update() {
+	public void update(long dt) {
 		TEComponentContainer components = getComponents();
 		final int size = components.size();
 		for(int i = 0; i < size; ++i) {
 				TEComponentRender component = (TEComponentRender)components.get(i);
-		    	component.update();
+		    	component.update(dt);
 		    	component.draw();
 		    }
 	}

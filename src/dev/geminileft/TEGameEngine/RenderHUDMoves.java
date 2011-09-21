@@ -120,7 +120,7 @@ public class RenderHUDMoves extends TEComponentRender {
 	}
 	
 	@Override
-	public void update() {
+	public void update(long dt) {
 		TEPoint point = parent.position;
 		mX = point.x;
 		mY = point.y;

@@ -59,7 +59,7 @@ public class RenderImage extends TEComponentRender {
 	}
 	
 	@Override
-	public void update() {}
+	public void update(long dt) {}
 	
 	public TESize getSize() {
 		return new TESize(mWidth, mHeight);

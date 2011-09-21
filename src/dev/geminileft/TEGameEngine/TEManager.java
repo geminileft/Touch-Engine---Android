@@ -1,5 +1,5 @@
 package dev.geminileft.TEGameEngine;
 
 public abstract class TEManager{
-	public abstract void update();
+	public abstract void update(long dt);
 }

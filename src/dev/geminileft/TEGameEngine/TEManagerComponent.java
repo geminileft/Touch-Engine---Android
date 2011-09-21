@@ -7,12 +7,12 @@ public abstract class TEManagerComponent extends TEManager {
 		mComponents = new TEComponentContainer();
 	}
 
-	public void update() {
+	public void update(long dt) {
 		TEComponentContainer components = getComponents();
 		final int size = components.size();
 		for(int i = 0; i < size; ++i) {
 			TEComponent component = components.get(i);
-	    	component.update();
+	    	component.update(dt);
 	    }
 	}
 	

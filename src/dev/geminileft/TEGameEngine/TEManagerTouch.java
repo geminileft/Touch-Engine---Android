@@ -22,7 +22,7 @@ public class TEManagerTouch extends TEManagerComponent {
 	}
 
 	@Override
-	public void update() {
+	public void update(long dt) {
 		TEComponentContainer components = getComponents();
 		TEComponentTouch component;
 		TEManagerInput inputManager = TEManagerInput.sharedManager();
@@ -54,7 +54,7 @@ public class TEManagerTouch extends TEManagerComponent {
 		final int size = components.size();
 	    for(int i = 0;i < size;++i) {
 	    	component = (TEComponentTouch)components.get(i);
-	    	component.update();
+	    	component.update(dt);
 	    }
 	}
 

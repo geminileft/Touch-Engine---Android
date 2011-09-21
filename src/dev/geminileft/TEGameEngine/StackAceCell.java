@@ -35,5 +35,5 @@ public class StackAceCell extends TEComponentStack {
 	}
 
 	@Override
-	public void update() {}
+	public void update(long dt) {}
 }

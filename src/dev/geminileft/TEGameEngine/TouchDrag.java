@@ -107,7 +107,7 @@ public class TouchDrag extends TEComponentTouch {
 	}
 
 	@Override
-	public void update() {
+	public void update(long dt) {
 		if (mTouchValid && (mTouch != null)) {
 	        float x = mTouch.getEndPoint().x + mTouchOffset.x;
 	        float y = mTouch.getEndPoint().y + mTouchOffset.y;

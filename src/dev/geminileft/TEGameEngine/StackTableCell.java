@@ -58,7 +58,7 @@ public class StackTableCell extends TEComponentStack {
 	}
 
 	@Override
-	public void update() {}
+	public void update(long dt) {}
 	
 	public boolean getClear() {
 		return mClear;

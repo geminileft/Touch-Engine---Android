@@ -23,7 +23,7 @@ public abstract class TEComponent {
 	
 	private HashMap<TEComponent.Event, EventListener> mEventSubscriptions = new HashMap<TEComponent.Event, EventListener>();
 
-	public abstract void update();
+	public abstract void update(long dt);
 	
 	public final void setParent(TEGameObject parentGameObject) {
 		parent = parentGameObject;

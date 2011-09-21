@@ -63,13 +63,13 @@ public class TEManagerStack extends TEManagerComponent {
 	public final void moveComponentToTop(TEComponent component) {}
 
 	@Override
-	public void update() {
+	public void update(long dt) {
 		TEComponentContainer components = getComponents();
 		if (!components.isEmpty()) {
 			final int size = components.size();
 		    for(int i = 0;i < size;++i) {
 		    	TEComponentStack component = (TEComponentStack)components.get(i);
-		    	component.update();
+		    	component.update(dt);
 		    	if (component.isEvaluateReady) {
 		    		TEComponentStack dropStack = getDropStack(component);
 		    		if (dropStack == null) {

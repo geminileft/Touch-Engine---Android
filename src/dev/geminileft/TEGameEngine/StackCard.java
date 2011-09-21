@@ -76,7 +76,7 @@ public class StackCard extends TEComponentStack {
 	}
 	
 	@Override
-	public void update() {
+	public void update(long dt) {
 		if (mMoving) {
 			adjustStackPositions();			
 		}

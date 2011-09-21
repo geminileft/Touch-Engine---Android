@@ -6,8 +6,6 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.os.SystemClock;
-
 public class RenderHUDTimer extends TEComponentRender {
 
 	private final int FLOAT_SIZE = 4;
@@ -20,7 +18,7 @@ public class RenderHUDTimer extends TEComponentRender {
 	private FloatBuffer mTextureBuffers[] = new FloatBuffer[11];
 	private FloatBuffer mVertexBuffers[] = new FloatBuffer[11];
 	private long mElapsedTime;
-	private long mPreviousTime;
+	//private long mPreviousTime;
 	private GL10 mGL;
 	
 	public RenderHUDTimer(int resourceId) {
@@ -89,7 +87,7 @@ public class RenderHUDTimer extends TEComponentRender {
 		mVertexBuffers[8] = tempVertexBuffers[2];
 		mVertexBuffers[9] = tempVertexBuffers[2];
 		mVertexBuffers[10] = tempVertexBuffers[0];
-		mPreviousTime = SystemClock.uptimeMillis();
+		//mPreviousTime = SystemClock.uptimeMillis();
 		mGL = TEManagerGraphics.getGL();
 	}
 
@@ -132,16 +130,16 @@ public class RenderHUDTimer extends TEComponentRender {
 	}
 	
 	@Override
-	public void update() {
+	public void update(long dt) {
 		TEPoint point = parent.position;
 		mX = point.x;
 		mY = point.y;
-		final long mCurrentTime = SystemClock.uptimeMillis();
+		//final long mCurrentTime = SystemClock.uptimeMillis();
 		
-		final long dt = mCurrentTime - mPreviousTime;
-		mElapsedTime += dt;
+		//final long dt = mCurrentTime - mPreviousTime;
+		//mElapsedTime += dt;
 		//Log.v("RenderHUDTimer.update", Long.valueOf(dt).toString());
-		mPreviousTime = mCurrentTime;
+		//mPreviousTime = mCurrentTime;
 	}
 	
 	public TESize getSize() {

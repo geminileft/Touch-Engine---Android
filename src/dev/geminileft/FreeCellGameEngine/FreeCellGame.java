@@ -33,7 +33,6 @@ public class FreeCellGame extends TEEngine {
 
 	@Override
 	public void start() {
-	    TEGameObject gameObject;
 	    addGameObject(mFactory.createBackground());
 	    int x = START_X;
 	    int y = mHeight - 50;
