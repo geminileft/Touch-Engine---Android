@@ -44,7 +44,7 @@ public class TEGameRenderer implements GLSurfaceView.Renderer {
 		mGame.run();
 		final long currentTime = SystemClock.uptimeMillis();
 		final long dt = currentTime - mPreviousTime;
-		Log.v("TEGameRenderer.onDrawFrame", Long.valueOf(dt).toString());
+		//Log.v("TEGameRenderer.onDrawFrame", Long.valueOf(dt).toString());
 		mPreviousTime = currentTime;
 	}
 
