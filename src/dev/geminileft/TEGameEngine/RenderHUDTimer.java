@@ -91,7 +91,7 @@ public class RenderHUDTimer extends TEComponentRender {
 		mGL = TEManagerGraphics.getGL();
 	}
 
-	public void draw() {
+	public void draw(GL10 gl) {
 		final int seconds_size = 2;
 		final int minute_size = 2;
 		int secondsDigits[] = new int[seconds_size + minute_size + 1];

@@ -9,4 +9,8 @@ public class MathUtils {
 			c <<= 1;
 		return c;
 	}
+	
+	public static int framesToMillis(int framesPerSecond, int frameCount) {
+		return (int)(((float)1000 / framesPerSecond) * frameCount);
+	}
 }

@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 public abstract class TEEngine {
+	private final int MAX_FRAME_TIME = 1000 / 30;//cap frame duration to 30fps
+	private long mPreviousTime;
 	private Context mContext;
 	private Vector<TEGameObject> mGameObjects;
 	private Vector<TEManager> mManagers;
@@ -38,9 +40,12 @@ public abstract class TEEngine {
 	}
 	
 	public final void run() {
+		final long currentTime = TEManagerTime.currentTime();
+		long dt = currentTime - mPreviousTime;
+		mPreviousTime = currentTime;
+		dt = (dt > MAX_FRAME_TIME) ? MAX_FRAME_TIME : dt;
 		final int managerCount = mManagers.size();
 		for (int count = 0;count < managerCount; ++count) {
-			long dt = 0;
 			mManagers.get(count).update(dt);
 		}
 	}

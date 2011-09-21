@@ -91,7 +91,7 @@ public class RenderHUDMoves extends TEComponentRender {
 		mGL = TEManagerGraphics.getGL();
 	}
 
-	public void draw() {
+	public void draw(GL10 gl) {
 		int moveCountDigits[] = new int[MAX_DIGIT_COUNT];
 		
 		int digits = 0;

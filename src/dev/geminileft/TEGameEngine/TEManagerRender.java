@@ -1,5 +1,7 @@
 package dev.geminileft.TEGameEngine;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import android.util.Log;
 
 public class TEManagerRender extends TEManagerComponent {
@@ -23,12 +25,13 @@ public class TEManagerRender extends TEManagerComponent {
 	}
 	
 	public void update(long dt) {
+		GL10 gl = TEManagerGraphics.getGL();
 		TEComponentContainer components = getComponents();
 		final int size = components.size();
 		for(int i = 0; i < size; ++i) {
 				TEComponentRender component = (TEComponentRender)components.get(i);
 		    	component.update(dt);
-		    	component.draw();
+		    	component.draw(gl);
 		    }
 	}
 	
