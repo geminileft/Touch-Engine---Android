@@ -6,6 +6,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 public abstract class TEEngine {
@@ -24,14 +25,12 @@ public abstract class TEEngine {
 		mHeight = height;
 		mGameObjects = new Vector<TEGameObject>();
 		mManagers = new Vector<TEManager>();
-        TEManagerTouch touchManager = TEManagerTouch.sharedManager();
-        TEManagerStack stackManager = TEManagerStack.sharedManager();
-        TEManagerSound soundManager = TEManagerSound.sharedManager();
-        TEManagerRender renderManager = TEManagerRender.sharedManager();
-        mManagers.add(touchManager);
-        mManagers.add(stackManager);
-        mManagers.add(soundManager);
-        mManagers.add(renderManager);
+        mManagers.add(TEManagerInput.sharedManager());
+        mManagers.add(TEManagerTouch.sharedManager());
+        mManagers.add(TEManagerStack.sharedManager());
+        mManagers.add(TEManagerSound.sharedManager());
+        mManagers.add(TEManagerRender.sharedManager());
+        mManagers.add(TEManagerMovement.sharedManager());
 	}
 	
 	public void setContext(Context context) {
@@ -63,6 +62,7 @@ public abstract class TEEngine {
 		TEManagerTouch touchManager = TEManagerTouch.sharedManager();
 		TEManagerSound soundManager = TEManagerSound.sharedManager();
 		TEManagerStack stackManager = TEManagerStack.sharedManager();
+		TEManagerMovement movementManager = TEManagerMovement.sharedManager();
 		TEComponentContainer components = gameObject.getComponents();
 		final int size = components.size();
 		TEComponent component;
@@ -76,6 +76,8 @@ public abstract class TEEngine {
 				soundManager.addComponent(component);
 			} else if (component instanceof TEComponentStack) {
 				stackManager.addComponent(component);
+			} else if (component instanceof TEComponentMovement) {
+				movementManager.addComponent(component);
 			}
 		}
 		mGameObjects.add(gameObject);
@@ -112,6 +114,18 @@ public abstract class TEEngine {
     			break;
         	}
     	}
+    	return false;
+    }
+    
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    	TEManagerInput inputManager = TEManagerInput.sharedManager();
+    	inputManager.beginKeyPress(keyCode);
+    	return false;
+    }
+
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+    	TEManagerInput inputManager = TEManagerInput.sharedManager();
+    	inputManager.endKeyPress(keyCode);
     	return false;
     }
     

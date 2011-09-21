@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import dev.geminileft.AnimationDemo2D.AnimationDemo;
 import dev.geminileft.TEGameEngine.TEEngine;
@@ -29,4 +30,15 @@ public class MainActivity extends Activity {
     public boolean onTouchEvent(MotionEvent event) {
     	return mGame.onTouchEvent(event);
     }
+    
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    	return mGame.onKeyDown(keyCode, event);
+    }
+
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+    	return mGame.onKeyUp(keyCode, event);
+
+    }
+    
 }

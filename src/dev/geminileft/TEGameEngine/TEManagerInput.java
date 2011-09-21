@@ -4,12 +4,15 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public final class TEManagerInput {
+public final class TEManagerInput extends TEManagerComponent {
 	private final static TEManagerInput mSharedInstance = new TEManagerInput();
 	private HashMap<Integer, TEInputTouch> mTouches;
+	private HashMap<Integer, TEInputKey> mKeys;
+	private HashMap<Integer, TEInputKey> mKeyBuffer;
 	
 	public TEManagerInput() {
 		mTouches = new HashMap<Integer, TEInputTouch>();
+		mKeys = new HashMap<Integer, TEInputKey>();
 	}
 
 	public static TEManagerInput sharedManager() {
@@ -32,6 +35,18 @@ public final class TEManagerInput {
 		}
 	}
 
+	public void beginKeyPress(int keyCode) {
+		TEInputKey key = new TEInputKey(keyCode);
+		mKeys.put(keyCode, key);
+	}
+	
+	public void endKeyPress(int keyCode) {
+		TEInputKey key = mKeys.get(keyCode);
+		if (key != null) {
+			key.endKey();
+		}
+	}
+	
 	public 	HashMap<Integer, TEInputTouch> getInputState() {
 		HashMap<Integer, TEInputTouch> touchState = new HashMap<Integer, TEInputTouch>();
 		Collection<TEInputTouch> collection = mTouches.values();
@@ -47,5 +62,32 @@ public final class TEManagerInput {
 			}
 		}
 		return touchState;
+	}
+
+	public HashMap<Integer, TEInputKey> getKeyState() {
+		return mKeyBuffer;
+	}
+
+	@Override
+	public void moveComponentToTop(TEComponent component) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void update(long dt) {
+		mKeyBuffer = new HashMap<Integer, TEInputKey>();
+		Collection<TEInputKey> collection = mKeys.values();
+		TEInputKey key;
+		final Iterator<TEInputKey> iterator = collection.iterator();
+		while (iterator.hasNext()) {
+			key = iterator.next().copy();
+			mKeyBuffer.put(key.getKeyCode(), key);
+			if (key.didEnd()) {
+				mKeys.remove(key.getKeyCode());
+			} else {
+				key.reset();
+			}
+		}
 	}
 }

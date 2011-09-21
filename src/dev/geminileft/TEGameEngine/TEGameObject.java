@@ -6,6 +6,13 @@ import java.util.Set;
 import java.util.Vector;
 
 public class TEGameObject extends TEManagerComponent {
+	public enum ObjectState {
+		NORMAL
+		, MOVING
+	}
+	
+	public ObjectState state;
+	
 	private HashMap<TEComponent.Event, Vector<TEComponent.EventListener>> mEventSubscribers = new HashMap<TEComponent.Event, Vector<TEComponent.EventListener>>(); 
 	
 	public TESize size = TESize.make(0, 0);
@@ -13,6 +20,7 @@ public class TEGameObject extends TEManagerComponent {
 	
 	public TEGameObject() {
 		super();
+		state = ObjectState.NORMAL;
 	}
 	
 	@Override

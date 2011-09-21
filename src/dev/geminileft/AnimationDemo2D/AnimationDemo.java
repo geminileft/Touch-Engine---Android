@@ -1,6 +1,7 @@
 package dev.geminileft.AnimationDemo2D;
 
 import dev.geminileft.TEGameEngine.MathUtils;
+import dev.geminileft.TEGameEngine.MovementPlayer;
 import dev.geminileft.TEGameEngine.RenderAnimation;
 import dev.geminileft.TEGameEngine.RenderImage;
 import dev.geminileft.TEGameEngine.TEEngine;
@@ -21,10 +22,12 @@ public class AnimationDemo extends TEEngine {
 		// TODO Auto-generated method stub
 		TEGameObject gameObject = new TEGameObject();
 		gameObject.position = TEPoint.make(200, 200);
-		RenderAnimation animation = new RenderAnimation();
+		RenderAnimation animation = new RenderAnimation(TEGameObject.ObjectState.NORMAL);
 		TESize size = TESize.make(64, 128);
-		final int frameDuration = MathUtils.framesToMillis(30, 3);
 		animation.addFrameAnimation(MathUtils.framesToMillis(30, 8), new TEUtilDrawable(R.drawable.rabbit_redone, size));
+		gameObject.addComponent(animation);
+		final int frameDuration = MathUtils.framesToMillis(30, 3);
+		animation = new RenderAnimation(TEGameObject.ObjectState.MOVING);
 		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_001, size));
 		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_002, size));
 		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_003, size));
@@ -37,6 +40,7 @@ public class AnimationDemo extends TEEngine {
 		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_010, size));
 		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_011, size));
 		gameObject.addComponent(animation);
+		gameObject.addComponent(new MovementPlayer());
         addGameObject(gameObject);
 
 		gameObject = new TEGameObject();
