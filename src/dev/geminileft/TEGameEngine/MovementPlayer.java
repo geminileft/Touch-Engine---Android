@@ -1,8 +1,5 @@
 package dev.geminileft.TEGameEngine;
 
-import java.util.HashMap;
-
-import android.view.KeyEvent;
 
 public class MovementPlayer extends TEComponentMovement {
 	private boolean mMoving = false;
@@ -11,17 +8,18 @@ public class MovementPlayer extends TEComponentMovement {
 	@Override
 	public void update(long dt) {
 		TEManagerInput inputManager = TEManagerInput.sharedManager();
-		HashMap<Integer, TEInputKey> keyInput = inputManager.getKeyState();
-		TEInputKey rightKey = keyInput.get(KeyEvent.KEYCODE_D);
-		TEInputKey leftKey = keyInput.get(KeyEvent.KEYCODE_A);
-		if (rightKey != null || leftKey != null) {
+		final long movementButtonBitmask = TEManagerInput.LEFT_BUTTON | TEManagerInput.RIGHT_BUTTON;
+		final long buttons = inputManager.getButtonState() & movementButtonBitmask;
+		if (buttons > 0) {
 			parent.state = TEGameObject.ObjectState.MOVING;
 			mMoving = true;
 			int velocity = 0;
-			if (rightKey != null) {
+			if ((buttons & TEManagerInput.RIGHT_BUTTON) > 0) {
 				velocity = MOVE_VELOCITY;
-			} else if (leftKey != null) {
+				parent.direction = TEGameObject.ObjectDirection.NORMAL;
+			} else if ((buttons & TEManagerInput.LEFT_BUTTON) > 0) {
 				velocity = -MOVE_VELOCITY;
+				parent.direction = TEGameObject.ObjectDirection.REVERSE;
 			}
 			parent.position.x += velocity;			
 		} else {

@@ -4,15 +4,17 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public final class TEManagerInput extends TEManagerComponent {
+import android.view.KeyEvent;
+
+public final class TEManagerInput {
 	private final static TEManagerInput mSharedInstance = new TEManagerInput();
 	private HashMap<Integer, TEInputTouch> mTouches;
-	private HashMap<Integer, TEInputKey> mKeys;
-	private HashMap<Integer, TEInputKey> mKeyBuffer;
+	private long mButtonsPressed;
+	public static final long LEFT_BUTTON = 1;
+	public static final long RIGHT_BUTTON = 2;
 	
 	public TEManagerInput() {
 		mTouches = new HashMap<Integer, TEInputTouch>();
-		mKeys = new HashMap<Integer, TEInputKey>();
 	}
 
 	public static TEManagerInput sharedManager() {
@@ -36,15 +38,13 @@ public final class TEManagerInput extends TEManagerComponent {
 	}
 
 	public void beginKeyPress(int keyCode) {
-		TEInputKey key = new TEInputKey(keyCode);
-		mKeys.put(keyCode, key);
+		final long buttonCode = getButtonCode(keyCode);
+		mButtonsPressed |= buttonCode;
 	}
 	
 	public void endKeyPress(int keyCode) {
-		TEInputKey key = mKeys.get(keyCode);
-		if (key != null) {
-			key.endKey();
-		}
+		final long buttonCode = getButtonCode(keyCode);
+		mButtonsPressed ^= buttonCode;
 	}
 	
 	public 	HashMap<Integer, TEInputTouch> getInputState() {
@@ -64,30 +64,20 @@ public final class TEManagerInput extends TEManagerComponent {
 		return touchState;
 	}
 
-	public HashMap<Integer, TEInputKey> getKeyState() {
-		return mKeyBuffer;
+	public long getButtonState() {
+		return mButtonsPressed;
 	}
 
-	@Override
-	public void moveComponentToTop(TEComponent component) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void update(long dt) {
-		mKeyBuffer = new HashMap<Integer, TEInputKey>();
-		Collection<TEInputKey> collection = mKeys.values();
-		TEInputKey key;
-		final Iterator<TEInputKey> iterator = collection.iterator();
-		while (iterator.hasNext()) {
-			key = iterator.next().copy();
-			mKeyBuffer.put(key.getKeyCode(), key);
-			if (key.didEnd()) {
-				mKeys.remove(key.getKeyCode());
-			} else {
-				key.reset();
-			}
+	private long getButtonCode(int keyCode) {
+		long value = 0;
+		switch(keyCode) {
+			case KeyEvent.KEYCODE_D:
+				value = RIGHT_BUTTON;
+				break;
+			case KeyEvent.KEYCODE_A:
+				value = LEFT_BUTTON;
+				break;
 		}
+		return value;
 	}
 }

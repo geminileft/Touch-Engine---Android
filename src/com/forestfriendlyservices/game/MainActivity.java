@@ -3,6 +3,7 @@ package com.forestfriendlyservices.game;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -33,7 +34,13 @@ public class MainActivity extends Activity {
     
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-    	return mGame.onKeyDown(keyCode, event);
+    	boolean result = false;
+    	try {
+    	result = mGame.onKeyDown(keyCode, event);
+    	} catch (Exception e) {
+    		Log.v("info", "failed here");
+    	}
+    	return result;
     }
 
     public boolean onKeyUp(int keyCode, KeyEvent event) {

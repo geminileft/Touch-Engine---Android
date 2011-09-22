@@ -31,10 +31,12 @@ public class RenderAnimation extends TEComponentRender {
 	private long mCurrentFrameDuration;
 	private int mCurrentFrameIndex;
 	private TEGameObject.ObjectState mState;
+	private int mCrop[];
 	
 	public RenderAnimation(TEGameObject.ObjectState state) {
 		mFrames = new LinkedList<AnimationFrame>();
 		mState = state;
+		mCrop = new int[4];
 	}
 	public void addFrameAnimation(long frameDuration, TEUtilDrawable drawable) {
 		mFrames.add(new AnimationFrame(frameDuration, drawable));
@@ -48,7 +50,7 @@ public class RenderAnimation extends TEComponentRender {
 			TESize size = drawable.getSize();
 			gl.glBindTexture(GL10.GL_TEXTURE_2D, drawable.getTexture().getName());
 	
-	        ((GL11)gl).glTexParameteriv(GL10.GL_TEXTURE_2D, GL11Ext.GL_TEXTURE_CROP_RECT_OES, drawable.getCrop(), 0);
+	        ((GL11)gl).glTexParameteriv(GL10.GL_TEXTURE_2D, GL11Ext.GL_TEXTURE_CROP_RECT_OES, mCrop, 0);
 	        ((GL11Ext)gl).glDrawTexfOES(parent.position.x - (size.width / 2), parent.position.y - (size.height / 2), 
 	        		0.001f, size.width, size.height);
 		}
@@ -56,6 +58,17 @@ public class RenderAnimation extends TEComponentRender {
 
 	@Override
 	public void update(long dt) {
+		AnimationFrame frame = mFrames.get(mCurrentFrameIndex);
+		TEUtilDrawable drawable = frame.getDrawable();
+		final int crop[] = drawable.getCrop();
+		mCrop[0] = crop[0];
+		mCrop[1] = crop[1];
+		mCrop[2] = crop[2];
+		mCrop[3] = crop[3];
+		if (parent.direction == TEGameObject.ObjectDirection.REVERSE) {
+			mCrop[TEUtilDrawable.START_X] += mCrop[TEUtilDrawable.WIDTH];
+			mCrop[TEUtilDrawable.WIDTH] = -mCrop[TEUtilDrawable.WIDTH];
+		}
 		mCurrentFrameDuration += dt;
 		final long frameDuration = mFrames.get(mCurrentFrameIndex).getDuration();
 		if (mCurrentFrameDuration > frameDuration) {

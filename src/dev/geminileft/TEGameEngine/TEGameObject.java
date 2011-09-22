@@ -11,7 +11,13 @@ public class TEGameObject extends TEManagerComponent {
 		, MOVING
 	}
 	
+	public enum ObjectDirection {
+		NORMAL
+		, REVERSE
+	}
+	
 	public ObjectState state;
+	public ObjectDirection direction; 
 	
 	private HashMap<TEComponent.Event, Vector<TEComponent.EventListener>> mEventSubscribers = new HashMap<TEComponent.Event, Vector<TEComponent.EventListener>>(); 
 	
@@ -21,6 +27,7 @@ public class TEGameObject extends TEManagerComponent {
 	public TEGameObject() {
 		super();
 		state = ObjectState.NORMAL;
+		direction = ObjectDirection.NORMAL;
 	}
 	
 	@Override

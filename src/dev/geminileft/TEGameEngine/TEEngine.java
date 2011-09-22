@@ -25,7 +25,6 @@ public abstract class TEEngine {
 		mHeight = height;
 		mGameObjects = new Vector<TEGameObject>();
 		mManagers = new Vector<TEManager>();
-        mManagers.add(TEManagerInput.sharedManager());
         mManagers.add(TEManagerTouch.sharedManager());
         mManagers.add(TEManagerStack.sharedManager());
         mManagers.add(TEManagerSound.sharedManager());
