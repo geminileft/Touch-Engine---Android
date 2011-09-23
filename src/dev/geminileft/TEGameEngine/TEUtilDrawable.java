@@ -11,13 +11,13 @@ public class TEUtilDrawable {
 	public int mCrop[];
 	public TESize mSize;
 	
-	public TEUtilDrawable(int resourceId, TESize size) {
+	public TEUtilDrawable(int resourceId, TESize size, TEPoint offset) {
 		TEManagerTexture textureManager = TEManagerTexture.sharedInstance();
 		mTexture = textureManager.getTexture2D(resourceId);
 		mCrop = new int[CROP_SIZE];
-		//mapping goes from top left to bottom right
-		mCrop[START_X] = 0;//start-x
-		mCrop[START_Y] = size.height;//start-y
+		//mapping goes from bottom left to top right
+		mCrop[START_X] = (int)offset.x;//start-x
+		mCrop[START_Y] = size.height + (int)offset.y;//start-y
 		mCrop[WIDTH] = size.width;//width
 		mCrop[HEIGHT] = -size.height;//height
 		mSize = size;

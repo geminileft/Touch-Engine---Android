@@ -24,7 +24,7 @@ public class RenderImage extends TEComponentRender {
 
 	public RenderImage(int resourceId, TEPoint position, TESize size) {
 		super();
-		mDrawable = new TEUtilDrawable(resourceId, size);
+		mDrawable = new TEUtilDrawable(resourceId, size, position);
 		addEventSubscription(TEComponent.Event.EVENT_MOVE_TO_TOP, mMoveToTopListener);
 	}
 

@@ -24,29 +24,57 @@ public class AnimationDemo extends TEEngine {
 		gameObject.position = TEPoint.make(200, 200);
 		RenderAnimation animation = new RenderAnimation(TEGameObject.ObjectState.NORMAL);
 		TESize size = TESize.make(64, 128);
-		animation.addFrameAnimation(MathUtils.framesToMillis(30, 8), new TEUtilDrawable(R.drawable.rabbit_redone, size));
+		TEPoint offset = TEPoint.make(0, 0);
+		animation.addFrameAnimation(MathUtils.framesToMillis(30, 8), new TEUtilDrawable(R.drawable.rabbit_redone, size, offset));
 		gameObject.addComponent(animation);
 		final int frameDuration = MathUtils.framesToMillis(30, 3);
 		animation = new RenderAnimation(TEGameObject.ObjectState.MOVING);
-		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_001, size));
-		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_002, size));
-		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_003, size));
-		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_004, size));
-		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_005, size));
-		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_006, size));
-		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_007, size));
-		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_008, size));
-		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_009, size));
-		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_010, size));
-		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_011, size));
+		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_001, size, offset));
+		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_002, size, offset));
+		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_003, size, offset));
+		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_004, size, offset));
+		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_005, size, offset));
+		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_006, size, offset));
+		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_007, size, offset));
+		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_008, size, offset));
+		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_009, size, offset));
+		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_010, size, offset));
+		animation.addFrameAnimation(frameDuration, new TEUtilDrawable(R.drawable.rabbit_frame_011, size, offset));
 		gameObject.addComponent(animation);
-		gameObject.addComponent(new MovementPlayer());
+		gameObject.state = TEGameObject.ObjectState.MOVING;
         addGameObject(gameObject);
 
+        size = TESize.make(91, 81);
 		gameObject = new TEGameObject();
 		gameObject.position = TEPoint.make(300, 200);
-		RenderImage renderImage = new RenderImage(R.drawable.tree12_e, null, TESize.make(64, 128));
-		gameObject.addComponent(renderImage);
+		animation = new RenderAnimation(TEGameObject.ObjectState.NORMAL);
+		TEUtilDrawable d1 = new TEUtilDrawable(R.drawable.gunman_atlas, size, TEPoint.make(144, 98)); 
+		TEUtilDrawable d2 = new TEUtilDrawable(R.drawable.gunman_atlas, size, TEPoint.make(35, 98)); 
+		animation.addFrameAnimation(MathUtils.framesToMillis(30, 8)
+				, d1);
+		animation.addFrameAnimation(MathUtils.framesToMillis(30, 8)
+				, d1);
+		animation.addFrameAnimation(MathUtils.framesToMillis(30, 8)
+				, d2);
+		animation.addFrameAnimation(MathUtils.framesToMillis(30, 8)
+				, d2);
+		animation.addFrameAnimation(MathUtils.framesToMillis(30, 8)
+				, d1);
+		gameObject.addComponent(animation);
+		animation = new RenderAnimation(TEGameObject.ObjectState.MOVING);
+		animation.addFrameAnimation(MathUtils.framesToMillis(30, 8)
+				, new TEUtilDrawable(R.drawable.gunman_atlas, size, TEPoint.make(424, 5)));
+		animation.addFrameAnimation(MathUtils.framesToMillis(30, 8)
+				, new TEUtilDrawable(R.drawable.gunman_atlas, size, TEPoint.make(326, 4)));
+		animation.addFrameAnimation(MathUtils.framesToMillis(30, 8)
+				, new TEUtilDrawable(R.drawable.gunman_atlas, size, TEPoint.make(220, 2)));
+		animation.addFrameAnimation(MathUtils.framesToMillis(30, 8)
+				, new TEUtilDrawable(R.drawable.gunman_atlas, size, TEPoint.make(119, 2)));
+		animation.addFrameAnimation(MathUtils.framesToMillis(30, 8)
+				, new TEUtilDrawable(R.drawable.gunman_atlas, size, TEPoint.make(22, 4)));
+		gameObject.addComponent(animation);
+		gameObject.addComponent(new MovementPlayer());
+		//gameObject.addComponent(animation);
 		addGameObject(gameObject);
 	}
 }
