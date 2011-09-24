@@ -3,7 +3,6 @@ package dev.geminileft.AnimationDemo2D;
 import dev.geminileft.TEGameEngine.MathUtils;
 import dev.geminileft.TEGameEngine.MovementPlayer;
 import dev.geminileft.TEGameEngine.RenderAnimation;
-import dev.geminileft.TEGameEngine.RenderImage;
 import dev.geminileft.TEGameEngine.TEEngine;
 import dev.geminileft.TEGameEngine.TEGameObject;
 import dev.geminileft.TEGameEngine.TEPoint;

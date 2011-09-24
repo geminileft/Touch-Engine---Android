@@ -9,7 +9,8 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import dev.geminileft.AnimationDemo2D.AnimationDemo;
 import dev.geminileft.TEGameEngine.TEEngine;
-import dev.geminileft.TEGameEngine.TEGameRenderer;
+//import dev.geminileft.TEGameEngine.TEGameRenderer;
+import dev.geminileft.TEGameEngine.TEUtilRenderer;
 
 public class MainActivity extends Activity {
 	private TEEngine mGame;
@@ -23,7 +24,9 @@ public class MainActivity extends Activity {
    		//mGame = new FreeCellGame(display.getWidth(), display.getHeight());
         mGame = new AnimationDemo(display.getWidth(), display.getHeight());
    		mGame.setContext(this);
-   		view.setRenderer(new TEGameRenderer(mGame));
+   		//view.setRenderer(new TEGameRenderer(mGame));
+        view.setEGLContextClientVersion(2);
+   		view.setRenderer(new TEUtilRenderer(this));
    		setContentView(view);
     }
 
