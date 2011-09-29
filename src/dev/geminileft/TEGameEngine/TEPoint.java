@@ -17,4 +17,12 @@ public class TEPoint {
 	public static TEPoint make(float newX, float newY) {
 		return new TEPoint(newX, newY);
 	}
+	
+	public static TEPoint zero() {
+		return new TEPoint(0, 0);
+	}
+	
+	public boolean isZero() {
+		return (x == 0) && (y == 0);
+	}
 }

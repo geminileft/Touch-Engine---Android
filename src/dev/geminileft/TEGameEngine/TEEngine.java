@@ -21,6 +21,7 @@ public abstract class TEEngine {
 	public abstract void start();
 
 	public TEEngine(int width, int height) {
+		TEManagerGraphics.setScreenSize(width, height);
 		mWidth = width;
 		mHeight = height;
 		mGameObjects = new Vector<TEGameObject>();

@@ -30,7 +30,7 @@ public class TEManagerTexture {
 		return mSharedInstance;
 	}
 	
-	public TETexture2D getTexture2D(int resourceId, TESize imageSize) {
+	public TETexture2D getTexture2D(int resourceId) {
 		TETexture2D texture = mTextures.get(resourceId);
 		if (texture == null) {
 			//GL10 gl = TEManagerGraphics.getGL();
@@ -38,10 +38,8 @@ public class TEManagerTexture {
 	
 			int textures[] = new int[1];
 			GLES20.glGenTextures(1, textures, 0);
-			texture = new TETexture2D(textures[0]);
-			mTextures.put(resourceId, texture);
 			InputStream is = context.getResources().openRawResource(resourceId);
-			GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture.getName());
+			GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[0]);
 			GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
 			GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
 			GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
@@ -64,8 +62,6 @@ public class TEManagerTexture {
 			
 			final int bitmapHeight = bitmap.getHeight();
 			final int bitmapWidth = bitmap.getWidth();
-			imageSize.height = bitmapHeight;
-			imageSize.width = bitmapWidth;
 			final int textureHeight = MathUtils.closestPowerOf2(bitmapHeight);
 			final int textureWidth = MathUtils.closestPowerOf2(bitmapWidth);
 			if ((bitmapHeight == textureHeight) && (bitmapWidth == textureWidth)) {
@@ -76,6 +72,8 @@ public class TEManagerTexture {
 		        adjustedBitmap.recycle();
 			}
 			bitmap.recycle();
+			texture = new TETexture2D(textures[0], bitmapWidth, bitmapHeight);
+			mTextures.put(resourceId, texture);
 		} else {
 			Log.v("info", "Cache hit texture");
 		}

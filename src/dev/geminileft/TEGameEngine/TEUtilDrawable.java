@@ -17,8 +17,10 @@ public class TEUtilDrawable {
 	
 	public TEUtilDrawable(int resourceId, TESize size, TEPoint offset) {
 		TEManagerTexture textureManager = TEManagerTexture.sharedInstance();
-		TESize imageSize = TESize.make(0, 0);
-		mTexture = textureManager.getTexture2D(resourceId, imageSize);
+		mTexture = textureManager.getTexture2D(resourceId);
+		if (size.isZero()) {
+			size = mTexture.getSize();
+		}
 		mCrop = new int[CROP_SIZE];
 		//mapping goes from bottom left to top right
 		mCrop[START_X] = (int)offset.x;//start-x
@@ -27,7 +29,7 @@ public class TEUtilDrawable {
 		mCrop[HEIGHT] = -size.height;//height
 		mSize = size;
 		mPositionBuffer = TEManagerTexture.getPositionBuffer(size);
-		mCropBuffer = TEManagerTexture.getCropBuffer(imageSize, size, offset);
+		mCropBuffer = TEManagerTexture.getCropBuffer(mTexture.getSize(), size, offset);
 	}
 	
 	public TETexture2D getTexture() {

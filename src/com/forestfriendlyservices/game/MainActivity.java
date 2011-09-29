@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
    		mGame.setContext(this);
    		//view.setRenderer(new TEGameRenderer(mGame));
         view.setEGLContextClientVersion(2);
-   		view.setRenderer(new TEUtilRenderer(this));
+   		view.setRenderer(new TEUtilRenderer());
    		setContentView(view);
     }
 
