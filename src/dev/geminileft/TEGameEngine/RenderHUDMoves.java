@@ -88,10 +88,11 @@ public class RenderHUDMoves extends TEComponentRender {
 		mVertexBuffers[7] = tempVertexBuffers[2];
 		mVertexBuffers[8] = tempVertexBuffers[2];
 		mVertexBuffers[9] = tempVertexBuffers[2];
-		mGL = TEManagerGraphics.getGL();
+		//mGL = TEManagerGraphics.getGL();
 	}
 
-	public void draw(GL10 gl) {
+	public void draw() {
+//	public void draw(GL10 gl) {
 		int moveCountDigits[] = new int[MAX_DIGIT_COUNT];
 		
 		int digits = 0;

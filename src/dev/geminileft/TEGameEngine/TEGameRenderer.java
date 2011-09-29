@@ -14,7 +14,7 @@ public class TEGameRenderer implements GLSurfaceView.Renderer {
 	}
 	
 	public void onSurfaceCreated(GL10 gl, EGLConfig arg1) {
-		mGame.setGraphicManager(gl);
+		//mGame.setGraphicManager(gl);
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
         gl.glShadeModel(GL10.GL_FLAT);
         gl.glDisable(GL10.GL_DEPTH_TEST);

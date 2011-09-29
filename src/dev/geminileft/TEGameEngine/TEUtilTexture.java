@@ -11,6 +11,7 @@ import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.opengl.GLES20;
 import android.opengl.GLUtils;
 
 public class TEUtilTexture {
@@ -24,19 +25,19 @@ public class TEUtilTexture {
 	
 	public TEUtilTexture(int resourceId, TEPoint position, TESize size) {
 		super();
-		GL10 gl = TEManagerGraphics.getGL();
+		//GL10 gl = TEManagerGraphics.getGL();
 		Context context = TEStaticSettings.getContext();
 
 		int mTextures[] = new int[1];
-		gl.glGenTextures(1, mTextures, 0);
+		GLES20.glGenTextures(1, mTextures, 0);
 		textureName = mTextures[0];
 		InputStream is = context.getResources().openRawResource(resourceId);
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, textureName);
-        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
-        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
-        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_CLAMP_TO_EDGE);
-        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE);
-        gl.glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, GL10.GL_MODULATE); //GL10.GL_REPLACE);
+		GLES20.glBindTexture(GL10.GL_TEXTURE_2D, textureName);
+		GLES20.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
+		GLES20.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
+		GLES20.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_CLAMP_TO_EDGE);
+		GLES20.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE);
+		//GLES20.glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, GL10.GL_MODULATE); //GL10.GL_REPLACE);
 
 		Bitmap bitmap = null;
 		try {

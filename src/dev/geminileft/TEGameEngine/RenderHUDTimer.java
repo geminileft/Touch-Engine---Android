@@ -88,10 +88,11 @@ public class RenderHUDTimer extends TEComponentRender {
 		mVertexBuffers[9] = tempVertexBuffers[2];
 		mVertexBuffers[10] = tempVertexBuffers[0];
 		//mPreviousTime = SystemClock.uptimeMillis();
-		mGL = TEManagerGraphics.getGL();
+		//mGL = TEManagerGraphics.getGL();
 	}
 
-	public void draw(GL10 gl) {
+	public void draw() {
+	//public void draw(GL10 gl) {
 		final int seconds_size = 2;
 		final int minute_size = 2;
 		int secondsDigits[] = new int[seconds_size + minute_size + 1];

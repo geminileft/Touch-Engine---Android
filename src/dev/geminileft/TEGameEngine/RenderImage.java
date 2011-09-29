@@ -1,9 +1,5 @@
 package dev.geminileft.TEGameEngine;
 
-import javax.microedition.khronos.opengles.GL10;
-import javax.microedition.khronos.opengles.GL11;
-import javax.microedition.khronos.opengles.GL11Ext;
-
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
@@ -31,6 +27,7 @@ public class RenderImage extends TEComponentRender {
 		addEventSubscription(TEComponent.Event.EVENT_MOVE_TO_TOP, mMoveToTopListener);
 	}
 
+/*
 	public void draw(GL10 gl) {
 		//TESize size = mDrawable.getSize();
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, mDrawable.mTexture.mName);
@@ -41,7 +38,8 @@ public class RenderImage extends TEComponentRender {
         ((GL11Ext)gl).glDrawTexfOES(parent.position.x - (width / 2), parent.position.y - (height / 2), 
         		0.001f, width, height);
 	}
-	
+*/
+
 	public void draw() {
         GLES20.glUseProgram(TEManagerGraphics.getProgram());
         TEManagerGraphics.checkGlError("glUseProgram");

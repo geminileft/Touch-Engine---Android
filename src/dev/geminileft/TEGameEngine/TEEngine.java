@@ -2,8 +2,6 @@ package dev.geminileft.TEGameEngine;
 
 import java.util.Vector;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import android.content.Context;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -48,11 +46,11 @@ public abstract class TEEngine {
 			mManagers.get(count).update(dt);
 		}
 	}
-	
+	/*
 	public void setGraphicManager(GL10 gl) {
-		TEManagerGraphics.setGL(gl);
+		//TEManagerGraphics.setGL(gl);
 	}
-	
+	*/
 	public Context getContext() {
 		return mContext;
 	}

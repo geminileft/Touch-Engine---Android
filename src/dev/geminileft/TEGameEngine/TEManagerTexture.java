@@ -97,12 +97,21 @@ public class TEManagerTexture {
         return positionBuffer;
 	}
 
-	public static FloatBuffer getCropBuffer(TESize imageSize, TESize textureSize, TEPoint offset) {
+	public static FloatBuffer getCropBuffer(TESize imageSize, TESize textureSize, TEPoint offset, boolean inverseX) {
+		float left, right;
+		if (inverseX) {
+			left = (offset.x + textureSize.width) / imageSize.width;
+			right = offset.x / imageSize.width;
+			
+		} else {
+			left = offset.x / imageSize.width;
+			right = (offset.x + textureSize.width) / imageSize.width;
+		}
 		final float[] cropData = {
-        		offset.x / imageSize.width, (offset.y + textureSize.height) / imageSize.height
-        		, offset.x / imageSize.width, offset.y / imageSize.height
-        		, (offset.x + textureSize.width) / imageSize.width, (offset.y + textureSize.height) / imageSize.height
-        		, (offset.x + textureSize.width) / imageSize.width, offset.y / imageSize.height
+        		left, (offset.y + textureSize.height) / imageSize.height
+        		, left, offset.y / imageSize.height
+        		, right, (offset.y + textureSize.height) / imageSize.height
+        		, right, offset.y / imageSize.height
         };
         FloatBuffer cropBuffer = ByteBuffer.allocateDirect(cropData.length
                 * FLOAT_SIZE).order(ByteOrder.nativeOrder()).asFloatBuffer();

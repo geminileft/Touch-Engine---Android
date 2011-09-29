@@ -1,13 +1,10 @@
 package dev.geminileft.TEGameEngine;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 import android.util.Log;
 
 public class TEManagerGraphics {
-	private static GL10 mGL;
 	private static int mWidth;
 	private static int mHeight;
 	private static int mProgram;
@@ -22,14 +19,6 @@ public class TEManagerGraphics {
 	
 	public static int getUniformLocation(String uniform) {
 		return GLES20.glGetUniformLocation(mProgram, uniform);
-	}
-	
-	public static void setGL(GL10 gl) {
-		mGL = gl;
-	}
-	
-	public static GL10 getGL() {
-		return mGL;
 	}
 	
 	public static void setScreenSize(int width, int height) {
