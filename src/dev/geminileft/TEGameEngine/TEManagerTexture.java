@@ -19,6 +19,12 @@ public class TEManagerTexture {
 	private HashMap<Integer, TETexture2D> mTextures;
 	private static final int FLOAT_SIZE = 4;
 	private static int mTexture;
+	private static long mPositionHash;
+	private static int maPositionHandle;
+	private static long mCropHash;
+	private static int maTextureHandle;
+	private static HashMap<Long, FloatBuffer> mPositionMap = new HashMap<Long, FloatBuffer>();
+	private static HashMap<Long, FloatBuffer> mCropBuffer = new HashMap<Long, FloatBuffer>();
 	
 	public enum HashType {
 		POSITION
@@ -29,11 +35,20 @@ public class TEManagerTexture {
 		super();
 		mTextures = new HashMap<Integer, TETexture2D>();
 	}
+	
 	public static TEManagerTexture sharedInstance() {
 		if (mSharedInstance == null) {
 			mSharedInstance = new TEManagerTexture();
 		}
 		return mSharedInstance;
+	}
+	
+	public static void setPositionHandle(int handle) {
+		maPositionHandle = handle;
+	}
+	
+	public static void setCropHandle(int handle) {
+		maTextureHandle = handle;
 	}
 	
 	public TETexture2D getTexture2D(int resourceId) {
@@ -122,12 +137,40 @@ public class TEManagerTexture {
         FloatBuffer cropBuffer = ByteBuffer.allocateDirect(cropData.length
                 * FLOAT_SIZE).order(ByteOrder.nativeOrder()).asFloatBuffer();
         cropBuffer.put(cropData).position(0);
+        
+		final int[] cropArray = {
+				textureSize.width
+				, textureSize.height
+				, imageSize.width
+				, imageSize.height
+				, (int)offset.x
+				, (int)offset.y
+		};
+        
+        long hash = hash(cropArray, HashType.CROP);
+        mCropBuffer.put(hash, cropBuffer);
         return cropBuffer;
 	}
 	
 	public static void bindTexture(int texture) {
 		if (texture != mTexture) {
 			GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture);
+		}
+	}
+	
+	public static void setPosition(long hash, FloatBuffer position) {
+		if (mPositionHash != hash) {
+			GLES20.glVertexAttribPointer(maPositionHandle, 2, GLES20.GL_FLOAT, false, 0, position);
+        	mPositionHash = hash;
+		}
+	}
+	
+	public static void setCrop(long hash, FloatBuffer crop) {
+		if (mCropHash != hash) {
+			//int count = mCropBuffer.size();
+			//FloatBuffer buffer = mCropBuffer.get(hash);
+	        GLES20.glVertexAttribPointer(maTextureHandle, 2, GLES20.GL_FLOAT, false, 0, crop);
+	        mCropHash = hash;
 		}
 	}
 	

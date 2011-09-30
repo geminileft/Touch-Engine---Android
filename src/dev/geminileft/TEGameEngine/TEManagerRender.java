@@ -23,7 +23,6 @@ public class TEManagerRender extends TEManagerComponent {
 	}
 	
 	public void update(long dt) {
-		//GL10 gl = TEManagerGraphics.getGL();
 		TEComponentContainer components = getComponents();
 		final int size = components.size();
 		for(int i = 0; i < size; ++i) {
