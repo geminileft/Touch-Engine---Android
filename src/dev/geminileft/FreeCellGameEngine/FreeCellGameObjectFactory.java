@@ -97,7 +97,7 @@ public final class FreeCellGameObjectFactory {
 	
 	public TEGameObject createPlayingCard(PlayingCard card) {
 		TEGameObject gameObject = new TEGameObject();
-		TESize size = TESize.make(FreeCellGameObjectFactory.CARD_SIZE_WIDTH, FreeCellGameObjectFactory.CARD_SIZE_HEIGHT);
+		TESize size = TESize.make(CARD_SIZE_WIDTH, CARD_SIZE_HEIGHT);
 		String key = card.getCardName();
 		Integer resource = mCardMap.get(key);
 		int resourceId;
@@ -118,7 +118,7 @@ public final class FreeCellGameObjectFactory {
 
 	public TEGameObject createFreeCell(TEPoint position) {
 		TEGameObject gameObject = new TEGameObject();
-		TESize size = TESize.make(48, 64);
+		TESize size = TESize.make(CARD_SIZE_WIDTH, CARD_SIZE_HEIGHT);
 		gameObject.addComponent(new RenderImage(R.raw.free_cell, TEPoint.zero(), size));
 		gameObject.addComponent(new StackFreeCell());
 		gameObject.position = position;
@@ -130,7 +130,7 @@ public final class FreeCellGameObjectFactory {
 		TEManagerStack stackManager = TEManagerStack.sharedManager();
 		TEGameObject gameObject = new TEGameObject();
 		StackAceCell aceCell = new StackAceCell();
-		TESize size = TESize.make(48, 64);
+		TESize size = TESize.make(CARD_SIZE_WIDTH, CARD_SIZE_HEIGHT);
 		gameObject.addComponent(new RenderImage(R.raw.ace_cell, TEPoint.zero(), size));
     	gameObject.addComponent(aceCell);
     	gameObject.position = position;
@@ -141,7 +141,7 @@ public final class FreeCellGameObjectFactory {
 
 	public TEGameObject createTableCellStack(TEPoint position) {
 		TEGameObject gameObject = new TEGameObject();
-		TESize size = TESize.make(48, 64);
+		TESize size = TESize.make(CARD_SIZE_WIDTH, CARD_SIZE_HEIGHT);
 		gameObject.addComponent(new RenderImage(R.raw.free_cell, TEPoint.zero(), size));
     	gameObject.position = position;
 		gameObject.size = size;

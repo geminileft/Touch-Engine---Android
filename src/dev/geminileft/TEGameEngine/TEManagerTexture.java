@@ -18,6 +18,12 @@ public class TEManagerTexture {
 	private static TEManagerTexture mSharedInstance;
 	private HashMap<Integer, TETexture2D> mTextures;
 	private static final int FLOAT_SIZE = 4;
+	private static int mTexture;
+	
+	public enum HashType {
+		POSITION
+		, CROP
+	};
 	
 	public TEManagerTexture() {
 		super();
@@ -117,5 +123,25 @@ public class TEManagerTexture {
                 * FLOAT_SIZE).order(ByteOrder.nativeOrder()).asFloatBuffer();
         cropBuffer.put(cropData).position(0);
         return cropBuffer;
+	}
+	
+	public static void bindTexture(int texture) {
+		if (texture != mTexture) {
+			GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture);
+		}
+	}
+	
+	public static long hash(int[] key, HashType type) {
+	    long hash;
+	    int  i;
+	    for(hash = i = 0; i < key.length; ++i) {
+	        hash += key[i];
+	        hash += (hash << 10);
+	        hash ^= (hash >> 6);
+	    }
+	    hash += (hash << 3);
+	    hash ^= (hash >> 11);
+	    hash += (hash << 15);
+	    return hash;
 	}
 }
