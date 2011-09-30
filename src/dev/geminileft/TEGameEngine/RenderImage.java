@@ -11,6 +11,7 @@ public class RenderImage extends TEComponentRender {
 	private float mY = 0;
 	private int maPositionHandle;
 	private int maTextureHandle;
+	private int mModelHandle;
 	private int muMVPMatrixHandle;
 	private float mViewMatrix[];
 	private float mProjectionMatrix[];
@@ -32,6 +33,7 @@ public class RenderImage extends TEComponentRender {
         maPositionHandle = TEManagerGraphics.getAttributeLocation("aPosition");
         maTextureHandle = TEManagerGraphics.getAttributeLocation("aTexture");
         muMVPMatrixHandle = TEManagerGraphics.getUniformLocation("uMVPMatrix");
+        mModelHandle = TEManagerGraphics.getUniformLocation("uModelMatrix");
         mViewMatrix = TEManagerGraphics.getViewMatrix();
         mProjectionMatrix = TEManagerGraphics.getProjectionMatrix();
         mProgram = TEManagerGraphics.getProgram();
@@ -53,7 +55,7 @@ public class RenderImage extends TEComponentRender {
 */
 
 	public void draw() {
-        GLES20.glUseProgram(mProgram);
+        //GLES20.glUseProgram(mProgram);
         //TEManagerGraphics.checkGlError("glUseProgram");
         
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
@@ -82,8 +84,8 @@ public class RenderImage extends TEComponentRender {
         Matrix.translateM(mModelMatrix, 0, parent.position.x, parent.position.y, 0);
         Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
-
         GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+        GLES20.glUniformMatrix4fv(mModelHandle, 1, false, mModelMatrix, 0);
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
         //TEManagerGraphics.checkGlError("glDrawArrays");
 	}

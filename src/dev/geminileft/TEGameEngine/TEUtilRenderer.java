@@ -10,14 +10,17 @@ import android.util.Log;
 
 public class TEUtilRenderer implements GLSurfaceView.Renderer {
     private final String mVertexShader =
+        "uniform mat4 uModelMatrix;\n" +
+        "uniform mat4 uViewMatrix;\n" +
+        "uniform mat4 uProjectionMatrix;\n" +
         "uniform mat4 uMVPMatrix;\n" +
-       // "uniform mat4 uProjectionMatrix;\n" +
-       // "uniform mat4 uViewMatrix;\n" +
         "attribute vec4 aPosition;\n" +
         "attribute vec2 aTexture;\n" +
         "varying vec2 vTextureCoord;\n" +
         "void main() {\n" +
-        "  gl_Position = uMVPMatrix * aPosition;\n" +
+        "  mat4 mvp = uProjectionMatrix * (uViewMatrix * uModelMatrix);\n" +
+        //"  gl_Position = uMVPMatrix * aPosition;\n" +
+        "  gl_Position = mvp * aPosition;\n" +
         "  vTextureCoord = aTexture;\n" +
         "}\n";
 
@@ -35,6 +38,8 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
 	private TEEngine mGame;
 	private float mProjectionMatrix[];
 	private float mViewMatrix[];
+	private int mProjectionHandle;
+	private int mViewHandle;
 	
     public TEUtilRenderer(TEEngine game) {
     	mGame = game;
@@ -42,6 +47,8 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
 
     public void onSurfaceCreated(GL10 glUnused, EGLConfig config) {
         mProgram = TEManagerGraphics.createProgram(mVertexShader, mFragmentShader);
+        mProjectionHandle = TEManagerGraphics.getUniformLocation("uProjectionMatrix");
+        mViewHandle = TEManagerGraphics.getUniformLocation("uViewMatrix");
 		GLES20.glEnable(GL10.GL_BLEND);
 		GLES20.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
         mGame.start();
@@ -54,6 +61,10 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
         GLES20.glClear( GLES20.GL_COLOR_BUFFER_BIT);
         GLES20.glUseProgram(mProgram);
         checkGlError("glUseProgram");
+        GLES20.glUniformMatrix4fv(mProjectionHandle, 1, false, mProjectionMatrix, 0);
+        checkGlError("mProjectionHandle");
+        GLES20.glUniformMatrix4fv(mViewHandle, 1, false, mViewMatrix, 0);
+        checkGlError("mViewHandle");
 		mGame.run();
         } catch (Exception e) {
         	Log.v("info", "info");
@@ -62,8 +73,8 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
 
     public void onSurfaceChanged(GL10 glUnused, int width, int height) {
         GLES20.glViewport(0, 0, width, height);
-        //mProjectionMatrix = TEManagerGraphics.getProjectionMatrix();
-        //mViewMatrix = TEManagerGraphics.getViewMatrix();
+        mProjectionMatrix = TEManagerGraphics.getProjectionMatrix();
+        mViewMatrix = TEManagerGraphics.getViewMatrix();
     }
 
     private void checkGlError(String op) {
