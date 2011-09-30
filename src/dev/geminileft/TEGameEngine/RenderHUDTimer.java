@@ -92,6 +92,7 @@ public class RenderHUDTimer extends TEComponentRender {
 	}
 
 	public void draw() {
+/*
 	//public void draw(GL10 gl) {
 		final int seconds_size = 2;
 		final int minute_size = 2;
@@ -128,6 +129,7 @@ public class RenderHUDTimer extends TEComponentRender {
 		}
 		//gl.glDisable(GL10.GL_TEXTURE_2D);
 		mGL.glPopMatrix();
+*/
 	}
 	
 	@Override

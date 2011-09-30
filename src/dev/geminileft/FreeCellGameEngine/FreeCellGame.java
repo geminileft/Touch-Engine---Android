@@ -1,5 +1,7 @@
 package dev.geminileft.FreeCellGameEngine;
 
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import dev.geminileft.TEGameEngine.PlayingCard;
 import dev.geminileft.TEGameEngine.PlayingCard.FaceValue;
 import dev.geminileft.TEGameEngine.PlayingCard.Suit;
@@ -26,20 +28,23 @@ public class FreeCellGame extends TEEngine {
 
 	private FreeCellGameObjectFactory mFactory;
 
-	public FreeCellGame(int width, int height) {
-		super(width, height);
+	public FreeCellGame(int width, int height, Activity activity) {
+		super(width, height, activity);
 		 mFactory = new FreeCellGameObjectFactory(this);
+		 //activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
 	@Override
 	public void start() {
 	    addGameObject(mFactory.createBackground());
+
 	    int x = START_X;
 	    int y = mHeight - 50;
 	    
 	    TEComponent.EventListener listener = addHUDMoves();
 		addGameObject(mFactory.createHUDTimer());
 	    addGameObject(mFactory.createMenu());
+
 	    for (int i = 0;i < 4;++i) {
 	        TEPoint pt = TEPoint.make(x, y);
 	        addGameObject(mFactory.createFreeCell(pt));
@@ -56,14 +61,6 @@ public class FreeCellGame extends TEEngine {
 		final int stack2 = 7;
 		
 	    PlayingCard stacks[][] = new PlayingCard[stack1][stack2];
-		/*
-		//java initializes to null :|
-		for (int i = 0; i < stack1; ++i) {
-			for (int j = 0; j < stack2; ++j) {
-				stacks[i][j] = null;
-			}
-		}
-		*/
 		
 	    PlayingCard deck[] = new PlayingCard[52];
 	    deck[0] = new PlayingCard(FaceValue.Ace, Suit.Spade);
@@ -130,6 +127,7 @@ public class FreeCellGame extends TEEngine {
 	    addTableStack(START_X, mFactory, stacks, listener);
 	    TEComponentStack.setOpenFreeCellCount(4);
 	    TEComponentStack.setOpenTableCellCount(0);
+
 	}
 
 	private void addTableStack(int startX, FreeCellGameObjectFactory factory, PlayingCard[][] cards, TEComponent.EventListener listener) {
@@ -167,7 +165,7 @@ public class FreeCellGame extends TEEngine {
 		final int height = 50;
 		TEComponent.EventListener eventListener;
 		final int x = 100;
-		RenderImage image = new RenderImage(R.drawable.moves, null, TESize.make(118, 26));
+		RenderImage image = new RenderImage(R.raw.moves, TEPoint.zero(), TESize.make(118, 26));
 		TEGameObject gameObject = new TEGameObject();
 		gameObject.addComponent(image);
 		gameObject.position = TEPoint.make(x, height);
@@ -175,7 +173,7 @@ public class FreeCellGame extends TEEngine {
 		TESize size = image.getSize();
 
 		gameObject = new TEGameObject();
-		RenderHUDMoves text = new RenderHUDMoves(R.drawable.numbers, null, null);
+		RenderHUDMoves text = new RenderHUDMoves(R.raw.numbers, TEPoint.zero(), TESize.zero());
 		eventListener = text.getTouchAcceptListener();
 		gameObject.addComponent(text);
 		gameObject.position = TEPoint.make(x + size.width / 2 + 17, height);

@@ -13,8 +13,6 @@
     >
         <activity android:name="com.forestfriendlyservices.game.MainActivity"
                   android:label="@string/app_name"
-                  android:screenOrientation="landscape"
-                  android:configChanges="orientation"
         >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -26,67 +26,67 @@ public final class FreeCellGameObjectFactory {
 	public FreeCellGameObjectFactory(TEEngine game) {
 		super();
 		mGame = game;
-		mCardMap.put("SpadeAce", R.drawable.spade_ace);
-		mCardMap.put("SpadeTwo", R.drawable.spade_two);
-		mCardMap.put("SpadeThree", R.drawable.spade_three);
-		mCardMap.put("SpadeFour", R.drawable.spade_four);
-		mCardMap.put("SpadeFive", R.drawable.spade_five);
-		mCardMap.put("SpadeSix", R.drawable.spade_six);
-		mCardMap.put("SpadeSeven", R.drawable.spade_seven);
-		mCardMap.put("SpadeEight", R.drawable.spade_eight);
-		mCardMap.put("SpadeNine", R.drawable.spade_nine);
-		mCardMap.put("SpadeTen", R.drawable.spade_ten);
-		mCardMap.put("SpadeJack", R.drawable.spade_jack);
-		mCardMap.put("SpadeQueen", R.drawable.spade_queen);
-		mCardMap.put("SpadeKing", R.drawable.spade_king);
+		mCardMap.put("SpadeAce", R.raw.spade_ace);
+		mCardMap.put("SpadeTwo", R.raw.spade_two);
+		mCardMap.put("SpadeThree", R.raw.spade_three);
+		mCardMap.put("SpadeFour", R.raw.spade_four);
+		mCardMap.put("SpadeFive", R.raw.spade_five);
+		mCardMap.put("SpadeSix", R.raw.spade_six);
+		mCardMap.put("SpadeSeven", R.raw.spade_seven);
+		mCardMap.put("SpadeEight", R.raw.spade_eight);
+		mCardMap.put("SpadeNine", R.raw.spade_nine);
+		mCardMap.put("SpadeTen", R.raw.spade_ten);
+		mCardMap.put("SpadeJack", R.raw.spade_jack);
+		mCardMap.put("SpadeQueen", R.raw.spade_queen);
+		mCardMap.put("SpadeKing", R.raw.spade_king);
 		
-		mCardMap.put("DiamondAce", R.drawable.diamond_ace);
-		mCardMap.put("DiamondTwo", R.drawable.diamond_two);
-		mCardMap.put("DiamondThree", R.drawable.diamond_three);
-		mCardMap.put("DiamondFour", R.drawable.diamond_four);
-		mCardMap.put("DiamondFive", R.drawable.diamond_five);
-		mCardMap.put("DiamondSix", R.drawable.diamond_six);
-		mCardMap.put("DiamondSeven", R.drawable.diamond_seven);
-		mCardMap.put("DiamondEight", R.drawable.diamond_eight);
-		mCardMap.put("DiamondNine", R.drawable.diamond_nine);
-		mCardMap.put("DiamondTen", R.drawable.diamond_ten);
-		mCardMap.put("DiamondJack", R.drawable.diamond_jack);
-		mCardMap.put("DiamondQueen", R.drawable.diamond_queen);
-		mCardMap.put("DiamondKing", R.drawable.diamond_king);
+		mCardMap.put("DiamondAce", R.raw.diamond_ace);
+		mCardMap.put("DiamondTwo", R.raw.diamond_two);
+		mCardMap.put("DiamondThree", R.raw.diamond_three);
+		mCardMap.put("DiamondFour", R.raw.diamond_four);
+		mCardMap.put("DiamondFive", R.raw.diamond_five);
+		mCardMap.put("DiamondSix", R.raw.diamond_six);
+		mCardMap.put("DiamondSeven", R.raw.diamond_seven);
+		mCardMap.put("DiamondEight", R.raw.diamond_eight);
+		mCardMap.put("DiamondNine", R.raw.diamond_nine);
+		mCardMap.put("DiamondTen", R.raw.diamond_ten);
+		mCardMap.put("DiamondJack", R.raw.diamond_jack);
+		mCardMap.put("DiamondQueen", R.raw.diamond_queen);
+		mCardMap.put("DiamondKing", R.raw.diamond_king);
 		
-		mCardMap.put("HeartAce", R.drawable.heart_ace);
-		mCardMap.put("HeartTwo", R.drawable.heart_two);
-		mCardMap.put("HeartThree", R.drawable.heart_three);
-		mCardMap.put("HeartFour", R.drawable.heart_four);
-		mCardMap.put("HeartFive", R.drawable.heart_five);
-		mCardMap.put("HeartSix", R.drawable.heart_six);
-		mCardMap.put("HeartSeven", R.drawable.heart_seven);
-		mCardMap.put("HeartEight", R.drawable.heart_eight);
-		mCardMap.put("HeartNine", R.drawable.heart_nine);
-		mCardMap.put("HeartTen", R.drawable.heart_ten);
-		mCardMap.put("HeartJack", R.drawable.heart_jack);
-		mCardMap.put("HeartQueen", R.drawable.heart_queen);
-		mCardMap.put("HeartKing", R.drawable.heart_king);
+		mCardMap.put("HeartAce", R.raw.heart_ace);
+		mCardMap.put("HeartTwo", R.raw.heart_two);
+		mCardMap.put("HeartThree", R.raw.heart_three);
+		mCardMap.put("HeartFour", R.raw.heart_four);
+		mCardMap.put("HeartFive", R.raw.heart_five);
+		mCardMap.put("HeartSix", R.raw.heart_six);
+		mCardMap.put("HeartSeven", R.raw.heart_seven);
+		mCardMap.put("HeartEight", R.raw.heart_eight);
+		mCardMap.put("HeartNine", R.raw.heart_nine);
+		mCardMap.put("HeartTen", R.raw.heart_ten);
+		mCardMap.put("HeartJack", R.raw.heart_jack);
+		mCardMap.put("HeartQueen", R.raw.heart_queen);
+		mCardMap.put("HeartKing", R.raw.heart_king);
 		
-		mCardMap.put("ClubAce", R.drawable.club_ace);
-		mCardMap.put("ClubTwo", R.drawable.club_two);
-		mCardMap.put("ClubThree", R.drawable.club_three);
-		mCardMap.put("ClubFour", R.drawable.club_four);
-		mCardMap.put("ClubFive", R.drawable.club_five);
-		mCardMap.put("ClubSix", R.drawable.club_six);
-		mCardMap.put("ClubSeven", R.drawable.club_seven);
-		mCardMap.put("ClubEight", R.drawable.club_eight);
-		mCardMap.put("ClubNine", R.drawable.club_nine);
-		mCardMap.put("ClubTen", R.drawable.club_ten);
-		mCardMap.put("ClubJack", R.drawable.club_jack);
-		mCardMap.put("ClubQueen", R.drawable.club_queen);
-		mCardMap.put("ClubKing", R.drawable.club_king);
+		mCardMap.put("ClubAce", R.raw.club_ace);
+		mCardMap.put("ClubTwo", R.raw.club_two);
+		mCardMap.put("ClubThree", R.raw.club_three);
+		mCardMap.put("ClubFour", R.raw.club_four);
+		mCardMap.put("ClubFive", R.raw.club_five);
+		mCardMap.put("ClubSix", R.raw.club_six);
+		mCardMap.put("ClubSeven", R.raw.club_seven);
+		mCardMap.put("ClubEight", R.raw.club_eight);
+		mCardMap.put("ClubNine", R.raw.club_nine);
+		mCardMap.put("ClubTen", R.raw.club_ten);
+		mCardMap.put("ClubJack", R.raw.club_jack);
+		mCardMap.put("ClubQueen", R.raw.club_queen);
+		mCardMap.put("ClubKing", R.raw.club_king);
 	}
 
 	public TEGameObject createBackground() {
 	    TEGameObject gameObject = new TEGameObject();
 	    TESize size = TESize.make(mGame.mWidth, mGame.mHeight);
-	    gameObject.addComponent(new RenderImage(R.drawable.table_background, TEPoint.make(0, 0), size));
+	    gameObject.addComponent(new RenderImage(R.raw.table_background, TEPoint.make(0, 0), size));
 	    gameObject.addComponent(new SoundStart(R.raw.shuffle));
 	    gameObject.position.x = size.width / 2;
 	    gameObject.position.y = size.height / 2;
@@ -102,11 +102,11 @@ public final class FreeCellGameObjectFactory {
 		Integer resource = mCardMap.get(key);
 		int resourceId;
 		if (resource == null) {
-			resourceId = R.drawable.spade_ace;
+			resourceId = R.raw.spade_ace;
 		} else {
 			resourceId = resource;
 		}
-		RenderImage image = new RenderImage(resourceId, null, size);
+		RenderImage image = new RenderImage(resourceId, TEPoint.zero(), size);
 		gameObject.addComponent(image);
 		gameObject.addComponent(new TouchDrag());
 		gameObject.position = TEPoint.make(0, 0);
@@ -119,7 +119,7 @@ public final class FreeCellGameObjectFactory {
 	public TEGameObject createFreeCell(TEPoint position) {
 		TEGameObject gameObject = new TEGameObject();
 		TESize size = TESize.make(48, 64);
-		gameObject.addComponent(new RenderImage(R.drawable.free_cell, null, size));
+		gameObject.addComponent(new RenderImage(R.raw.free_cell, TEPoint.zero(), size));
 		gameObject.addComponent(new StackFreeCell());
 		gameObject.position = position;
 		gameObject.size = size;
@@ -131,7 +131,7 @@ public final class FreeCellGameObjectFactory {
 		TEGameObject gameObject = new TEGameObject();
 		StackAceCell aceCell = new StackAceCell();
 		TESize size = TESize.make(48, 64);
-		gameObject.addComponent(new RenderImage(R.drawable.ace_cell, null, size));
+		gameObject.addComponent(new RenderImage(R.raw.ace_cell, TEPoint.zero(), size));
     	gameObject.addComponent(aceCell);
     	gameObject.position = position;
 		gameObject.size = size;
@@ -142,7 +142,7 @@ public final class FreeCellGameObjectFactory {
 	public TEGameObject createTableCellStack(TEPoint position) {
 		TEGameObject gameObject = new TEGameObject();
 		TESize size = TESize.make(48, 64);
-		gameObject.addComponent(new RenderImage(R.drawable.free_cell, null, size));
+		gameObject.addComponent(new RenderImage(R.raw.free_cell, TEPoint.zero(), size));
     	gameObject.position = position;
 		gameObject.size = size;
 		return gameObject;
@@ -153,7 +153,7 @@ public final class FreeCellGameObjectFactory {
 		final int x = 105;
 		TESize size = TESize.make(46, 14);
 		TEPoint offset = TEPoint.make(0, 0);
-		RenderImage image = new RenderImage(R.drawable.image_time, offset, size);
+		RenderImage image = new RenderImage(R.raw.image_time, offset, size);
 		TEGameObject gameObject = new TEGameObject();
 		gameObject.addComponent(image);
 		gameObject.position.x = x;
@@ -164,7 +164,7 @@ public final class FreeCellGameObjectFactory {
 	TEGameObject createMenu() {
 		TESize size = TESize.make(64, 16);
 		TEPoint offset = TEPoint.make(0, 0);
-		RenderImage image = new RenderImage(R.drawable.menu, offset, size);
+		RenderImage image = new RenderImage(R.raw.menu, offset, size);
 		TEGameObject gameObject = new TEGameObject();
 		gameObject.addComponent(image);
 		TESize screenSize = mGame.getScreenSize();

@@ -93,6 +93,7 @@ public class RenderHUDMoves extends TEComponentRender {
 
 	public void draw() {
 //	public void draw(GL10 gl) {
+/*
 		int moveCountDigits[] = new int[MAX_DIGIT_COUNT];
 		
 		int digits = 0;
@@ -118,6 +119,7 @@ public class RenderHUDMoves extends TEComponentRender {
 		}
 		//gl.glDisable(GL10.GL_TEXTURE_2D);
 		mGL.glPopMatrix();
+*/
 	}
 	
 	@Override

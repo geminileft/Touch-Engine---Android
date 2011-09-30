@@ -5,11 +5,14 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
+import android.opengl.Matrix;
 import android.util.Log;
 
 public class TEUtilRenderer implements GLSurfaceView.Renderer {
     private final String mVertexShader =
         "uniform mat4 uMVPMatrix;\n" +
+       // "uniform mat4 uProjectionMatrix;\n" +
+       // "uniform mat4 uViewMatrix;\n" +
         "attribute vec4 aPosition;\n" +
         "attribute vec2 aTexture;\n" +
         "varying vec2 vTextureCoord;\n" +
@@ -30,6 +33,8 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
     private int mProgram;
     private static String TAG = "GLES20TriangleRenderer";
 	private TEEngine mGame;
+	private float mProjectionMatrix[];
+	private float mViewMatrix[];
 	
     public TEUtilRenderer(TEEngine game) {
     	mGame = game;
@@ -43,15 +48,22 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
     }
 
     public void onDrawFrame(GL10 glUnused) {
+        try {
+        //Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
         GLES20.glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
         GLES20.glClear( GLES20.GL_COLOR_BUFFER_BIT);
         GLES20.glUseProgram(mProgram);
         checkGlError("glUseProgram");
 		mGame.run();
+        } catch (Exception e) {
+        	Log.v("info", "info");
+        }
     }
 
     public void onSurfaceChanged(GL10 glUnused, int width, int height) {
         GLES20.glViewport(0, 0, width, height);
+        //mProjectionMatrix = TEManagerGraphics.getProjectionMatrix();
+        //mViewMatrix = TEManagerGraphics.getViewMatrix();
     }
 
     private void checkGlError(String op) {

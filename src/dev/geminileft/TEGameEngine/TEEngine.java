@@ -2,6 +2,7 @@ package dev.geminileft.TEGameEngine;
 
 import java.util.Vector;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -18,7 +19,7 @@ public abstract class TEEngine {
 
 	public abstract void start();
 
-	public TEEngine(int width, int height) {
+	public TEEngine(int width, int height, Activity activity) {
 		TEManagerGraphics.setScreenSize(width, height);
 		mWidth = width;
 		mHeight = height;

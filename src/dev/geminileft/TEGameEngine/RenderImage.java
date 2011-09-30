@@ -9,6 +9,11 @@ public class RenderImage extends TEComponentRender {
 	private int mHeight;
 	float mX = 0;
 	float mY = 0;
+	int maPositionHandle;
+	int maTextureHandle;
+	int muMVPMatrixHandle;
+	float mViewMatrix[];
+	float mProjectionMatrix[];
 	
 	private TEComponent.EventListener mMoveToTopListener = new TEComponent.EventListener() {
 		
@@ -23,6 +28,12 @@ public class RenderImage extends TEComponentRender {
 
 	public RenderImage(int resourceId, TEPoint position, TESize size) {
 		super();
+        maPositionHandle = TEManagerGraphics.getAttributeLocation("aPosition");
+        maTextureHandle = TEManagerGraphics.getAttributeLocation("aTexture");
+        muMVPMatrixHandle = TEManagerGraphics.getUniformLocation("uMVPMatrix");
+        mViewMatrix = TEManagerGraphics.getViewMatrix();
+        mProjectionMatrix = TEManagerGraphics.getProjectionMatrix();
+
 		mDrawable = new TEUtilDrawable(resourceId, size, position);
 		addEventSubscription(TEComponent.Event.EVENT_MOVE_TO_TOP, mMoveToTopListener);
 	}
@@ -42,35 +53,38 @@ public class RenderImage extends TEComponentRender {
 
 	public void draw() {
         GLES20.glUseProgram(TEManagerGraphics.getProgram());
-        TEManagerGraphics.checkGlError("glUseProgram");
+        //TEManagerGraphics.checkGlError("glUseProgram");
         
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mDrawable.mTexture.mName);
-        int maPositionHandle = TEManagerGraphics.getAttributeLocation("aPosition");
-        int maTextureHandle = TEManagerGraphics.getAttributeLocation("aTexture");
-        int muMVPMatrixHandle = TEManagerGraphics.getUniformLocation("uMVPMatrix");
         GLES20.glVertexAttribPointer(maPositionHandle, 2, GLES20.GL_FLOAT, false,
                 0, mDrawable.mPositionBuffer);
-        TEManagerGraphics.checkGlError("glVertexAttribPointer maPosition");        
+        //TEManagerGraphics.checkGlError("glVertexAttribPointer maPosition");        
         GLES20.glEnableVertexAttribArray(maPositionHandle);
-        TEManagerGraphics.checkGlError("glEnableVertexAttribArray maPositionHandle");
+        //TEManagerGraphics.checkGlError("glEnableVertexAttribArray maPositionHandle");
         
         GLES20.glVertexAttribPointer(maTextureHandle, 2, GLES20.GL_FLOAT, false,
                 0, mDrawable.mCropBuffer);
-        TEManagerGraphics.checkGlError("glVertexAttribPointer maTextureHandle");
+        //TEManagerGraphics.checkGlError("glVertexAttribPointer maTextureHandle");
         GLES20.glEnableVertexAttribArray(maTextureHandle);
-        TEManagerGraphics.checkGlError("glEnableVertexAttribArray maTextureHandle");
+        //TEManagerGraphics.checkGlError("glEnableVertexAttribArray maTextureHandle");
+
         float mMVPMatrix[] = new float[16];
-        float mModelMatrix[] = new float[16];
+        float mModelMatrix[] = {
+        		1, 0, 0, 0
+        		, 0, 1, 0, 0
+        		, 0, 0, 1, 0
+        		, 0, 0, 0, 1
+        };
+        
         Matrix.setIdentityM(mModelMatrix, 0);
-        Matrix.translateM(mModelMatrix, 0, 427, 240, 0);
-        Matrix.multiplyMM(mMVPMatrix, 0, TEManagerGraphics.getViewMatrix(), 0, mModelMatrix, 0);
-        Matrix.multiplyMM(mMVPMatrix, 0, TEManagerGraphics.getProjectionMatrix(), 0, mMVPMatrix, 0);
+        Matrix.translateM(mModelMatrix, 0, parent.position.x, parent.position.y, 0);
+        Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
+        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
 
         GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
-        TEManagerGraphics.checkGlError("glDrawArrays");
-
+        //TEManagerGraphics.checkGlError("glDrawArrays");
 	}
 
 	@Override
