@@ -18,10 +18,7 @@ public class TEManagerTexture {
 	private static TEManagerTexture mSharedInstance;
 	private HashMap<Integer, TETexture2D> mTextures;
 	private static final int FLOAT_SIZE = 4;
-	private static int mTexture;
-	private static long mPositionHash;
 	private static int maPositionHandle;
-	private static long mCropHash;
 	private static int maTextureHandle;
 	private static HashMap<Long, FloatBuffer> mPositionMap = new HashMap<Long, FloatBuffer>();
 	private static HashMap<Long, FloatBuffer> mCropMap = new HashMap<Long, FloatBuffer>();
@@ -152,28 +149,6 @@ public class TEManagerTexture {
         return hash;
 	}
 	
-	public static void bindTexture(int texture) {
-		if (texture != mTexture) {
-			GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture);
-		}
-	}
-	
-	public static void setPosition(long hash) {
-		if (mPositionHash != hash) {
-			FloatBuffer position = mPositionMap.get(hash);
-			GLES20.glVertexAttribPointer(maPositionHandle, 2, GLES20.GL_FLOAT, false, 0, position);
-        	mPositionHash = hash;
-		}
-	}
-	
-	public static void setCrop(long hash) {
-		if (mCropHash != hash) {
-			FloatBuffer buffer = mCropMap.get(hash);
-	        GLES20.glVertexAttribPointer(maTextureHandle, 2, GLES20.GL_FLOAT, false, 0, buffer);
-	        mCropHash = hash;
-		}
-	}
-
 	public static long hash(int[] key) {
 	    long hash;
 	    int  i;
@@ -187,8 +162,12 @@ public class TEManagerTexture {
 	    hash += (hash << 15);
 	    return hash;
 	}
-	
-	public static void flushCache() {
-		mCropHash = -1;
+		
+	public static FloatBuffer getPositionBuffer(long hash) {
+		return mPositionMap.get(hash);
 	}
+	
+	public static FloatBuffer getCropBuffer(long hash) {
+		return mCropMap.get(hash);
+	}	
 }

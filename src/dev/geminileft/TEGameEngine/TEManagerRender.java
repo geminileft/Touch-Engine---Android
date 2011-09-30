@@ -25,7 +25,9 @@ public class TEManagerRender extends TEManagerComponent {
 	public void update(long dt) {
 		TEComponentContainer components = getComponents();
 		final int size = components.size();
-		TEManagerTexture.flushCache();
+		TEComponentRender.mLastTexture = -1;
+		TEComponentRender.mLastCropHash = -1;
+		TEComponentRender.mLastPositionHash = -1;
 		for(int i = 0; i < size; ++i) {
 				TEComponentRender component = (TEComponentRender)components.get(i);
 		    	component.update(dt);

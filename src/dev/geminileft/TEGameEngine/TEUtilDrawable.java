@@ -25,8 +25,10 @@ public class TEUtilDrawable {
 		};
 		
 		mPositionHash = TEManagerTexture.hash(sizeArray);
+		mPositionBuffer = TEManagerTexture.getPositionBuffer(mPositionHash);
 		TESize textureSize = mTexture.getSize();
 		mCropHash = TEManagerTexture.getCropHash(textureSize, size, offset, false);
+		mCropBuffer = TEManagerTexture.getCropBuffer(mCropHash);
 	}
 	
 	public TETexture2D getTexture() {

@@ -16,6 +16,8 @@ public class RenderImage extends TEComponentRender {
 	private FloatBuffer mCropBuffer;
 	private long mPositionHash;
 	private long mCropHash;
+	private int maPositionHandle;
+	private int maTextureHandle;
 	
 	private TEComponent.EventListener mMoveToTopListener = new TEComponent.EventListener() {
 		
@@ -31,15 +33,27 @@ public class RenderImage extends TEComponentRender {
 	public RenderImage(int resourceId, TEPoint position, TESize size) {
 		super();
         mCoordsHandle = TEManagerGraphics.getAttributeLocation("aCoords");
+        maPositionHandle = TEManagerGraphics.getAttributeLocation("aPosition");
+        maTextureHandle = TEManagerGraphics.getAttributeLocation("aTexture");
 		mDrawable = new TEUtilDrawable(resourceId, size, position);
 		mName = mDrawable.mTexture.mName;
 		addEventSubscription(TEComponent.Event.EVENT_MOVE_TO_TOP, mMoveToTopListener);
 	}
 
 	public void draw() {
-		TEManagerTexture.bindTexture(mName);
-		TEManagerTexture.setPosition(mPositionHash);
-		TEManagerTexture.setCrop(mCropHash);
+		if (mName != mLastTexture) {
+			GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mName);
+			mLastTexture = mName;
+		}
+		if (mPositionHash != mLastPositionHash) {
+			GLES20.glVertexAttribPointer(maPositionHandle, 2, GLES20.GL_FLOAT, false, 0, mPositionBuffer);
+	    	mLastPositionHash = mPositionHash;
+		}
+		
+		if (mCropHash != mLastCropHash) {
+	        GLES20.glVertexAttribPointer(maTextureHandle, 2, GLES20.GL_FLOAT, false, 0, mCropBuffer);
+	        mLastCropHash = mCropHash;
+		}
         GLES20.glVertexAttrib2f(mCoordsHandle, mX, mY);
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
 	}
