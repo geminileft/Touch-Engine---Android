@@ -24,12 +24,7 @@ public class TEManagerTexture {
 	private static long mCropHash;
 	private static int maTextureHandle;
 	private static HashMap<Long, FloatBuffer> mPositionMap = new HashMap<Long, FloatBuffer>();
-	private static HashMap<Long, FloatBuffer> mCropBuffer = new HashMap<Long, FloatBuffer>();
-	
-	public enum HashType {
-		POSITION
-		, CROP
-	};
+	private static HashMap<Long, FloatBuffer> mCropMap = new HashMap<Long, FloatBuffer>();
 	
 	public TEManagerTexture() {
 		super();
@@ -101,9 +96,9 @@ public class TEManagerTexture {
 		return texture;
 	}
 	
-	public static FloatBuffer getPositionBuffer(TESize textureSize) {
-		final float halfWidth = textureSize.width / 2;
-		final float halfHeight = textureSize.height / 2;
+	public static long getPositionHash(TESize size) {
+		final float halfWidth = size.width / 2;
+		final float halfHeight = size.height / 2;
 		final int FLOAT_SIZE = 4;
         final float[] verticesData = {
                 // X, Y, Z, U, V
@@ -115,24 +110,29 @@ public class TEManagerTexture {
         FloatBuffer positionBuffer = ByteBuffer.allocateDirect(verticesData.length
                 * FLOAT_SIZE).order(ByteOrder.nativeOrder()).asFloatBuffer();
         positionBuffer.put(verticesData).position(0);
-        return positionBuffer;
+		final int[] sizeArray = {
+				size.width
+				, size.height
+		};
+        long hash = TEManagerTexture.hash(sizeArray);
+        mPositionMap.put(hash, positionBuffer);
+        return hash;
 	}
 
-	public static FloatBuffer getCropBuffer(TESize imageSize, TESize textureSize, TEPoint offset, boolean inverseX) {
+	public static long getCropHash(TESize textureSize, TESize size, TEPoint offset, boolean inverseX) {
 		float left, right;
 		if (inverseX) {
-			left = (offset.x + textureSize.width) / imageSize.width;
-			right = offset.x / imageSize.width;
-			
+			left = (offset.x + size.width) / textureSize.width;
+			right = offset.x / textureSize.width;
 		} else {
-			left = offset.x / imageSize.width;
-			right = (offset.x + textureSize.width) / imageSize.width;
+			left = offset.x / textureSize.width;
+			right = (offset.x + size.width) / textureSize.width;
 		}
 		final float[] cropData = {
-        		left, (offset.y + textureSize.height) / imageSize.height
-        		, left, offset.y / imageSize.height
-        		, right, (offset.y + textureSize.height) / imageSize.height
-        		, right, offset.y / imageSize.height
+        		left, (offset.y + size.height) / textureSize.height
+        		, left, offset.y / textureSize.height
+        		, right, (offset.y + size.height) / textureSize.height
+        		, right, offset.y / textureSize.height
         };
         FloatBuffer cropBuffer = ByteBuffer.allocateDirect(cropData.length
                 * FLOAT_SIZE).order(ByteOrder.nativeOrder()).asFloatBuffer();
@@ -141,15 +141,15 @@ public class TEManagerTexture {
 		final int[] cropArray = {
 				textureSize.width
 				, textureSize.height
-				, imageSize.width
-				, imageSize.height
+				, size.width
+				, size.height
 				, (int)offset.x
 				, (int)offset.y
 		};
         
-        long hash = hash(cropArray, HashType.CROP);
-        mCropBuffer.put(hash, cropBuffer);
-        return cropBuffer;
+        long hash = hash(cropArray);
+        mCropMap.put(hash, cropBuffer);
+        return hash;
 	}
 	
 	public static void bindTexture(int texture) {
@@ -158,23 +158,23 @@ public class TEManagerTexture {
 		}
 	}
 	
-	public static void setPosition(long hash, FloatBuffer position) {
+	public static void setPosition(long hash) {
 		if (mPositionHash != hash) {
+			FloatBuffer position = mPositionMap.get(hash);
 			GLES20.glVertexAttribPointer(maPositionHandle, 2, GLES20.GL_FLOAT, false, 0, position);
         	mPositionHash = hash;
 		}
 	}
 	
-	public static void setCrop(long hash, FloatBuffer crop) {
+	public static void setCrop(long hash) {
 		if (mCropHash != hash) {
-			//int count = mCropBuffer.size();
-			//FloatBuffer buffer = mCropBuffer.get(hash);
-	        GLES20.glVertexAttribPointer(maTextureHandle, 2, GLES20.GL_FLOAT, false, 0, crop);
+			FloatBuffer buffer = mCropMap.get(hash);
+	        GLES20.glVertexAttribPointer(maTextureHandle, 2, GLES20.GL_FLOAT, false, 0, buffer);
 	        mCropHash = hash;
 		}
 	}
-	
-	public static long hash(int[] key, HashType type) {
+
+	public static long hash(int[] key) {
 	    long hash;
 	    int  i;
 	    for(hash = i = 0; i < key.length; ++i) {
@@ -186,5 +186,9 @@ public class TEManagerTexture {
 	    hash ^= (hash >> 11);
 	    hash += (hash << 15);
 	    return hash;
+	}
+	
+	public static void flushCache() {
+		mCropHash = -1;
 	}
 }

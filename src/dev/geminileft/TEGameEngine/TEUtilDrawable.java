@@ -2,8 +2,6 @@ package dev.geminileft.TEGameEngine;
 
 import java.nio.FloatBuffer;
 
-import dev.geminileft.TEGameEngine.TEManagerTexture.HashType;
-
 public class TEUtilDrawable {
 	public TETexture2D mTexture;
 	public TESize mSize;
@@ -20,25 +18,15 @@ public class TEUtilDrawable {
 			size = mTexture.getSize();
 		}
 		mSize = size;
-		mPositionBuffer = TEManagerTexture.getPositionBuffer(size);
+		mPositionHash = TEManagerTexture.getPositionHash(size);
 		final int[] sizeArray = {
 				size.width
 				, size.height
 		};
 		
-		mPositionHash = TEManagerTexture.hash(sizeArray, HashType.POSITION);
+		mPositionHash = TEManagerTexture.hash(sizeArray);
 		TESize textureSize = mTexture.getSize();
-		final int[] cropArray = {
-				textureSize.width
-				, textureSize.height
-				, size.width
-				, size.height
-				, (int)offset.x
-				, (int)offset.y
-		};
-		mCropBuffer = TEManagerTexture.getCropBuffer(textureSize, size, offset, false);
-		mCropHash = TEManagerTexture.hash(cropArray, HashType.CROP);
-		mInverseXCropBuffer = TEManagerTexture.getCropBuffer(mTexture.getSize(), size, offset, true);
+		mCropHash = TEManagerTexture.getCropHash(textureSize, size, offset, false);
 	}
 	
 	public TETexture2D getTexture() {

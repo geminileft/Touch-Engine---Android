@@ -38,8 +38,8 @@ public class RenderImage extends TEComponentRender {
 
 	public void draw() {
 		TEManagerTexture.bindTexture(mName);
-		TEManagerTexture.setPosition(mPositionHash, mPositionBuffer);
-		TEManagerTexture.setCrop(mCropHash, mCropBuffer);
+		TEManagerTexture.setPosition(mPositionHash);
+		TEManagerTexture.setCrop(mCropHash);
         GLES20.glVertexAttrib2f(mCoordsHandle, mX, mY);
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
 	}
