@@ -7,13 +7,14 @@ public class RenderImage extends TEComponentRender {
 	public TEUtilDrawable mDrawable;
 	private int mWidth;
 	private int mHeight;
-	float mX = 0;
-	float mY = 0;
-	int maPositionHandle;
-	int maTextureHandle;
-	int muMVPMatrixHandle;
-	float mViewMatrix[];
-	float mProjectionMatrix[];
+	private float mX = 0;
+	private float mY = 0;
+	private int maPositionHandle;
+	private int maTextureHandle;
+	private int muMVPMatrixHandle;
+	private float mViewMatrix[];
+	private float mProjectionMatrix[];
+	private int mProgram;
 	
 	private TEComponent.EventListener mMoveToTopListener = new TEComponent.EventListener() {
 		
@@ -33,7 +34,7 @@ public class RenderImage extends TEComponentRender {
         muMVPMatrixHandle = TEManagerGraphics.getUniformLocation("uMVPMatrix");
         mViewMatrix = TEManagerGraphics.getViewMatrix();
         mProjectionMatrix = TEManagerGraphics.getProjectionMatrix();
-
+        mProgram = TEManagerGraphics.getProgram();
 		mDrawable = new TEUtilDrawable(resourceId, size, position);
 		addEventSubscription(TEComponent.Event.EVENT_MOVE_TO_TOP, mMoveToTopListener);
 	}
@@ -52,7 +53,7 @@ public class RenderImage extends TEComponentRender {
 */
 
 	public void draw() {
-        GLES20.glUseProgram(TEManagerGraphics.getProgram());
+        GLES20.glUseProgram(mProgram);
         //TEManagerGraphics.checkGlError("glUseProgram");
         
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
@@ -77,7 +78,7 @@ public class RenderImage extends TEComponentRender {
         		, 0, 0, 0, 1
         };
         
-        Matrix.setIdentityM(mModelMatrix, 0);
+        //Matrix.setIdentityM(mModelMatrix, 0);
         Matrix.translateM(mModelMatrix, 0, parent.position.x, parent.position.y, 0);
         Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
