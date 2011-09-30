@@ -13,6 +13,7 @@ public class RenderImage extends TEComponentRender {
 	private int maTextureHandle;
 	private int mModelHandle;
 	private int muMVPMatrixHandle;
+	private int mCoordsHandle;
 	private float mViewMatrix[];
 	private float mProjectionMatrix[];
 	private int mProgram;
@@ -32,6 +33,7 @@ public class RenderImage extends TEComponentRender {
 		super();
         maPositionHandle = TEManagerGraphics.getAttributeLocation("aPosition");
         maTextureHandle = TEManagerGraphics.getAttributeLocation("aTexture");
+        mCoordsHandle = TEManagerGraphics.getAttributeLocation("aCoords");
         muMVPMatrixHandle = TEManagerGraphics.getUniformLocation("uMVPMatrix");
         mModelHandle = TEManagerGraphics.getUniformLocation("uModelMatrix");
         mViewMatrix = TEManagerGraphics.getViewMatrix();
@@ -55,37 +57,24 @@ public class RenderImage extends TEComponentRender {
 */
 
 	public void draw() {
-        //GLES20.glUseProgram(mProgram);
-        //TEManagerGraphics.checkGlError("glUseProgram");
-        
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mDrawable.mTexture.mName);
         GLES20.glVertexAttribPointer(maPositionHandle, 2, GLES20.GL_FLOAT, false,
                 0, mDrawable.mPositionBuffer);
-        //TEManagerGraphics.checkGlError("glVertexAttribPointer maPosition");        
         GLES20.glEnableVertexAttribArray(maPositionHandle);
-        //TEManagerGraphics.checkGlError("glEnableVertexAttribArray maPositionHandle");
-        
         GLES20.glVertexAttribPointer(maTextureHandle, 2, GLES20.GL_FLOAT, false,
                 0, mDrawable.mCropBuffer);
-        //TEManagerGraphics.checkGlError("glVertexAttribPointer maTextureHandle");
         GLES20.glEnableVertexAttribArray(maTextureHandle);
-        //TEManagerGraphics.checkGlError("glEnableVertexAttribArray maTextureHandle");
-
-        float mMVPMatrix[] = new float[16];
+        GLES20.glVertexAttrib2f(mCoordsHandle, parent.position.x, parent.position.y);
+/*
         float mModelMatrix[] = {
         		1, 0, 0, 0
         		, 0, 1, 0, 0
         		, 0, 0, 1, 0
-        		, 0, 0, 0, 1
+        		, parent.position.x, parent.position.y, 0, 1
         };
         
-        //Matrix.setIdentityM(mModelMatrix, 0);
-        Matrix.translateM(mModelMatrix, 0, parent.position.x, parent.position.y, 0);
-        Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
-        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
-        GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
         GLES20.glUniformMatrix4fv(mModelHandle, 1, false, mModelMatrix, 0);
+*/
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
         //TEManagerGraphics.checkGlError("glDrawArrays");
 	}

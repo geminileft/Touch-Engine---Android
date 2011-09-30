@@ -10,17 +10,15 @@ import android.util.Log;
 
 public class TEUtilRenderer implements GLSurfaceView.Renderer {
     private final String mVertexShader =
-        "uniform mat4 uModelMatrix;\n" +
         "uniform mat4 uViewMatrix;\n" +
         "uniform mat4 uProjectionMatrix;\n" +
-        "uniform mat4 uMVPMatrix;\n" +
         "attribute vec4 aPosition;\n" +
         "attribute vec2 aTexture;\n" +
+        "attribute vec2 aCoords;\n" +
         "varying vec2 vTextureCoord;\n" +
         "void main() {\n" +
-        "  mat4 mvp = uProjectionMatrix * (uViewMatrix * uModelMatrix);\n" +
-        //"  gl_Position = uMVPMatrix * aPosition;\n" +
-        "  gl_Position = mvp * aPosition;\n" +
+        "  mat4 identityMatrix = mat4(1,0,0,0, 0,1,0,0, 0,0,1,0, aCoords.x,aCoords.y,0,1);\n" +
+        "  gl_Position = (uProjectionMatrix * (uViewMatrix * (identityMatrix))) * aPosition;\n" +
         "  vTextureCoord = aTexture;\n" +
         "}\n";
 
