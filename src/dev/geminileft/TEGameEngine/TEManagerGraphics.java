@@ -5,10 +5,20 @@ import android.opengl.Matrix;
 import android.util.Log;
 
 public class TEManagerGraphics {
+	
+	public enum ScreenOrientation {
+		Landscape
+		, Portrait
+	};
+	
 	private static int mWidth;
 	private static int mHeight;
 	private static int mProgram;
+	private static ScreenOrientation mScreenOrientation;
 	
+	public static void setScreenOrientation(ScreenOrientation orientation) {
+		mScreenOrientation = orientation;
+	}
 	public static int getProgram() {
 		return mProgram;
 	}

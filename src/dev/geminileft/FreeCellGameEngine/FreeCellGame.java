@@ -1,7 +1,5 @@
 package dev.geminileft.FreeCellGameEngine;
 
-import android.app.Activity;
-import android.content.pm.ActivityInfo;
 import dev.geminileft.TEGameEngine.PlayingCard;
 import dev.geminileft.TEGameEngine.PlayingCard.FaceValue;
 import dev.geminileft.TEGameEngine.PlayingCard.Suit;
@@ -28,10 +26,9 @@ public class FreeCellGame extends TEEngine {
 
 	private FreeCellGameObjectFactory mFactory;
 
-	public FreeCellGame(int width, int height, Activity activity) {
-		super(width, height, activity);
+	public FreeCellGame(int width, int height) {
+		super(width, height);
 		 mFactory = new FreeCellGameObjectFactory(this);
-		 //activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
 	@Override

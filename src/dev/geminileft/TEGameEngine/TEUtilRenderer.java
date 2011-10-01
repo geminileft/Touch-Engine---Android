@@ -9,6 +9,9 @@ import android.opengl.Matrix;
 import android.util.Log;
 
 public class TEUtilRenderer implements GLSurfaceView.Renderer {
+	private boolean isCreated = false;
+	private boolean hasChanged = false;
+	
     private final String mVertexShader =
         "uniform mat4 uViewMatrix;\n" +
         "uniform mat4 uProjectionMatrix;\n" +
@@ -46,24 +49,37 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
     }
 
     public void onSurfaceCreated(GL10 glUnused, EGLConfig config) {
-        mProgram = TEManagerGraphics.createProgram(mVertexShader, mFragmentShader);
-        mProjectionHandle = TEManagerGraphics.getUniformLocation("uProjectionMatrix");
-        checkGlError("error");
-        mViewHandle = TEManagerGraphics.getUniformLocation("uViewMatrix");
-        checkGlError("error");
-        int positionHandle = TEManagerGraphics.getAttributeLocation("aPosition");
-        checkGlError("error");
-        maTextureHandle = TEManagerGraphics.getAttributeLocation("aTexture");
-        checkGlError("error");
-        GLES20.glEnableVertexAttribArray(positionHandle);
-        checkGlError("error");
-        TEManagerTexture.setPositionHandle(positionHandle);
-        GLES20.glEnableVertexAttribArray(maTextureHandle);
-        checkGlError("error");
-        TEManagerTexture.setCropHandle(maTextureHandle);
-		GLES20.glEnable(GL10.GL_BLEND);
-		GLES20.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-        mGame.start();
+    	if (!isCreated) {
+	        mProgram = TEManagerGraphics.createProgram(mVertexShader, mFragmentShader);
+	        mProjectionHandle = TEManagerGraphics.getUniformLocation("uProjectionMatrix");
+	        checkGlError("error");
+	        mViewHandle = TEManagerGraphics.getUniformLocation("uViewMatrix");
+	        checkGlError("error");
+	        int positionHandle = TEManagerGraphics.getAttributeLocation("aPosition");
+	        checkGlError("error");
+	        maTextureHandle = TEManagerGraphics.getAttributeLocation("aTexture");
+	        checkGlError("error");
+	        GLES20.glEnableVertexAttribArray(positionHandle);
+	        checkGlError("error");
+	        TEManagerTexture.setPositionHandle(positionHandle);
+	        GLES20.glEnableVertexAttribArray(maTextureHandle);
+	        checkGlError("error");
+	        TEManagerTexture.setCropHandle(maTextureHandle);
+			GLES20.glEnable(GL10.GL_BLEND);
+			GLES20.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+	        mViewMatrix = TEManagerGraphics.getViewMatrix();
+	        mGame.start();
+	        isCreated = true;
+    	}
+    }
+
+    public void onSurfaceChanged(GL10 glUnused, int width, int height) {
+    	if (!hasChanged) {
+	        GLES20.glViewport(0, 0, width, height);
+	        mProjectionMatrix = TEManagerGraphics.getProjectionMatrix();
+	        hasChanged = true;
+    	}
+    	
     }
 
     public void onDrawFrame(GL10 glUnused) {
@@ -82,12 +98,6 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
         } catch (Exception e) {
         	Log.v("info", "info");
         }
-    }
-
-    public void onSurfaceChanged(GL10 glUnused, int width, int height) {
-        GLES20.glViewport(0, 0, width, height);
-        mProjectionMatrix = TEManagerGraphics.getProjectionMatrix();
-        mViewMatrix = TEManagerGraphics.getViewMatrix();
     }
 
     private void checkGlError(String op) {

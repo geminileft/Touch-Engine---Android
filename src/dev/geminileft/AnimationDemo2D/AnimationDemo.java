@@ -1,7 +1,5 @@
 package dev.geminileft.AnimationDemo2D;
 
-import android.app.Activity;
-import android.content.pm.ActivityInfo;
 import dev.geminileft.TEGameEngine.MathUtils;
 import dev.geminileft.TEGameEngine.MovementPlayer;
 import dev.geminileft.TEGameEngine.RenderAnimation;
@@ -14,9 +12,8 @@ import dev.geminileft.opengltest.R;
 
 public class AnimationDemo extends TEEngine {
 
-	public AnimationDemo(int width, int height, Activity activity) {
-		super(width, height, activity);
-		 activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+	public AnimationDemo(int width, int height) {
+		super(width, height);
 	}
 	
 	@Override
