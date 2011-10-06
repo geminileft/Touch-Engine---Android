@@ -14,9 +14,9 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
     private final String mVertexShader =
         "uniform mat4 uViewMatrix;\n" +
         "uniform mat4 uProjectionMatrix;\n" +
+        "attribute vec2 aCoords;\n" +
         "attribute vec4 aPosition;\n" +
         "attribute vec2 aTexture;\n" +
-        "attribute vec2 aCoords;\n" +
         "varying vec2 vTextureCoord;\n" +
         "void main() {\n" +
         "  mat4 identityMatrix = mat4(1,0,0,0, 0,1,0,0, 0,0,1,0, aCoords.x,aCoords.y,0,1);\n" +
@@ -64,7 +64,6 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
 	private float mViewMatrix[];
 	private int mProjectionHandle;
 	private int mViewHandle;
-	private int maTextureHandle;
 	
     public TEUtilRenderer(TEEngine game) {
     	mGame = game;
@@ -79,14 +78,10 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
 	        checkGlError("error");
 	        int positionHandle = TEManagerGraphics.getAttributeLocation("aPosition");
 	        checkGlError("error");
-	        maTextureHandle = TEManagerGraphics.getAttributeLocation("aTexture");
 	        checkGlError("error");
 	        GLES20.glEnableVertexAttribArray(positionHandle);
 	        checkGlError("error");
 	        TEManagerTexture.setPositionHandle(positionHandle);
-	        GLES20.glEnableVertexAttribArray(maTextureHandle);
-	        checkGlError("error");
-	        TEManagerTexture.setCropHandle(maTextureHandle);
 			GLES20.glEnable(GL10.GL_BLEND);
 			GLES20.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 	        mViewMatrix = TEManagerGraphics.getViewMatrix();
