@@ -11,7 +11,7 @@ import android.util.Log;
 public class TEUtilRenderer implements GLSurfaceView.Renderer {
 	private boolean isCreated = false;
 	private boolean hasChanged = false;
-	
+
     private final String mVertexShader =
         "uniform mat4 uViewMatrix;\n" +
         "uniform mat4 uProjectionMatrix;\n" +
@@ -28,13 +28,38 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
     private final String mFragmentShader =
         "precision mediump float;\n" +
         "varying vec2 vTextureCoord;\n" +
-        "varying float vMod;\n" +
         "uniform sampler2D sTexture;\n" +
-        "uniform sampler2D sTexture2;\n" +
+        "uniform vec4 color;" +
         "void main() {\n" +
-        "  gl_FragColor = texture2D(sTexture, vTextureCoord);\n" +
+        "  float f = color.r;" +
+        "  gl_FragColor = color;\n" +
         "}\n";
 
+/*
+    private final String mVertexShader =
+        "uniform mat4 uViewMatrix;\n" +
+        "uniform mat4 uProjectionMatrix;\n" +
+        "attribute vec4 aPosition;\n" +
+        "attribute vec2 aTexture;\n" +
+        "attribute vec2 aCoords;\n" +
+        "varying vec2 vTextureCoord;\n" +
+        "void main() {\n" +
+        "  mat4 identityMatrix = mat4(1,0,0,0, 0,1,0,0, 0,0,1,0, aCoords.x,aCoords.y,0,1);\n" +
+        "  gl_Position = (uProjectionMatrix * (uViewMatrix * (identityMatrix))) * aPosition;\n" +
+        "  vTextureCoord = aTexture;\n" +
+        "}\n";
+*/
+/*
+    private final String mFragmentShader =
+        "precision mediump float;\n" +
+        "varying vec2 vTextureCoord;\n" +
+        "uniform sampler2D sTexture;\n" +
+        "void main() {\n" +
+        "  float modulus = mod(gl_FragCoord.x, 2.0);\n" +
+        "  int index = int(modulus);\n" +
+        "  gl_FragColor = texture2D(sTexture, vTextureCoord);\n" +
+        "}\n";
+*/
     private int mProgram;
     private static String TAG = "GLES20TriangleRenderer";
 	private TEEngine mGame;
@@ -94,6 +119,14 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
         checkGlError("mProjectionHandle");
         GLES20.glUniformMatrix4fv(mViewHandle, 1, false, mViewMatrix, 0);
         checkGlError("mViewHandle");
+
+        int colorHandle = TEManagerGraphics.getUniformLocation("colorSet");
+        final float colorSet[] = {
+        	1,1,1,1
+        	,0,0,0,1
+        };
+        
+        GLES20.glUniform4fv(colorHandle, 2, colorSet, 0);
 
 		mGame.run();
         } catch (Exception e) {
