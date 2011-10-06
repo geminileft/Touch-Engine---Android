@@ -78,10 +78,8 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
 	        checkGlError("error");
 	        int positionHandle = TEManagerGraphics.getAttributeLocation("aPosition");
 	        checkGlError("error");
-	        checkGlError("error");
 	        GLES20.glEnableVertexAttribArray(positionHandle);
 	        checkGlError("error");
-	        TEManagerTexture.setPositionHandle(positionHandle);
 			GLES20.glEnable(GL10.GL_BLEND);
 			GLES20.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 	        mViewMatrix = TEManagerGraphics.getViewMatrix();
