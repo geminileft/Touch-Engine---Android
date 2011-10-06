@@ -24,10 +24,7 @@ public class MainActivity extends Activity {
         GLSurfaceView view = new GLSurfaceView(this);
         Display display = getWindowManager().getDefaultDisplay(); 
    		mGame = new LightningDemo(display.getWidth(), display.getHeight());
-   		//mGame = new FreeCellGame(display.getWidth(), display.getHeight());
-        //mGame = new AnimationDemo(display.getWidth(), display.getHeight(), this);
    		mGame.setContext(this);
-   		//view.setRenderer(new TEGameRenderer(mGame));
         view.setEGLContextClientVersion(2);
         Configuration config = getResources().getConfiguration();
         ScreenOrientation orientation = (config.orientation == Configuration.ORIENTATION_LANDSCAPE)
