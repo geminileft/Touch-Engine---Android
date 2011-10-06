@@ -17,11 +17,8 @@ public class RenderColorBox extends TEComponentRender {
 	private int mCoordsHandle;
 	
 	private TEUtilDrawable mDrawable;
-	private long mCropHash;
-	private FloatBuffer mCropBuffer;
 	private int maPositionHandle;
 	private int mColorHandle;
-	private int maTextureHandle;
 	
 	private float mLattice[];
 	
@@ -70,7 +67,6 @@ public class RenderColorBox extends TEComponentRender {
 		mLattice[yAdd + xAdd + 3] = mAlpha;			
 
 		maPositionHandle = TEManagerGraphics.getAttributeLocation("aPosition");
-        maTextureHandle = TEManagerGraphics.getAttributeLocation("aTexture");
         mCoordsHandle = TEManagerGraphics.getAttributeLocation("aCoords");
         mColorHandle = TEManagerGraphics.getUniformLocation("color");
 
@@ -81,11 +77,7 @@ public class RenderColorBox extends TEComponentRender {
 	}
 	
 	@Override
-	public void draw() {		
-		if (mCropHash != mLastCropHash) {
-	        GLES20.glVertexAttribPointer(maTextureHandle, 2, GLES20.GL_FLOAT, false, 0, mCropBuffer);
-	        mLastCropHash = mCropHash;
-		}
+	public void draw() {
 		if (mPositionHash != mLastPositionHash) {
 			GLES20.glVertexAttribPointer(maPositionHandle, 2, GLES20.GL_FLOAT, false, 0, mPositionBuffer);
 	    	mLastPositionHash = mPositionHash;
@@ -115,8 +107,6 @@ public class RenderColorBox extends TEComponentRender {
 		mLattice[yAdd + xAdd + 3] = mAlpha;			
 
 		mPositionBuffer = mDrawable.mPositionBuffer;
-		mCropBuffer = mDrawable.mCropBuffer;
 		mPositionHash = mDrawable.mPositionHash;
-		mCropHash = mDrawable.mCropHash;
 	}
 }
