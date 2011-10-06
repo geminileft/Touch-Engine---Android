@@ -12,7 +12,6 @@ public class RenderColorBox extends TEComponentRender {
 	private float mGreen;
 	private float mBlue;
 	private float mAlpha;
-	private TESize mSize;
 	private long mPositionHash;
 	private FloatBuffer mPositionBuffer;
 	private long mCropHash;
@@ -20,20 +19,18 @@ public class RenderColorBox extends TEComponentRender {
 	private int maPositionHandle;
 	private int mCoordsHandle;
 	private int mColorHandle;
-	private int mColorsHandle;
 	private float mLattice[];
-	private float mProbability[];
 	private TEUtilDrawable mDrawable;
 	private int mName;
 	private int maTextureHandle;
 	
-	public RenderColorBox(float r, float g, float b, float a, TESize size) {
+	public RenderColorBox(float r, float g, float b, float a) {
 		mRed = r;
 		mGreen = g;
 		mBlue = b;
 		mAlpha = a;
-		mSize = size;
-		mLattice = new float[size.width * size.height * VECTOR_SIZE];
+		mLattice = new float[TEUtilNode.GRID_SIZE * TEUtilNode.GRID_SIZE * VECTOR_SIZE];
+		TESize size = TESize.make(TEUtilNode.GRID_SIZE, TEUtilNode.GRID_SIZE);
 		mDrawable = new TEUtilDrawable(R.raw.ace_cell, size, TEPoint.zero());
 		mName = mDrawable.mTexture.mName;
 
@@ -49,8 +46,6 @@ public class RenderColorBox extends TEComponentRender {
 				mLattice[yAdd + xAdd + 3] = 1;			
 			}
 		}
-
-		mProbability = new float[size.width * size.height];
 
 		yAdd = (TEUtilNode.GRID_SIZE - 1) << 8;
 		xAdd = (TEUtilNode.GRID_SIZE / 2) << 2;
@@ -74,13 +69,14 @@ public class RenderColorBox extends TEComponentRender {
 		mLattice[yAdd + xAdd + 2] = mBlue;
 		mLattice[yAdd + xAdd + 3] = mAlpha;			
 
-        maTextureHandle = TEManagerGraphics.getAttributeLocation("aTexture");
 		maPositionHandle = TEManagerGraphics.getAttributeLocation("aPosition");
-		mPositionHash = TEManagerTexture.getPositionHash(size);
-		mPositionBuffer = TEManagerTexture.getPositionBuffer(mPositionHash);
+        maTextureHandle = TEManagerGraphics.getAttributeLocation("aTexture");
         mCoordsHandle = TEManagerGraphics.getAttributeLocation("aCoords");
         mColorHandle = TEManagerGraphics.getUniformLocation("color");
-        mColorsHandle = TEManagerGraphics.getUniformLocation("uColors");
+
+		mPositionHash = TEManagerTexture.getPositionHash(size);
+		mPositionBuffer = TEManagerTexture.getPositionBuffer(mPositionHash);
+
         TEUtilNode.reset();
 	}
 	
@@ -111,7 +107,6 @@ public class RenderColorBox extends TEComponentRender {
 		};
 		
 		GLES20.glUniform4fv(mColorHandle, 1, color, 0);
-		GLES20.glUniform4fv(mColorsHandle, 256, mLattice, 0);
         GLES20.glVertexAttrib2f(mCoordsHandle, parent.position.x, parent.position.y);
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
 
