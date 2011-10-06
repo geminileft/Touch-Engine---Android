@@ -26,7 +26,6 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
 
     private final String mFragmentShader =
         "precision mediump float;\n" +
-        "uniform sampler2D sTexture;\n" +
         "uniform vec4 color;" +
         "void main() {\n" +
         "  float f = color.r;" +

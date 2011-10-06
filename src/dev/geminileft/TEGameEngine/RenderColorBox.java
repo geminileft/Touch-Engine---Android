@@ -82,11 +82,6 @@ public class RenderColorBox extends TEComponentRender {
 	
 	@Override
 	public void draw() {		
-		if (mPositionHash != mLastPositionHash) {
-			GLES20.glVertexAttribPointer(maPositionHandle, 2, GLES20.GL_FLOAT, false, 0, mPositionBuffer);
-	    	mLastPositionHash = mPositionHash;
-		}
-		
 		if (mCropHash != mLastCropHash) {
 	        GLES20.glVertexAttribPointer(maTextureHandle, 2, GLES20.GL_FLOAT, false, 0, mCropBuffer);
 	        mLastCropHash = mCropHash;
