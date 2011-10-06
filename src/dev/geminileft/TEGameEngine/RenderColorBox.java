@@ -15,7 +15,7 @@ public class RenderColorBox extends TEComponentRender {
 	private long mPositionHash;
 	private FloatBuffer mPositionBuffer;
 	private int mCoordsHandle;
-
+	
 	private TEUtilDrawable mDrawable;
 	private long mCropHash;
 	private FloatBuffer mCropBuffer;

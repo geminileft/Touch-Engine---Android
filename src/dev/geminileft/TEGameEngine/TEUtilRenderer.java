@@ -93,16 +93,15 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
 	        GLES20.glViewport(0, 0, width, height);
 	        mProjectionMatrix = TEManagerGraphics.getProjectionMatrix();
 	        hasChanged = true;
+	        GLES20.glUseProgram(mProgram);
+	        checkGlError("glUseProgram");
     	}
-    	
     }
 
     public void onDrawFrame(GL10 glUnused) {
         try {
         GLES20.glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
         GLES20.glClear( GLES20.GL_COLOR_BUFFER_BIT);
-        GLES20.glUseProgram(mProgram);
-        checkGlError("glUseProgram");
         GLES20.glUniformMatrix4fv(mProjectionHandle, 1, false, mProjectionMatrix, 0);
         checkGlError("mProjectionHandle");
         GLES20.glUniformMatrix4fv(mViewHandle, 1, false, mViewMatrix, 0);
