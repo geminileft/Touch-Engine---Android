@@ -17,7 +17,7 @@ public class LightningDemo extends TEEngine {
 		TEGameObject gameObject = new TEGameObject();
 		gameObject.position.x = 200;
 		gameObject.position.y = 200;
-		gameObject.addComponent(new RenderColorBox(1, 0, 0, 1));
+		gameObject.addComponent(new RenderColorBox(1, 1, 1, 1));
 		//gameObject.addComponent(colorBox);
 		addGameObject(gameObject);
 	}
