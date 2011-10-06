@@ -26,10 +26,11 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
 
     private final String mFragmentShader =
         "precision mediump float;\n" +
-        "uniform vec4 color;" +
+        "uniform vec4 color[1024];" +
+        "uniform vec4 colorSet[4096];" +
         "void main() {\n" +
-        "  float f = color.r;" +
-        "  gl_FragColor = color;\n" +
+        "int index = int(mod(gl_FragCoord.x, 64.0));" +
+        "  gl_FragColor = color[index];\n" +
         "}\n";
 
 /*
