@@ -16,7 +16,6 @@ public class RenderColorBox extends TEComponentRender {
 	private FloatBuffer mPositionBuffer;
 	private int mCoordsHandle;
 	
-	private TEUtilDrawable mDrawable;
 	private int maPositionHandle;
 	private int mColorHandle;
 	
@@ -29,7 +28,6 @@ public class RenderColorBox extends TEComponentRender {
 		mAlpha = a;
 		mLattice = new float[TEUtilNode.GRID_SIZE * TEUtilNode.GRID_SIZE * VECTOR_SIZE];
 		TESize size = TESize.make(TEUtilNode.GRID_SIZE, TEUtilNode.GRID_SIZE);
-		mDrawable = new TEUtilDrawable(R.raw.ace_cell, size, TEPoint.zero());
 
 		int yAdd;
 		int xAdd;
@@ -105,8 +103,5 @@ public class RenderColorBox extends TEComponentRender {
 		mLattice[yAdd + xAdd + 1] = mGreen;
 		mLattice[yAdd + xAdd + 2] = mBlue;
 		mLattice[yAdd + xAdd + 3] = mAlpha;			
-
-		mPositionBuffer = mDrawable.mPositionBuffer;
-		mPositionHash = mDrawable.mPositionHash;
 	}
 }
