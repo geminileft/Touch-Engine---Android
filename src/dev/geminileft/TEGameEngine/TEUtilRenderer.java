@@ -5,7 +5,6 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import android.opengl.Matrix;
 import android.util.Log;
 
 public class TEUtilRenderer implements GLSurfaceView.Renderer {
@@ -27,7 +26,6 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
 
     private final String mFragmentShader =
         "precision mediump float;\n" +
-        "varying vec2 vTextureCoord;\n" +
         "uniform sampler2D sTexture;\n" +
         "uniform vec4 color;" +
         "void main() {\n" +
@@ -67,7 +65,6 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
 	private float mViewMatrix[];
 	private int mProjectionHandle;
 	private int mViewHandle;
-	//private int maPositionHandle;
 	private int maTextureHandle;
 	
     public TEUtilRenderer(TEEngine game) {
@@ -110,7 +107,6 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
 
     public void onDrawFrame(GL10 glUnused) {
         try {
-        //Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
         GLES20.glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
         GLES20.glClear( GLES20.GL_COLOR_BUFFER_BIT);
         GLES20.glUseProgram(mProgram);

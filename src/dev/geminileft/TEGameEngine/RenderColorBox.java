@@ -14,15 +14,16 @@ public class RenderColorBox extends TEComponentRender {
 	private float mAlpha;
 	private long mPositionHash;
 	private FloatBuffer mPositionBuffer;
+
+	private TEUtilDrawable mDrawable;
 	private long mCropHash;
 	private FloatBuffer mCropBuffer;
 	private int maPositionHandle;
 	private int mCoordsHandle;
 	private int mColorHandle;
-	private float mLattice[];
-	private TEUtilDrawable mDrawable;
-	private int mName;
 	private int maTextureHandle;
+	
+	private float mLattice[];
 	
 	public RenderColorBox(float r, float g, float b, float a) {
 		mRed = r;
@@ -32,7 +33,6 @@ public class RenderColorBox extends TEComponentRender {
 		mLattice = new float[TEUtilNode.GRID_SIZE * TEUtilNode.GRID_SIZE * VECTOR_SIZE];
 		TESize size = TESize.make(TEUtilNode.GRID_SIZE, TEUtilNode.GRID_SIZE);
 		mDrawable = new TEUtilDrawable(R.raw.ace_cell, size, TEPoint.zero());
-		mName = mDrawable.mTexture.mName;
 
 		int yAdd;
 		int xAdd;
@@ -81,11 +81,7 @@ public class RenderColorBox extends TEComponentRender {
 	}
 	
 	@Override
-	public void draw() {
-		if (mName != mLastTexture) {
-			GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mName);
-			mLastTexture = mName;
-		}
+	public void draw() {		
 		if (mPositionHash != mLastPositionHash) {
 			GLES20.glVertexAttribPointer(maPositionHandle, 2, GLES20.GL_FLOAT, false, 0, mPositionBuffer);
 	    	mLastPositionHash = mPositionHash;
