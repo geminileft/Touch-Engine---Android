@@ -14,19 +14,16 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
     private final String mVertexShader =
         "uniform mat4 uViewMatrix;\n" +
         "uniform mat4 uProjectionMatrix;\n" +
-        "attribute vec2 aCoords;\n" +
+        "attribute vec2 position;\n" +
         "attribute vec4 aPosition;\n" +
-        "attribute vec2 aTexture;\n" +
-        "varying vec2 vTextureCoord;\n" +
         "void main() {\n" +
-        "  mat4 identityMatrix = mat4(1,0,0,0, 0,1,0,0, 0,0,1,0, aCoords.x,aCoords.y,0,1);\n" +
+        "  mat4 identityMatrix = mat4(1,0,0,0, 0,1,0,0, 0,0,1,0, position.x,position.y,0,1);\n" +
         "  gl_Position = (uProjectionMatrix * (uViewMatrix * (identityMatrix))) * aPosition;\n" +
-        "  vTextureCoord = aTexture;\n" +
         "}\n";
 
     private final String mFragmentShader =
         "precision mediump float;\n" +
-        "uniform vec4 color[1024];" +
+        "uniform vec4 color[1500];" +
         "uniform vec4 colorSet[4096];" +
         "void main() {\n" +
         "int index = int(mod(gl_FragCoord.x, 64.0));" +
@@ -77,9 +74,9 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
 	        checkGlError("error");
 	        mViewHandle = TEManagerGraphics.getUniformLocation("uViewMatrix");
 	        checkGlError("error");
-	        int positionHandle = TEManagerGraphics.getAttributeLocation("aPosition");
+	        //int positionHandle = TEManagerGraphics.getAttributeLocation("aPosition");
 	        checkGlError("error");
-	        GLES20.glEnableVertexAttribArray(positionHandle);
+	        //GLES20.glEnableVertexAttribArray(positionHandle);
 	        checkGlError("error");
 			GLES20.glEnable(GL10.GL_BLEND);
 			GLES20.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
@@ -95,6 +92,9 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
 	        mProjectionMatrix = TEManagerGraphics.getProjectionMatrix();
 	        hasChanged = true;
 	        GLES20.glUseProgram(mProgram);
+	        int positionHandle = TEManagerGraphics.getAttributeLocation("aPosition");
+	        checkGlError("error");
+	        GLES20.glEnableVertexAttribArray(positionHandle);
 	        checkGlError("glUseProgram");
     	}
     }
