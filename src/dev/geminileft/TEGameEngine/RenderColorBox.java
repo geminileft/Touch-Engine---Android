@@ -5,6 +5,7 @@ import java.nio.FloatBuffer;
 import android.opengl.GLES20;
 
 public class RenderColorBox extends TEComponentRender {
+	private final String PROGRAM_NAME = "colorbox";
 	private float mRed;
 	private float mGreen;
 	private float mBlue;
@@ -26,7 +27,7 @@ public class RenderColorBox extends TEComponentRender {
 		mBlue = b;
 		mAlpha = a;
 		TESize size = TESize.make(TEUtilNode.GRID_SIZE, TEUtilNode.GRID_SIZE);
-		mProgram = TEManagerGraphics.getProgram("colorbox");
+		mProgram = TEManagerGraphics.getProgram(PROGRAM_NAME);
 		mVerticesHandle = TEManagerGraphics.getAttributeLocation(mProgram, "vertices");
         mPositionHandle = TEManagerGraphics.getAttributeLocation(mProgram, "position");
         mColorHandle = TEManagerGraphics.getUniformLocation(mProgram, "color");
@@ -38,12 +39,14 @@ public class RenderColorBox extends TEComponentRender {
 	
 	@Override
 	public void draw() {
+		if (mLastProgram != mProgram) {
+			TEManagerGraphics.switchProgram(PROGRAM_NAME);
+			mLastProgram = mProgram;
+		}
+
 		if (mVerticesHash != mLastPositionHash) {
 			GLES20.glVertexAttribPointer(mVerticesHandle, 2, GLES20.GL_FLOAT, false, 0, mVerticesBuffer);
 	    	mLastPositionHash = mVerticesHash;
-		}
-		if (mLastProgram != mProgram) {
-			mLastProgram = mProgram;
 		}
 		
         GLES20.glVertexAttrib2f(mPositionHandle, parent.position.x, parent.position.y);

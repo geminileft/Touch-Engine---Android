@@ -1,20 +1,13 @@
 package dev.geminileft.TEGameEngine;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
 public class TEUtilRenderer implements GLSurfaceView.Renderer {
-	private boolean isCreated = false;
-	private boolean hasChanged = false;
-
 /*
     private final String mVertexShader =
         "uniform mat4 uViewMatrix;\n" +
@@ -40,90 +33,32 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
         "  gl_FragColor = texture2D(sTexture, vTextureCoord);\n" +
         "}\n";
 */
-    private int mProgram;
-    private static String TAG = "GLES20TriangleRenderer";
 	private TEEngine mGame;
-	private float mProjectionMatrix[];
-	private float mViewMatrix[];
-	private int mProjectionHandle;
-	private int mViewHandle;
 	
     public TEUtilRenderer(TEEngine game) {
     	mGame = game;
     }
 
     public void onSurfaceCreated(GL10 glUnused, EGLConfig config) {
-    	if (!isCreated) {
-    		String vertexShader = readFileContents("colorbox.vs");
-    		String fragmentShader = readFileContents("colorbox.fs");
-	        mProgram = TEManagerGraphics.createProgram("colorbox", vertexShader, fragmentShader);
-	        mProjectionHandle = TEManagerGraphics.getUniformLocation(mProgram, "uProjectionMatrix");
-	        checkGlError("error");
-	        mViewHandle = TEManagerGraphics.getUniformLocation(mProgram, "uViewMatrix");
-	        checkGlError("error");
-			GLES20.glEnable(GL10.GL_BLEND);
-			GLES20.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-	        mViewMatrix = TEManagerGraphics.getViewMatrix();
-	        mGame.start();
-	        isCreated = true;
-    	}
+        GLES20.glEnable(GL10.GL_BLEND);
+		GLES20.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		
+		TEManagerGraphics.createPrograms();
+        mGame.start();
     }
 
     public void onSurfaceChanged(GL10 glUnused, int width, int height) {
-    	if (!hasChanged) {
-	        GLES20.glViewport(0, 0, width, height);
-	        mProjectionMatrix = TEManagerGraphics.getProjectionMatrix();
-	        hasChanged = true;
-	        GLES20.glUseProgram(mProgram);
-	        int positionHandle = TEManagerGraphics.getAttributeLocation(mProgram, "vertices");
-	        checkGlError("error");
-	        GLES20.glEnableVertexAttribArray(positionHandle);
-	        checkGlError("glUseProgram");
-    	}
+        GLES20.glViewport(0, 0, width, height);
     }
 
     public void onDrawFrame(GL10 glUnused) {
         try {
         GLES20.glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
         GLES20.glClear( GLES20.GL_COLOR_BUFFER_BIT);
-        GLES20.glUniformMatrix4fv(mProjectionHandle, 1, false, mProjectionMatrix, 0);
-        checkGlError("mProjectionHandle");
-        GLES20.glUniformMatrix4fv(mViewHandle, 1, false, mViewMatrix, 0);
-        checkGlError("mViewHandle");
 
 		mGame.run();
         } catch (Exception e) {
         	Log.v("info", "info");
         }
     }
-
-    private void checkGlError(String op) {
-        int error;
-        while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
-        	String errorMsg = GLES20.glGetProgramInfoLog(mProgram);
-            Log.e(TAG, op + ": glError " + error + errorMsg);
-            throw new RuntimeException(op + ": glError " + error);
-        }
-    }
-    
-    private String readFileContents(String filename) {
-		Context context = TEStaticSettings.getContext();
-		StringBuffer resultBuffer = new StringBuffer();
-		try {
-			final int BUFFER_SIZE = 1024;
-			char buffer[] = new char[BUFFER_SIZE];
-			int charsRead;
-			InputStream stream = context.getAssets().open(filename);
-			InputStreamReader reader = new InputStreamReader(stream);
-    		resultBuffer = new StringBuffer();
-			while ((charsRead = reader.read(buffer, 0, BUFFER_SIZE)) != -1) {
-				resultBuffer.append(buffer, 0, charsRead);
-			}
-			reader.close();
-			stream.close();
-		} catch (Exception e) {
-			Log.v("info", "very bad");
-		}
-		return resultBuffer.toString();
-    }    
 }

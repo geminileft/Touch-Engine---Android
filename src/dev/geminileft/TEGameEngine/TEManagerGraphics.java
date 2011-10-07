@@ -1,7 +1,11 @@
 package dev.geminileft.TEGameEngine;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.LinkedList;
 
+import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 import android.util.Log;
@@ -18,6 +22,7 @@ public class TEManagerGraphics {
 	private static int mCurrentProgram;
 	private static ScreenOrientation mScreenOrientation;
 	private static HashMap<String, Integer> mPrograms = new HashMap<String, Integer>();
+	private static HashMap<Integer, LinkedList<String>> mProgramAttributes = new HashMap<Integer, LinkedList<String>>();
 	
 	public static void setScreenOrientation(ScreenOrientation orientation) {
 		mScreenOrientation = orientation;
@@ -39,7 +44,23 @@ public class TEManagerGraphics {
 		return new TESize(mWidth, mHeight);
 	}
 
-    public static int createProgram(String programName, String vertexSource, String fragmentSource) {
+	public static void createPrograms() {
+		String vertexShader = readFileContents("colorbox.vs");
+		String fragmentShader = readFileContents("colorbox.fs");
+        int program = createProgram("colorbox", vertexShader, fragmentShader);
+        addProgramAttribute(program, "vertices");
+	}
+	
+	private static void addProgramAttribute(int program, String attribute) {
+		LinkedList list = mProgramAttributes.get(program);
+		if (list == null) {
+			list = new LinkedList<String>();
+			mProgramAttributes.put(program, list);
+		}
+		list.add(attribute);
+	}
+	
+    private static int createProgram(String programName, String vertexSource, String fragmentSource) {
         int program = GLES20.glCreateProgram();
         mPrograms.put(programName, program);
         int vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, vertexSource);
@@ -96,10 +117,16 @@ public class TEManagerGraphics {
         final int program = mPrograms.get(programName);
         GLES20.glUseProgram(program);
         checkGlError("glUseProgram");
-
-        int positionHandle = TEManagerGraphics.getAttributeLocation(program, "vertices");
-        GLES20.glEnableVertexAttribArray(positionHandle);
-        checkGlError("glEnableVertexAttribArray");
+        
+        LinkedList<String> list = mProgramAttributes.get(program);
+        if (list != null) {
+        	final int size = list.size();
+        	for (int i = 0;i < size;++i) {
+                int positionHandle = TEManagerGraphics.getAttributeLocation(program, list.get(i));
+                GLES20.glEnableVertexAttribArray(positionHandle);
+                checkGlError("glEnableVertexAttribArray");        		
+        	}
+        }
 
         final float projectionMatrix[] = TEManagerGraphics.getProjectionMatrix();
         final float viewMatrix[] = TEManagerGraphics.getViewMatrix();
@@ -112,4 +139,26 @@ public class TEManagerGraphics {
         GLES20.glUniformMatrix4fv(viewHandle, 1, false, viewMatrix, 0);
         checkGlError("glUniformMatrix4fv");
     }
+
+    public static String readFileContents(String filename) {
+		Context context = TEStaticSettings.getContext();
+		StringBuffer resultBuffer = new StringBuffer();
+		try {
+			final int BUFFER_SIZE = 1024;
+			char buffer[] = new char[BUFFER_SIZE];
+			int charsRead;
+			InputStream stream = context.getAssets().open(filename);
+			InputStreamReader reader = new InputStreamReader(stream);
+    		resultBuffer = new StringBuffer();
+			while ((charsRead = reader.read(buffer, 0, BUFFER_SIZE)) != -1) {
+				resultBuffer.append(buffer, 0, charsRead);
+			}
+			reader.close();
+			stream.close();
+		} catch (Exception e) {
+			Log.v("info", "very bad");
+		}
+		return resultBuffer.toString();
+    }    
+
 }
