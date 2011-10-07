@@ -8,18 +8,29 @@ import android.opengl.Matrix;
 
 
 public class RenderAnimation extends TEComponentRender {
+	private final String PROGRAM_NAME = "texture";
 	private LinkedList<AnimationFrame> mFrames;
 	private long mCurrentFrameDuration;
 	private int mCurrentFrameIndex;
 	private TEGameObject.ObjectState mState;
 	private TEUtilDrawable mDrawable;
+	private FloatBuffer mPositionBuffer;
 	private FloatBuffer mCropBuffer;
 	private int mProgram;
-	
+	private int mName;
+	private long mPositionHash;
+	private long mCropHash;
+	private int maPositionHandle;
+	private int maTextureHandle;
+	private int mCoordsHandle;
+
 	public RenderAnimation(TEGameObject.ObjectState state) {
 		mFrames = new LinkedList<AnimationFrame>();
 		mState = state;
-		mProgram = TEManagerGraphics.getProgram("texture");
+		mProgram = TEManagerGraphics.getProgram(PROGRAM_NAME);
+        mCoordsHandle = TEManagerGraphics.getAttributeLocation(mProgram, "aCoords");
+        maPositionHandle = TEManagerGraphics.getAttributeLocation(mProgram, "aPosition");
+        maTextureHandle = TEManagerGraphics.getAttributeLocation(mProgram, "aTexture");
 	}
 	
 	public void addFrameAnimation(long frameDuration, TEUtilDrawable drawable) {
@@ -28,34 +39,28 @@ public class RenderAnimation extends TEComponentRender {
 
 	public void draw() {
 		if (parent.state == mState) {
-	        GLES20.glUseProgram(TEManagerGraphics.getProgram("AnimationProgram"));
-	        TEManagerGraphics.checkGlError("glUseProgram");
-	        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-	        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mDrawable.mTexture.mName);
-	        int maPositionHandle = TEManagerGraphics.getAttributeLocation(mProgram, "aPosition");
-	        int maTextureHandle = TEManagerGraphics.getAttributeLocation(mProgram, "aTexture");
-	        int muMVPMatrixHandle = TEManagerGraphics.getUniformLocation(mProgram, "uMVPMatrix");
-	        GLES20.glVertexAttribPointer(maPositionHandle, 2, GLES20.GL_FLOAT, false,
-	                0, mDrawable.mPositionBuffer);
-	        TEManagerGraphics.checkGlError("glVertexAttribPointer maPosition");        
-	        GLES20.glEnableVertexAttribArray(maPositionHandle);
-	        TEManagerGraphics.checkGlError("glEnableVertexAttribArray maPositionHandle");
-	        
-	        GLES20.glVertexAttribPointer(maTextureHandle, 2, GLES20.GL_FLOAT, false,
-	                0, mCropBuffer);
-	        TEManagerGraphics.checkGlError("glVertexAttribPointer maTextureHandle");
-	        GLES20.glEnableVertexAttribArray(maTextureHandle);
-	        TEManagerGraphics.checkGlError("glEnableVertexAttribArray maTextureHandle");
-	        float mMVPMatrix[] = new float[16];
-	        float mModelMatrix[] = new float[16];
-	        Matrix.setIdentityM(mModelMatrix, 0);
-	        Matrix.translateM(mModelMatrix, 0, parent.position.x, parent.position.y, 0);
-	        Matrix.multiplyMM(mMVPMatrix, 0, TEManagerGraphics.getViewMatrix(), 0, mModelMatrix, 0);
-	        Matrix.multiplyMM(mMVPMatrix, 0, TEManagerGraphics.getProjectionMatrix(), 0, mMVPMatrix, 0);
-	
-	        GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+			if (mLastProgram != mProgram) {
+				TEManagerGraphics.switchProgram(PROGRAM_NAME);
+				mLastProgram = mProgram;
+			}
+
+			if (mName != mLastTexture) {
+				GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mName);
+				mLastTexture = mName;
+			}
+			if (mPositionHash != mLastPositionHash) {
+				GLES20.glVertexAttribPointer(maPositionHandle, 2, GLES20.GL_FLOAT, false, 0, mPositionBuffer);
+		    	mLastPositionHash = mPositionHash;
+			}
+			
+			if (mCropHash != mLastCropHash) {
+		        GLES20.glVertexAttribPointer(maTextureHandle, 2, GLES20.GL_FLOAT, false, 0, mCropBuffer);
+		        mLastCropHash = mCropHash;
+			}
+	        GLES20.glVertexAttrib2f(mCoordsHandle, parent.position.x, parent.position.y);
 	        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
-	        TEManagerGraphics.checkGlError("glDrawArrays");
+			
+			
 		}
 	}
 	@Override
@@ -69,6 +74,12 @@ public class RenderAnimation extends TEComponentRender {
 
 		AnimationFrame frame = mFrames.get(mCurrentFrameIndex);
 		mDrawable = frame.getDrawable();
+		mName = mDrawable.mTexture.mName;
+		mPositionHash = mDrawable.mPositionHash;
+		mCropHash = mDrawable.mCropHash;
+
+		mPositionBuffer = mDrawable.mPositionBuffer;
+
 		if (parent.direction == TEGameObject.ObjectDirection.REVERSE) {
 			mCropBuffer = mDrawable.mInverseXCropBuffer;
 		} else {
