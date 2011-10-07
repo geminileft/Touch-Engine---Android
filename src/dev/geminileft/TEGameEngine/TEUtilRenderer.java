@@ -15,19 +15,16 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
         "uniform mat4 uViewMatrix;\n" +
         "uniform mat4 uProjectionMatrix;\n" +
         "attribute vec2 position;\n" +
-        "attribute vec4 aPosition;\n" +
+        "attribute vec4 vertices;\n" +
         "void main() {\n" +
         "  mat4 identityMatrix = mat4(1,0,0,0, 0,1,0,0, 0,0,1,0, position.x,position.y,0,1);\n" +
-        "  gl_Position = (uProjectionMatrix * (uViewMatrix * (identityMatrix))) * aPosition;\n" +
+        "  gl_Position = (uProjectionMatrix * (uViewMatrix * (identityMatrix))) * vertices;\n" +
         "}\n";
 
     private final String mFragmentShader =
         "precision mediump float;\n" +
-        "uniform vec4 color[1500];" +
-        "uniform vec4 colorSet[4096];" +
         "void main() {\n" +
-        "int index = int(mod(gl_FragCoord.x, 64.0));" +
-        "  gl_FragColor = color[index];\n" +
+        "  gl_FragColor = vec4(1.0,1.0,1.0,1.0);\n" +
         "}\n";
 
 /*
@@ -92,7 +89,7 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
 	        mProjectionMatrix = TEManagerGraphics.getProjectionMatrix();
 	        hasChanged = true;
 	        GLES20.glUseProgram(mProgram);
-	        int positionHandle = TEManagerGraphics.getAttributeLocation("aPosition");
+	        int positionHandle = TEManagerGraphics.getAttributeLocation("vertices");
 	        checkGlError("error");
 	        GLES20.glEnableVertexAttribArray(positionHandle);
 	        checkGlError("glUseProgram");
