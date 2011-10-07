@@ -76,14 +76,15 @@ public class RenderAnimation extends TEComponentRender {
 		mDrawable = frame.getDrawable();
 		mName = mDrawable.mTexture.mName;
 		mPositionHash = mDrawable.mPositionHash;
-		mCropHash = mDrawable.mCropHash;
 
 		mPositionBuffer = mDrawable.mPositionBuffer;
 
 		if (parent.direction == TEGameObject.ObjectDirection.REVERSE) {
-			mCropBuffer = mDrawable.mInverseXCropBuffer;
+			mCropBuffer = mDrawable.mInverseXCropBuffer;			
+			mCropHash = mDrawable.mInverseXCropHash;
 		} else {
 			mCropBuffer = mDrawable.mCropBuffer;			
+			mCropHash = mDrawable.mCropHash;
 		}
 	}
 

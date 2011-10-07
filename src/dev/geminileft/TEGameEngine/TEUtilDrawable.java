@@ -9,6 +9,7 @@ public class TEUtilDrawable {
 	public FloatBuffer mCropBuffer;
 	public long mPositionHash;
 	public long mCropHash;
+	public long mInverseXCropHash;
 	public FloatBuffer mInverseXCropBuffer;
 	
 	public TEUtilDrawable(int resourceId, TESize size, TEPoint offset) {
@@ -29,6 +30,8 @@ public class TEUtilDrawable {
 		TESize textureSize = mTexture.getSize();
 		mCropHash = TEManagerTexture.getCropHash(textureSize, size, offset, false);
 		mCropBuffer = TEManagerTexture.getCropBuffer(mCropHash);
+		mInverseXCropHash = TEManagerTexture.getCropHash(textureSize, size, offset, true);
+		mInverseXCropBuffer = TEManagerTexture.getCropBuffer(mInverseXCropHash);
 	}
 	
 	public TETexture2D getTexture() {
