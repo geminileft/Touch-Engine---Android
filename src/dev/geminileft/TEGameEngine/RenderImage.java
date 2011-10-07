@@ -5,6 +5,7 @@ import java.nio.FloatBuffer;
 import android.opengl.GLES20;
 
 public class RenderImage extends TEComponentRender {
+	private final String PROGRAM_NAME = "texture";
 	public TEUtilDrawable mDrawable;
 	private int mWidth;
 	private int mHeight;
@@ -33,7 +34,7 @@ public class RenderImage extends TEComponentRender {
 
 	public RenderImage(int resourceId, TEPoint position, TESize size) {
 		super();
-		mProgram = TEManagerGraphics.getProgram("texture");
+		mProgram = TEManagerGraphics.getProgram(PROGRAM_NAME);
         mCoordsHandle = TEManagerGraphics.getAttributeLocation(mProgram, "aCoords");
         maPositionHandle = TEManagerGraphics.getAttributeLocation(mProgram, "aPosition");
         maTextureHandle = TEManagerGraphics.getAttributeLocation(mProgram, "aTexture");
@@ -43,6 +44,11 @@ public class RenderImage extends TEComponentRender {
 	}
 
 	public void draw() {
+		if (mLastProgram != mProgram) {
+			TEManagerGraphics.switchProgram(PROGRAM_NAME);
+			mLastProgram = mProgram;
+		}
+
 		if (mName != mLastTexture) {
 			GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mName);
 			mLastTexture = mName;

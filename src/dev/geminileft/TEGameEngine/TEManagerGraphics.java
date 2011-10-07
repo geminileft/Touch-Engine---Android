@@ -23,6 +23,24 @@ public class TEManagerGraphics {
 	private static ScreenOrientation mScreenOrientation;
 	private static HashMap<String, Integer> mPrograms = new HashMap<String, Integer>();
 	private static HashMap<Integer, LinkedList<String>> mProgramAttributes = new HashMap<Integer, LinkedList<String>>();
+
+	public static void createPrograms() {
+		String vertexShader;
+		String fragmentShader;
+		int program;
+		
+        vertexShader = readFileContents("texture.vs");
+        fragmentShader = readFileContents("texture.fs");
+        program = createProgram("texture", vertexShader, fragmentShader);
+        addProgramAttribute(program, "aPosition");
+        addProgramAttribute(program, "aTexture");
+
+        vertexShader = readFileContents("colorbox.vs");
+		fragmentShader = readFileContents("colorbox.fs");
+        program = createProgram("colorbox", vertexShader, fragmentShader);
+        addProgramAttribute(program, "vertices");
+        
+	}
 	
 	public static void setScreenOrientation(ScreenOrientation orientation) {
 		mScreenOrientation = orientation;
@@ -44,15 +62,8 @@ public class TEManagerGraphics {
 		return new TESize(mWidth, mHeight);
 	}
 
-	public static void createPrograms() {
-		String vertexShader = readFileContents("colorbox.vs");
-		String fragmentShader = readFileContents("colorbox.fs");
-        int program = createProgram("colorbox", vertexShader, fragmentShader);
-        addProgramAttribute(program, "vertices");
-	}
-	
 	private static void addProgramAttribute(int program, String attribute) {
-		LinkedList list = mProgramAttributes.get(program);
+		LinkedList<String> list = mProgramAttributes.get(program);
 		if (list == null) {
 			list = new LinkedList<String>();
 			mProgramAttributes.put(program, list);
@@ -82,7 +93,9 @@ public class TEManagerGraphics {
     private static int loadShader(int shaderType, String source) {
         int shader = GLES20.glCreateShader(shaderType);
         GLES20.glShaderSource(shader, source);
+        checkGlError("glShaderSource");
         GLES20.glCompileShader(shader);
+        checkGlError("glCompileShader");
         return shader;
     }
 
@@ -110,7 +123,11 @@ public class TEManagerGraphics {
     }
     
     public static int getProgram(String programName) {
-    	return mPrograms.get(programName);
+    	Integer intVal = mPrograms.get(programName);
+    	if (intVal == null) {
+    		throw new RuntimeException();
+    	}
+    	return intVal;
     }
 
     public static void switchProgram(String programName) {
