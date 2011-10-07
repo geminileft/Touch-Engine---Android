@@ -26,7 +26,7 @@ public class RenderAnimation extends TEComponentRender {
 
 	public void draw() {
 		if (parent.state == mState) {
-	        GLES20.glUseProgram(TEManagerGraphics.getProgram());
+	        GLES20.glUseProgram(TEManagerGraphics.getProgram("AnimationProgram"));
 	        TEManagerGraphics.checkGlError("glUseProgram");
 	        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
 	        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mDrawable.mTexture.mName);

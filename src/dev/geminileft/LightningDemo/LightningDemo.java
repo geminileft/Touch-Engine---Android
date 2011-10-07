@@ -13,12 +13,17 @@ public class LightningDemo extends TEEngine {
 	
 	@Override
 	public void start() {
-		//RenderColorBox colorBox = new RenderColorBox(0, 1, 1, 1, TESize.make(64, 64));
 		TEGameObject gameObject = new TEGameObject();
 		gameObject.position.x = 32;
 		gameObject.position.y = 32;
 		gameObject.addComponent(new RenderColorBox(1, 1, 1, 1));
-		//gameObject.addComponent(colorBox);
 		addGameObject(gameObject);
+
+		gameObject = new TEGameObject();
+		gameObject.position.x = 100;
+		gameObject.position.y = 100;
+		gameObject.addComponent(new RenderColorBox(0.3f, 1.0f, 0.14f, 0.55f));
+		addGameObject(gameObject);
+	
 	}
 }

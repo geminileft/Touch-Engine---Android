@@ -9,10 +9,16 @@ public class RenderColorBox extends TEComponentRender {
 	private float mGreen;
 	private float mBlue;
 	private float mAlpha;
-	private long mPositionHash;
-	private FloatBuffer mPositionBuffer;
+
+	private long mVerticesHash;
+	private FloatBuffer mVerticesBuffer;
+
 	private int mPositionHandle;
 	private int mVerticesHandle;
+	private int mColorHandle;
+	
+	//the shaders to use
+	private int mProgram;
 	
 	public RenderColorBox(float r, float g, float b, float a) {
 		mRed = r;
@@ -23,20 +29,22 @@ public class RenderColorBox extends TEComponentRender {
 
 		mVerticesHandle = TEManagerGraphics.getAttributeLocation("vertices");
         mPositionHandle = TEManagerGraphics.getAttributeLocation("position");
-
-		mPositionHash = TEManagerTexture.getPositionHash(size);
-		mPositionBuffer = TEManagerTexture.getPositionBuffer(mPositionHash);
+        mColorHandle = TEManagerGraphics.getUniformLocation("color");
+		mVerticesHash = TEManagerTexture.getPositionHash(size);
+		mVerticesBuffer = TEManagerTexture.getPositionBuffer(mVerticesHash);
 
         //TEUtilNode.reset();
 	}
 	
 	@Override
 	public void draw() {
-		if (mPositionHash != mLastPositionHash) {
-			GLES20.glVertexAttribPointer(mVerticesHandle, 2, GLES20.GL_FLOAT, false, 0, mPositionBuffer);
-	    	mLastPositionHash = mPositionHash;
+		if (mVerticesHash != mLastPositionHash) {
+			GLES20.glVertexAttribPointer(mVerticesHandle, 2, GLES20.GL_FLOAT, false, 0, mVerticesBuffer);
+	    	mLastPositionHash = mVerticesHash;
 		}
+		
         GLES20.glVertexAttrib2f(mPositionHandle, parent.position.x, parent.position.y);
+        GLES20.glUniform4f(mColorHandle, mRed, mGreen, mBlue, mAlpha);
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
 
 	}

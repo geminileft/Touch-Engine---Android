@@ -23,8 +23,9 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
 
     private final String mFragmentShader =
         "precision mediump float;\n" +
+        "uniform vec4 color;" +
         "void main() {\n" +
-        "  gl_FragColor = vec4(1.0,1.0,1.0,1.0);\n" +
+        "  gl_FragColor = color;\n" +
         "}\n";
 
 /*
@@ -66,14 +67,10 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
 
     public void onSurfaceCreated(GL10 glUnused, EGLConfig config) {
     	if (!isCreated) {
-	        mProgram = TEManagerGraphics.createProgram(mVertexShader, mFragmentShader);
+	        mProgram = TEManagerGraphics.createProgram("ColorBox", mVertexShader, mFragmentShader);
 	        mProjectionHandle = TEManagerGraphics.getUniformLocation("uProjectionMatrix");
 	        checkGlError("error");
 	        mViewHandle = TEManagerGraphics.getUniformLocation("uViewMatrix");
-	        checkGlError("error");
-	        //int positionHandle = TEManagerGraphics.getAttributeLocation("aPosition");
-	        checkGlError("error");
-	        //GLES20.glEnableVertexAttribArray(positionHandle);
 	        checkGlError("error");
 			GLES20.glEnable(GL10.GL_BLEND);
 			GLES20.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);

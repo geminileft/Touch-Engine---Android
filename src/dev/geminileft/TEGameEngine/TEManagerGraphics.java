@@ -1,5 +1,7 @@
 package dev.geminileft.TEGameEngine;
 
+import java.util.HashMap;
+
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 import android.util.Log;
@@ -15,14 +17,11 @@ public class TEManagerGraphics {
 	private static int mHeight;
 	private static int mProgram;
 	private static ScreenOrientation mScreenOrientation;
+	private static HashMap<String, Integer> mPrograms = new HashMap<String, Integer>();
 	
 	public static void setScreenOrientation(ScreenOrientation orientation) {
 		mScreenOrientation = orientation;
 	}
-	public static int getProgram() {
-		return mProgram;
-	}
-	
 	public static int getAttributeLocation(String attribute) {
 		return GLES20.glGetAttribLocation(mProgram, attribute);
 	}
@@ -40,8 +39,9 @@ public class TEManagerGraphics {
 		return new TESize(mWidth, mHeight);
 	}
 
-    public static int createProgram(String vertexSource, String fragmentSource) {
+    public static int createProgram(String programName, String vertexSource, String fragmentSource) {
         mProgram = GLES20.glCreateProgram();
+        mPrograms.put(programName, mProgram);
         int vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, vertexSource);
         GLES20.glAttachShader(mProgram, vertexShader);
         int fragmentShader = loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentSource);
@@ -89,6 +89,8 @@ public class TEManagerGraphics {
         return projectionMatrix;
     }
     
- 
+    public static int getProgram(String programName) {
+    	return mPrograms.get(programName);
+    }
 
 }
