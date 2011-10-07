@@ -14,10 +14,12 @@ public class RenderAnimation extends TEComponentRender {
 	private TEGameObject.ObjectState mState;
 	private TEUtilDrawable mDrawable;
 	private FloatBuffer mCropBuffer;
+	private int mProgram;
 	
 	public RenderAnimation(TEGameObject.ObjectState state) {
 		mFrames = new LinkedList<AnimationFrame>();
 		mState = state;
+		mProgram = TEManagerGraphics.getProgram("texture");
 	}
 	
 	public void addFrameAnimation(long frameDuration, TEUtilDrawable drawable) {
@@ -30,9 +32,9 @@ public class RenderAnimation extends TEComponentRender {
 	        TEManagerGraphics.checkGlError("glUseProgram");
 	        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
 	        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mDrawable.mTexture.mName);
-	        int maPositionHandle = TEManagerGraphics.getAttributeLocation("aPosition");
-	        int maTextureHandle = TEManagerGraphics.getAttributeLocation("aTexture");
-	        int muMVPMatrixHandle = TEManagerGraphics.getUniformLocation("uMVPMatrix");
+	        int maPositionHandle = TEManagerGraphics.getAttributeLocation(mProgram, "aPosition");
+	        int maTextureHandle = TEManagerGraphics.getAttributeLocation(mProgram, "aTexture");
+	        int muMVPMatrixHandle = TEManagerGraphics.getUniformLocation(mProgram, "uMVPMatrix");
 	        GLES20.glVertexAttribPointer(maPositionHandle, 2, GLES20.GL_FLOAT, false,
 	                0, mDrawable.mPositionBuffer);
 	        TEManagerGraphics.checkGlError("glVertexAttribPointer maPosition");        

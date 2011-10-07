@@ -56,10 +56,10 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
     	if (!isCreated) {
     		String vertexShader = readFileContents("colorbox.vs");
     		String fragmentShader = readFileContents("colorbox.fs");
-	        mProgram = TEManagerGraphics.createProgram("ColorBox", vertexShader, fragmentShader);
-	        mProjectionHandle = TEManagerGraphics.getUniformLocation("uProjectionMatrix");
+	        mProgram = TEManagerGraphics.createProgram("colorbox", vertexShader, fragmentShader);
+	        mProjectionHandle = TEManagerGraphics.getUniformLocation(mProgram, "uProjectionMatrix");
 	        checkGlError("error");
-	        mViewHandle = TEManagerGraphics.getUniformLocation("uViewMatrix");
+	        mViewHandle = TEManagerGraphics.getUniformLocation(mProgram, "uViewMatrix");
 	        checkGlError("error");
 			GLES20.glEnable(GL10.GL_BLEND);
 			GLES20.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
@@ -75,7 +75,7 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
 	        mProjectionMatrix = TEManagerGraphics.getProjectionMatrix();
 	        hasChanged = true;
 	        GLES20.glUseProgram(mProgram);
-	        int positionHandle = TEManagerGraphics.getAttributeLocation("vertices");
+	        int positionHandle = TEManagerGraphics.getAttributeLocation(mProgram, "vertices");
 	        checkGlError("error");
 	        GLES20.glEnableVertexAttribArray(positionHandle);
 	        checkGlError("glUseProgram");
@@ -90,14 +90,6 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
         checkGlError("mProjectionHandle");
         GLES20.glUniformMatrix4fv(mViewHandle, 1, false, mViewMatrix, 0);
         checkGlError("mViewHandle");
-
-        int colorHandle = TEManagerGraphics.getUniformLocation("colorSet");
-        final float colorSet[] = {
-        	1,1,1,1
-        	,0,0,0,1
-        };
-        
-        GLES20.glUniform4fv(colorHandle, 2, colorSet, 0);
 
 		mGame.run();
         } catch (Exception e) {
@@ -133,5 +125,5 @@ public class TEUtilRenderer implements GLSurfaceView.Renderer {
 			Log.v("info", "very bad");
 		}
 		return resultBuffer.toString();
-    }
+    }    
 }

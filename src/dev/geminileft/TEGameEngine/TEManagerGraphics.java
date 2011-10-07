@@ -15,19 +15,19 @@ public class TEManagerGraphics {
 	
 	private static int mWidth;
 	private static int mHeight;
-	private static int mProgram;
+	private static int mCurrentProgram;
 	private static ScreenOrientation mScreenOrientation;
 	private static HashMap<String, Integer> mPrograms = new HashMap<String, Integer>();
 	
 	public static void setScreenOrientation(ScreenOrientation orientation) {
 		mScreenOrientation = orientation;
 	}
-	public static int getAttributeLocation(String attribute) {
-		return GLES20.glGetAttribLocation(mProgram, attribute);
+	public static int getAttributeLocation(int program, String attribute) {
+		return GLES20.glGetAttribLocation(program, attribute);
 	}
 	
-	public static int getUniformLocation(String uniform) {
-		return GLES20.glGetUniformLocation(mProgram, uniform);
+	public static int getUniformLocation(int program, String uniform) {
+		return GLES20.glGetUniformLocation(program, uniform);
 	}
 	
 	public static void setScreenSize(int width, int height) {
@@ -40,23 +40,22 @@ public class TEManagerGraphics {
 	}
 
     public static int createProgram(String programName, String vertexSource, String fragmentSource) {
-        mProgram = GLES20.glCreateProgram();
-        mPrograms.put(programName, mProgram);
+        int program = GLES20.glCreateProgram();
+        mPrograms.put(programName, program);
         int vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, vertexSource);
-        GLES20.glAttachShader(mProgram, vertexShader);
+        GLES20.glAttachShader(program, vertexShader);
         int fragmentShader = loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentSource);
-        GLES20.glAttachShader(mProgram, fragmentShader);
-        GLES20.glLinkProgram(mProgram);
+        GLES20.glAttachShader(program, fragmentShader);
+        GLES20.glLinkProgram(program);
         int[] linkStatus = new int[1];
-        GLES20.glGetProgramiv(mProgram, GLES20.GL_LINK_STATUS, linkStatus, 0);
+        GLES20.glGetProgramiv(program, GLES20.GL_LINK_STATUS, linkStatus, 0);
         if (linkStatus[0] != GLES20.GL_TRUE) {
             Log.e("Error", "Could not link program: ");
-            Log.e("Error", GLES20.glGetProgramInfoLog(mProgram));
-            GLES20.glDeleteProgram(mProgram);
-            mProgram = 0;
+            Log.e("Error", GLES20.glGetProgramInfoLog(program));
+            GLES20.glDeleteProgram(program);
+            program = 0;
         }
-
-        return mProgram;
+        return program;
     }
 
     private static int loadShader(int shaderType, String source) {
@@ -69,7 +68,7 @@ public class TEManagerGraphics {
     public static void checkGlError(String op) {
         int error;
         while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
-        	String errorMsg = GLES20.glGetProgramInfoLog(mProgram);
+        	String errorMsg = GLES20.glGetProgramInfoLog(mCurrentProgram);
             Log.e("info", op + ": glError " + error + errorMsg);
             throw new RuntimeException(op + ": glError " + error);
         }
@@ -93,4 +92,24 @@ public class TEManagerGraphics {
     	return mPrograms.get(programName);
     }
 
+    public static void switchProgram(String programName) {
+        final int program = mPrograms.get(programName);
+        GLES20.glUseProgram(program);
+        checkGlError("glUseProgram");
+
+        int positionHandle = TEManagerGraphics.getAttributeLocation(program, "vertices");
+        GLES20.glEnableVertexAttribArray(positionHandle);
+        checkGlError("glEnableVertexAttribArray");
+
+        final float projectionMatrix[] = TEManagerGraphics.getProjectionMatrix();
+        final float viewMatrix[] = TEManagerGraphics.getViewMatrix();
+
+        final int projectionHandle = getUniformLocation(program, "uProjectionMatrix");
+        GLES20.glUniformMatrix4fv(projectionHandle, 1, false, projectionMatrix, 0);
+        checkGlError("glUniformMatrix4fv");
+
+        final int viewHandle = getUniformLocation(program, "uViewMatrix");
+        GLES20.glUniformMatrix4fv(viewHandle, 1, false, viewMatrix, 0);
+        checkGlError("glUniformMatrix4fv");
+    }
 }

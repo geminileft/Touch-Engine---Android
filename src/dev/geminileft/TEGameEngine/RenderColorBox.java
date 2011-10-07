@@ -26,10 +26,10 @@ public class RenderColorBox extends TEComponentRender {
 		mBlue = b;
 		mAlpha = a;
 		TESize size = TESize.make(TEUtilNode.GRID_SIZE, TEUtilNode.GRID_SIZE);
-
-		mVerticesHandle = TEManagerGraphics.getAttributeLocation("vertices");
-        mPositionHandle = TEManagerGraphics.getAttributeLocation("position");
-        mColorHandle = TEManagerGraphics.getUniformLocation("color");
+		mProgram = TEManagerGraphics.getProgram("colorbox");
+		mVerticesHandle = TEManagerGraphics.getAttributeLocation(mProgram, "vertices");
+        mPositionHandle = TEManagerGraphics.getAttributeLocation(mProgram, "position");
+        mColorHandle = TEManagerGraphics.getUniformLocation(mProgram, "color");
 		mVerticesHash = TEManagerTexture.getPositionHash(size);
 		mVerticesBuffer = TEManagerTexture.getPositionBuffer(mVerticesHash);
 
@@ -41,6 +41,9 @@ public class RenderColorBox extends TEComponentRender {
 		if (mVerticesHash != mLastPositionHash) {
 			GLES20.glVertexAttribPointer(mVerticesHandle, 2, GLES20.GL_FLOAT, false, 0, mVerticesBuffer);
 	    	mLastPositionHash = mVerticesHash;
+		}
+		if (mLastProgram != mProgram) {
+			mLastProgram = mProgram;
 		}
 		
         GLES20.glVertexAttrib2f(mPositionHandle, parent.position.x, parent.position.y);

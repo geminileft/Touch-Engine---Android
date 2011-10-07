@@ -18,6 +18,7 @@ public class RenderImage extends TEComponentRender {
 	private long mCropHash;
 	private int maPositionHandle;
 	private int maTextureHandle;
+	private int mProgram;
 	
 	private TEComponent.EventListener mMoveToTopListener = new TEComponent.EventListener() {
 		
@@ -32,9 +33,10 @@ public class RenderImage extends TEComponentRender {
 
 	public RenderImage(int resourceId, TEPoint position, TESize size) {
 		super();
-        mCoordsHandle = TEManagerGraphics.getAttributeLocation("aCoords");
-        maPositionHandle = TEManagerGraphics.getAttributeLocation("aPosition");
-        maTextureHandle = TEManagerGraphics.getAttributeLocation("aTexture");
+		mProgram = TEManagerGraphics.getProgram("texture");
+        mCoordsHandle = TEManagerGraphics.getAttributeLocation(mProgram, "aCoords");
+        maPositionHandle = TEManagerGraphics.getAttributeLocation(mProgram, "aPosition");
+        maTextureHandle = TEManagerGraphics.getAttributeLocation(mProgram, "aTexture");
 		mDrawable = new TEUtilDrawable(resourceId, size, position);
 		mName = mDrawable.mTexture.mName;
 		addEventSubscription(TEComponent.Event.EVENT_MOVE_TO_TOP, mMoveToTopListener);
