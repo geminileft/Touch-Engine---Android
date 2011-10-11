@@ -149,7 +149,7 @@ public final class FreeCellGameObjectFactory {
 	}
 
 	TEGameObject createHUDTimer() {
-		final int height = 15;
+		final int height = 30;
 		final int x = 105;
 		TESize size = TESize.make(46, 14);
 		TEPoint offset = TEPoint.make(0, 0);
