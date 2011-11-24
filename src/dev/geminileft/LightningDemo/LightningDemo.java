@@ -16,8 +16,8 @@ public class LightningDemo extends TEEngine {
 		TEGameObject gameObject = new TEGameObject();
 
 		gameObject = new TEGameObject();		
-		gameObject.position.x = 240;
-		gameObject.position.y = 427;
+		gameObject.position.x = 427;
+		gameObject.position.y = 240;
 		gameObject.addComponent(new RenderColorBox(0.0f, 0.0f, 0.0f, 1.0f));
 		addGameObject(gameObject);
 
@@ -29,8 +29,8 @@ public class LightningDemo extends TEEngine {
 
 		gameObject = new TEGameObject();
 		gameObject.addComponent(new RenderPoints());
-		gameObject.position.x = 240;
-		gameObject.position.y = 427;
+		gameObject.position.x = 427;
+		gameObject.position.y = 240;
 		addGameObject(gameObject);
 	}
 }

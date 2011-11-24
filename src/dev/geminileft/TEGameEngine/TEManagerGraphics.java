@@ -1,11 +1,8 @@
 package dev.geminileft.TEGameEngine;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 import android.util.Log;
@@ -29,17 +26,22 @@ public class TEManagerGraphics {
 		String fragmentShader;
 		int program;
 		
-        vertexShader = readFileContents("texture.vs");
-        fragmentShader = readFileContents("texture.fs");
+        vertexShader = TEManagerFile.readFileContents("texture.vs");
+        fragmentShader = TEManagerFile.readFileContents("texture.fs");
         program = createProgram("texture", vertexShader, fragmentShader);
         addProgramAttribute(program, "aPosition");
         addProgramAttribute(program, "aTexture");
 
-        vertexShader = readFileContents("colorbox.vs");
-		fragmentShader = readFileContents("colorbox.fs");
+        vertexShader = TEManagerFile.readFileContents("colorbox.vs");
+		fragmentShader = TEManagerFile.readFileContents("colorbox.fs");
         program = createProgram("colorbox", vertexShader, fragmentShader);
         addProgramAttribute(program, "vertices");
         
+        vertexShader = TEManagerFile.readFileContents("effectbox.vs");
+		fragmentShader = TEManagerFile.readFileContents("colorbox.fs");
+        program = createProgram("effectbox", vertexShader, fragmentShader);
+        addProgramAttribute(program, "vertices");
+
 	}
 	
 	public static void setScreenOrientation(ScreenOrientation orientation) {
@@ -110,15 +112,21 @@ public class TEManagerGraphics {
     
     public static float[] getViewMatrix() {
     	float viewMatrix[] = new float[16];
-        Matrix.setIdentityM(viewMatrix, 0);
-        Matrix.translateM(viewMatrix, 0, -mWidth / 2, -mHeight / 2, -mHeight / 2);
-        return viewMatrix;
+    	if (true) {
+    		Matrix.setIdentityM(viewMatrix, 0);
+    		Matrix.translateM(viewMatrix, 0, 0, 0, -1);
+    		//Matrix.translateM(viewMatrix, 0, -mWidth / 2, -mHeight / 2, -mHeight / 2);
+    	} else {
+    		Matrix.setLookAtM(viewMatrix, 0, 0, mHeight / 4, 0, 0, 0, 0, 0, 1, 0);
+    	}
+		return viewMatrix;
     }
     
     public static float[] getProjectionMatrix() {
     	float projectionMatrix[] = new float[16];
     	final float ratio = (float)mWidth / mHeight;
-        Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1, 1, 1, mHeight / 2);
+        //Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1, 1, 1, mHeight / 2);
+        Matrix.frustumM(projectionMatrix, 0, -.5f, .5f, -.75f, .75f, .5f, 200.0f);
         return projectionMatrix;
     }
     
@@ -156,26 +164,5 @@ public class TEManagerGraphics {
         GLES20.glUniformMatrix4fv(viewHandle, 1, false, viewMatrix, 0);
         checkGlError("glUniformMatrix4fv");
     }
-
-    public static String readFileContents(String filename) {
-		Context context = TEStaticSettings.getContext();
-		StringBuffer resultBuffer = new StringBuffer();
-		try {
-			final int BUFFER_SIZE = 1024;
-			char buffer[] = new char[BUFFER_SIZE];
-			int charsRead;
-			InputStream stream = context.getAssets().open(filename);
-			InputStreamReader reader = new InputStreamReader(stream);
-    		resultBuffer = new StringBuffer();
-			while ((charsRead = reader.read(buffer, 0, BUFFER_SIZE)) != -1) {
-				resultBuffer.append(buffer, 0, charsRead);
-			}
-			reader.close();
-			stream.close();
-		} catch (Exception e) {
-			Log.v("info", "very bad");
-		}
-		return resultBuffer.toString();
-    }    
 
 }

@@ -59,10 +59,9 @@ public class RenderAnimation extends TEComponentRender {
 			}
 	        GLES20.glVertexAttrib2f(mCoordsHandle, parent.position.x, parent.position.y);
 	        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
-			
-			
 		}
 	}
+	
 	@Override
 	public void update(long dt) {
 		mCurrentFrameDuration += dt;

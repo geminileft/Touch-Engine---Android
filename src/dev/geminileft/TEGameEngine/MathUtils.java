@@ -13,4 +13,8 @@ public class MathUtils {
 	public static int framesToMillis(int framesPerSecond, int frameCount) {
 		return (int)(((float)1000 / framesPerSecond) * frameCount);
 	}
+	
+	public static double easeInOut(float x) {
+		return (1- Math.sin(Math.PI/2+x*Math.PI))/2;		
+	}
 }

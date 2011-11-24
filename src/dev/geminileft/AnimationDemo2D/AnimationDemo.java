@@ -3,6 +3,7 @@ package dev.geminileft.AnimationDemo2D;
 import dev.geminileft.TEGameEngine.MathUtils;
 import dev.geminileft.TEGameEngine.MovementPlayer;
 import dev.geminileft.TEGameEngine.RenderAnimation;
+import dev.geminileft.TEGameEngine.RenderMenu;
 import dev.geminileft.TEGameEngine.TEEngine;
 import dev.geminileft.TEGameEngine.TEGameObject;
 import dev.geminileft.TEGameEngine.TEPoint;
@@ -75,5 +76,12 @@ public class AnimationDemo extends TEEngine {
 		gameObject.addComponent(animation);
 		gameObject.addComponent(new MovementPlayer());
 		addGameObject(gameObject);
+
+		gameObject = new TEGameObject();		
+		gameObject.position.x = 427;
+		gameObject.position.y = 240;
+		gameObject.addComponent(new RenderMenu());
+		addGameObject(gameObject);
+
 	}
 }
