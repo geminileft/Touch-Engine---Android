@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-import dev.geminileft.AnimationDemo2D.AnimationDemo;
+import dev.geminileft.FreeCellGameEngine.FreeCellGame;
 import dev.geminileft.TEGameEngine.TEEngine;
 import dev.geminileft.TEGameEngine.TEUtilRenderer;
 
@@ -21,10 +21,10 @@ public class MainActivity extends Activity {
     	super.onCreate(savedInstanceState);
         GLSurfaceView view = new GLSurfaceView(this);
         Display display = getWindowManager().getDefaultDisplay(); 
-   		mGame = new AnimationDemo(display.getWidth(), display.getHeight());
+   		//mGame = new AnimationDemo(display.getWidth(), display.getHeight());
    		//mGame = new LightningDemo(display.getWidth(), display.getHeight());
    		//mGame = new MenuDemo(display.getWidth(), display.getHeight());
-   		//mGame = new FreeCellGame(display.getWidth(), display.getHeight());
+   		mGame = new FreeCellGame(display.getWidth(), display.getHeight());
    		mGame.setContext(this);
         view.setEGLContextClientVersion(2);
    		view.setRenderer(new TEUtilRenderer(mGame));
