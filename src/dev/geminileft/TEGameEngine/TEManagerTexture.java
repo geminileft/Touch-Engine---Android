@@ -18,8 +18,8 @@ public class TEManagerTexture {
 	private static TEManagerTexture mSharedInstance;
 	private HashMap<Integer, TETexture2D> mTextures;
 	private static final int FLOAT_SIZE = 4;
-	private static int maPositionHandle;
-	private static int maTextureHandle;
+	//private static int maPositionHandle;
+	//private static int maTextureHandle;
 	private static HashMap<Long, FloatBuffer> mPositionMap = new HashMap<Long, FloatBuffer>();
 	private static HashMap<Long, FloatBuffer> mCropMap = new HashMap<Long, FloatBuffer>();
 	
@@ -34,7 +34,7 @@ public class TEManagerTexture {
 		}
 		return mSharedInstance;
 	}
-	
+	/*
 	public static void setPositionHandle(int handle) {
 		maPositionHandle = handle;
 	}
@@ -42,6 +42,7 @@ public class TEManagerTexture {
 	public static void setCropHandle(int handle) {
 		maTextureHandle = handle;
 	}
+	*/
 	
 	public TETexture2D getTexture2D(int resourceId) {
 		TETexture2D texture = mTextures.get(resourceId);

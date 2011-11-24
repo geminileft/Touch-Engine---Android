@@ -30,7 +30,6 @@ public class RenderPoints extends TEComponentRender {
         int index = 0;
         for (String s : points) {
         	String point[] = s.split(",");
-        	String x = point[0];
         	verticesData[(index * 2)] = Float.parseFloat(point[0]);
         	verticesData[(index * 2) + 1] = Float.parseFloat(point[1]);
         	++index;

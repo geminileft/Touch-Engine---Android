@@ -4,12 +4,10 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-import javax.microedition.khronos.opengles.GL10;
-
 public class RenderHUDTimer extends TEComponentRender {
 
 	private final int FLOAT_SIZE = 4;
-	private final int MAX_TEXT_SIZE = 18;
+	//private final int MAX_TEXT_SIZE = 18;
 	private int mWidth;
 	private int mHeight;
 	float mX;
@@ -17,9 +15,9 @@ public class RenderHUDTimer extends TEComponentRender {
 	private TEUtilTexture mTexture;
 	private FloatBuffer mTextureBuffers[] = new FloatBuffer[11];
 	private FloatBuffer mVertexBuffers[] = new FloatBuffer[11];
-	private long mElapsedTime;
+	//private long mElapsedTime;
 	//private long mPreviousTime;
-	private GL10 mGL;
+	//private GL10 mGL;
 	
 	public RenderHUDTimer(int resourceId) {
 		this(resourceId, null, null);

@@ -4,7 +4,6 @@ import java.nio.FloatBuffer;
 import java.util.LinkedList;
 
 import android.opengl.GLES20;
-import android.opengl.Matrix;
 
 
 public class RenderAnimation extends TEComponentRender {

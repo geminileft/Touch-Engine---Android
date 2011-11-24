@@ -9,15 +9,9 @@ import android.util.Log;
 
 public class TEManagerGraphics {
 	
-	public enum ScreenOrientation {
-		Landscape
-		, Portrait
-	};
-	
 	private static int mWidth;
 	private static int mHeight;
 	private static int mCurrentProgram;
-	private static ScreenOrientation mScreenOrientation;
 	private static HashMap<String, Integer> mPrograms = new HashMap<String, Integer>();
 	private static HashMap<Integer, LinkedList<String>> mProgramAttributes = new HashMap<Integer, LinkedList<String>>();
 
@@ -44,9 +38,6 @@ public class TEManagerGraphics {
 
 	}
 	
-	public static void setScreenOrientation(ScreenOrientation orientation) {
-		mScreenOrientation = orientation;
-	}
 	public static int getAttributeLocation(int program, String attribute) {
 		return GLES20.glGetAttribLocation(program, attribute);
 	}
@@ -112,21 +103,15 @@ public class TEManagerGraphics {
     
     public static float[] getViewMatrix() {
     	float viewMatrix[] = new float[16];
-    	if (true) {
-    		Matrix.setIdentityM(viewMatrix, 0);
-    		Matrix.translateM(viewMatrix, 0, 0, 0, -1);
-    		//Matrix.translateM(viewMatrix, 0, -mWidth / 2, -mHeight / 2, -mHeight / 2);
-    	} else {
-    		Matrix.setLookAtM(viewMatrix, 0, 0, mHeight / 4, 0, 0, 0, 0, 0, 1, 0);
-    	}
+		Matrix.setIdentityM(viewMatrix, 0);
+		Matrix.translateM(viewMatrix, 0, -mWidth / 2, -mHeight / 2, -mHeight / 2);
 		return viewMatrix;
     }
     
     public static float[] getProjectionMatrix() {
     	float projectionMatrix[] = new float[16];
     	final float ratio = (float)mWidth / mHeight;
-        //Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1, 1, 1, mHeight / 2);
-        Matrix.frustumM(projectionMatrix, 0, -.5f, .5f, -.75f, .75f, .5f, 200.0f);
+        Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1, 1, 1, mHeight / 2);
         return projectionMatrix;
     }
     

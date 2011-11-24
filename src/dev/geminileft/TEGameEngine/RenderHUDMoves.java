@@ -4,8 +4,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-import javax.microedition.khronos.opengles.GL10;
-
 public class RenderHUDMoves extends TEComponentRender {
 	private TEComponent.EventListener mTouchAcceptListener = new TEComponent.EventListener() {
 		
@@ -15,8 +13,8 @@ public class RenderHUDMoves extends TEComponentRender {
 	};
 	private int mCount;
 	private final int FLOAT_SIZE = 4;
-	private final int MAX_TEXT_SIZE = 18;
-	private final int MAX_DIGIT_COUNT = 4;
+	//private final int MAX_TEXT_SIZE = 18;
+	//private final int MAX_DIGIT_COUNT = 4;
 	private int mWidth;
 	private int mHeight;
 	float mX;
@@ -24,7 +22,7 @@ public class RenderHUDMoves extends TEComponentRender {
 	private TEUtilTexture mTexture;
 	private FloatBuffer mTextureBuffers[] = new FloatBuffer[10];
 	private FloatBuffer mVertexBuffers[] = new FloatBuffer[10];
-	private GL10 mGL;
+	//private GL10 mGL;
 	public RenderHUDMoves(int resourceId) {
 		this(resourceId, null, null);
 	}

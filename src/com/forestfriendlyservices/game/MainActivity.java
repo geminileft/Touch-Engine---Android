@@ -10,8 +10,6 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import dev.geminileft.AnimationDemo2D.AnimationDemo;
 import dev.geminileft.TEGameEngine.TEEngine;
-import dev.geminileft.TEGameEngine.TEManagerGraphics;
-import dev.geminileft.TEGameEngine.TEManagerGraphics.ScreenOrientation;
 import dev.geminileft.TEGameEngine.TEUtilRenderer;
 
 public class MainActivity extends Activity {
@@ -29,10 +27,6 @@ public class MainActivity extends Activity {
    		//mGame = new FreeCellGame(display.getWidth(), display.getHeight());
    		mGame.setContext(this);
         view.setEGLContextClientVersion(2);
-        Configuration config = getResources().getConfiguration();
-        ScreenOrientation orientation = (config.orientation == Configuration.ORIENTATION_LANDSCAPE)
-        	? ScreenOrientation.Landscape : ScreenOrientation.Portrait;  
-        TEManagerGraphics.setScreenOrientation(orientation);
    		view.setRenderer(new TEUtilRenderer(mGame));
    		setContentView(view);
     }
@@ -62,9 +56,6 @@ public class MainActivity extends Activity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        ScreenOrientation orientation = (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
-    		? ScreenOrientation.Landscape : ScreenOrientation.Portrait;  
-        TEManagerGraphics.setScreenOrientation(orientation);
     }
 
 }
