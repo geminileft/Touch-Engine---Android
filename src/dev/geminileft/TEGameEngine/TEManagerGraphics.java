@@ -112,6 +112,9 @@ public class TEManagerGraphics {
     	float projectionMatrix[] = new float[16];
     	final float ratio = (float)mWidth / mHeight;
         Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1, 1, 1, mHeight / 2);
+        float testMatrix[] = new float[16];
+        final float iRatio = 320.0f / 480.0f;
+        Matrix.frustumM(testMatrix, 0, -iRatio, iRatio, -1, 1, 1, 480.0f / 2);        
         return projectionMatrix;
     }
     
